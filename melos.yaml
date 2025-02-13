@@ -1,0 +1,15 @@
+name: djezzy_repos
+packages:
+  - apps/*
+  - packages/*
+
+
+scripts:
+  formatting:check: melos exec -- dart format --set-exit-if-changed .
+
+  analyze: melos exec -- dart analyze --fatal-infos
+
+  run:sales_master_app:
+    run: melos exec -- fvm flutter run lib/main.dart
+    select-package:
+      scope: 'sales_master_app'
