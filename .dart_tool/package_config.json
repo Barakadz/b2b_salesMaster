@@ -230,10 +230,10 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-13T10:42:24.893055Z",
+  "generated": "2025-02-19T16:28:07.169496Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
-  "flutterRoot": "file:///home/belkacem_zamoun/flutter",
+  "flutterRoot": "file:///home/belkacem_zamoun/fvm/versions/3.27.3",
   "flutterVersion": "3.27.3",
   "pubCache": "file:///home/belkacem_zamoun/.pub-cache"
 }
