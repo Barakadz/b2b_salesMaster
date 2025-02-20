@@ -3,14 +3,15 @@ import 'package:data_layer/data_layer.dart';
 import 'package:dio/dio.dart';
 
 class Api {
-  //final String _baseUrl = "";
+  String _baseUrl = "";
   late Dio _dio;
   String? _token;
 
   static Api? _instance;
 
   // Private constructor
-  Api._internal() {
+  Api._internal(String baseUrl) {
+    _baseUrl = baseUrl;
     _dio = Dio()
       ..options.connectTimeout = const Duration(seconds: 15)
       ..options.receiveTimeout = const Duration(seconds: 15);
@@ -27,21 +28,16 @@ class Api {
   }
 
   // Factory method to return the singleton instance
-  static Future<Api> getInstance() async {
-    if (_instance == null) {
-      _instance = Api._internal();
-      await _instance!._setAuthorizationHeader();
-    }
+  static Future<Api> getInstance(String baseUrl) async {
+    _instance ??= Api._internal(baseUrl=baseUrl);
     return _instance!;
   }
 
-  Future<void> _setAuthorizationHeader() async {
-    String? token = AppStorage().getString('userToken');
-    if (token != null && token.isNotEmpty) {
-      _dio.options.headers['Authorization'] = 'Bearer $token';
-    }
+  set baseUrl(String baseUrl){
+    _baseUrl = baseUrl;
   }
 
+  
   Future<void> setToken({required String token, bool? save = true}) async {
     _dio.options.headers['Authorization'] = 'Bearer $token';
     _token = token;
@@ -60,7 +56,7 @@ class Api {
   }) async {
     try {
       final Response response = await _dio.get(
-        url,
+        "$_baseUrl/$url",
         queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,
@@ -88,7 +84,7 @@ class Api {
   }) async {
     try {
       final Response response = await _dio.post(
-        url,
+        "$_baseUrl/$url",
         data: data,
         queryParameters: queryParameters,
         options: options,
@@ -118,7 +114,7 @@ class Api {
   }) async {
     try {
       final Response response = await _dio.put(
-        url,
+        "$_baseUrl/$url",
         data: data,
         queryParameters: queryParameters,
         options: options,
@@ -148,7 +144,7 @@ class Api {
   }) async {
     try {
       final Response response = await _dio.delete(
-        url,
+        "$_baseUrl/$url",
         data: data,
         queryParameters: queryParameters,
         options: options,
