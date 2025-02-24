@@ -68,7 +68,7 @@ class Api {
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage:"Something went wrong , please retry");
+      SnackbarService.showError(errorMessage: AppLocalizations.translate("something_went_wrong"));
       return null;
     }
   }
@@ -98,7 +98,7 @@ class Api {
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage:"Something went wrong , please try again");
+      SnackbarService.showError(errorMessage: AppLocalizations.translate("something_went_wrong"));
       return null;
     }
   }
@@ -128,7 +128,7 @@ class Api {
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage:"Something went wrong , please try again");
+      SnackbarService.showError(errorMessage: AppLocalizations.translate("something_went_wrong"));
       return null;
     }
   }
@@ -156,7 +156,7 @@ class Api {
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage:"Something went wrong , please try again");
+      SnackbarService.showError(errorMessage: AppLocalizations.translate("something_went_wrong"));
       return null;
     }
   }

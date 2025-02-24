@@ -11,25 +11,24 @@ class ServerResponseHandler {
     }
   }
 
-  //TODO translate message
   static String _getErrorMessage(int? statusCode, dynamic responseBody) {
     switch (statusCode) {
       case 400:
-        return "Bad request. Please try again.";
+        return AppLocalizations.translate("bad_request");
       case 401:
         // TODO should redirect to login screen
-        return "Unauthorized. Please log in again.";
+        return AppLocalizations.translate("unauthorized");
       case 403:
-        return "Forbidden. You don’t have access.";
+        return AppLocalizations.translate("forbidden");
       case 404:
-        return "Resource not found.";
+        return AppLocalizations.translate("not_found");
       case 500:
-        return "Server error. Please try again later.";
+        return AppLocalizations.translate("server_error");
       default:
         try {
           return responseBody["message"];
         } on Exception catch (_) {
-          return "Unexpected server response.";
+          return AppLocalizations.translate("unexpected_response");
         }
     }
   }

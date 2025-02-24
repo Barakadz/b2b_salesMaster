@@ -8,19 +8,17 @@ class DioInterceptor extends Interceptor {
 
     SnackbarService.showError(errorMessage:errorMessage);
 
-    // Pass the error to the next handler
     handler.next(err);
   }
 
-  // TODO translate the messages
   String _handleDioError(DioException dioError) {
     switch (dioError.type) {
       case DioExceptionType.cancel:
-        return "Request to the server was cancelled.";
+        return AppLocalizations.translate("request_cancelled");
       case DioExceptionType.sendTimeout || DioException.receiveTimeout:
-        return "Connection timeout with the server.";
+        return AppLocalizations.translate("connection_timeout");
       default:
-        return "Something went wrong. Please try again.";
+        return AppLocalizations.translate("something_went_wrong");
     }
   }
 }
