@@ -45,13 +45,13 @@
     },
     {
       "name": "clock",
-      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/clock-1.1.2",
+      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "2.12"
     },
     {
       "name": "collection",
-      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/collection-1.19.1",
+      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/collection-1.19.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -117,7 +117,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/meta-1.16.0",
+      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/meta-1.15.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -129,9 +129,9 @@
     },
     {
       "name": "path",
-      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/path-1.9.1",
+      "rootUri": "file:///home/belkacem_zamoun/.pub-cache/hosted/pub.dev/path-1.9.0",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.0"
     },
     {
       "name": "platform",
@@ -230,10 +230,10 @@
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-02-19T16:28:07.169496Z",
+  "generated": "2025-02-26T09:34:28.278860Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
-  "flutterRoot": "file:///home/belkacem_zamoun/fvm/versions/3.27.3",
+  "flutterRoot": "file:///home/belkacem_zamoun/flutter",
   "flutterVersion": "3.27.3",
   "pubCache": "file:///home/belkacem_zamoun/.pub-cache"
 }
