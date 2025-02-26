@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class AppLocalizations {
+class RepoLocalizations {
   static late Locale _locale;
   static Map<String, Map<String,String>> _customMessages = {};
 
