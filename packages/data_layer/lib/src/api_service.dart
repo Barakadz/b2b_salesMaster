@@ -2,6 +2,7 @@ import 'package:core_utility/core_utility.dart';
 import 'package:data_layer/data_layer.dart';
 import 'package:dio/dio.dart';
 
+/// a class / service that provide simple way of sending http requests and that automatically handle setting token and handling errors via dio interceptors
 class Api {
   String _baseUrl = "";
   late Dio _dio;
@@ -27,7 +28,7 @@ class Api {
     _dio.interceptors.add(DioInterceptor());
   }
 
-  // Factory method to return the singleton instance
+  /// Factory method to return the singleton instance
   static Future<Api> getInstance(String baseUrl) async {
     _instance ??= Api._internal(baseUrl=baseUrl);
     return _instance!;

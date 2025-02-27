@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-// singleton class to insure that only one instance is created
-
+/// app locale storage service (using shared preferences ) to store key value 
+/// data on device locale storage
 class AppStorage {
   late final SharedPreferences _sharedPrefs;
   static final AppStorage _appStorageInstance = AppStorage._internal();
@@ -9,6 +9,16 @@ class AppStorage {
   factory AppStorage() => _appStorageInstance;
   AppStorage._internal();
 
+  /// initiate the class on app start , its a singleton class so only one instance will be create across all the app
+  /// example usage :
+  /// ```dart
+  /// void main() async {
+  /// WidgetsFlutterBinding.ensureInitialized();
+  ///
+  /// await AppStorage().init();
+  /// runApp(MyApp());
+  /// }
+  /// ```
   Future<void> init() async {
     _sharedPrefs = await SharedPreferences.getInstance();
   }

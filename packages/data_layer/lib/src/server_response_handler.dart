@@ -1,6 +1,7 @@
 import 'package:core_utility/core_utility.dart';
 import 'package:dio/dio.dart';
 
+/// class to handle server response (errors)
 class ServerResponseHandler {
   static void handleResponse(Response response) {
     if (response.statusCode == null ||
