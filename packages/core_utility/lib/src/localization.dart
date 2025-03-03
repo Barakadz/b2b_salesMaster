@@ -14,7 +14,7 @@ class RepoLocalizations {
     _locale = locale;
   }
 
-  /// set locale/language for the app, this should be called on app start and every time the user change the language
+  /// translate string using current locale
   /// Example usage:
   /// ```dart
   /// RepoLocalizations.translate("connection_timeout");
