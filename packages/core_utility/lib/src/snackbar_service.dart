@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 /// a class that provide simple configurable snackbar widget to show errors or info on screen when needed
 class SnackbarService {
   
-  /// show snackbar that display error message aith error icon
+  /// show snackbar that display error message with error icon
   static void showError(
     {required String errorMessage,
       bool isDismissible = true,

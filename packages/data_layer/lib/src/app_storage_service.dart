@@ -9,7 +9,7 @@ class AppStorage {
   factory AppStorage() => _appStorageInstance;
   AppStorage._internal();
 
-  /// initiate the class on app start , its a singleton class so only one instance will be create across all the app
+  /// initiate the class on app start , its a singleton class so only one instance will be created across all the app
   /// example usage :
   /// ```dart
   /// void main() async {
