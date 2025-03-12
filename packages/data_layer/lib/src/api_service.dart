@@ -11,11 +11,11 @@ class Api {
   static Api? _instance;
 
   // Private constructor
-  Api._internal(String baseUrl) {
+  Api._internal(String baseUrl, Duration connectTimeout, Duration receiveTimeout) {
     _baseUrl = baseUrl;
     _dio = Dio()
-      ..options.connectTimeout = const Duration(seconds: 15)
-      ..options.receiveTimeout = const Duration(seconds: 15);
+      ..options.connectTimeout = connectTimeout
+      ..options.receiveTimeout = receiveTimeout;
 
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
@@ -29,8 +29,12 @@ class Api {
   }
 
   /// Factory method to return the singleton instance
-  static Future<Api> getInstance(String baseUrl) async {
-    _instance ??= Api._internal(baseUrl=baseUrl);
+  static Future<Api> getInstance({
+    required String baseUrl,
+    Duration connectTimeout = const Duration(seconds:15),
+    Duration receiveTimeout = const Duration(seconds: 15)
+  }) async {
+    _instance ??= Api._internal(baseUrl=baseUrl, connectTimeout, receiveTimeout);
     return _instance!;
   }
 
