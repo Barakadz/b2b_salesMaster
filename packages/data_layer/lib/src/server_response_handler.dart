@@ -4,12 +4,8 @@ import 'package:dio/dio.dart';
 /// class to handle server response (errors)
 class ServerResponseHandler {
   static void handleResponse(Response response) {
-    if (response.statusCode == null ||
-        response.statusCode! < 200 ||
-        response.statusCode! >= 300) {
       String message = _getErrorMessage(response.statusCode, response.data);
       SnackbarService.showError(errorMessage:message);
-    }
   }
 
   static String _getErrorMessage(int? statusCode, dynamic responseBody) {

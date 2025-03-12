@@ -63,7 +63,7 @@ class Api {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
@@ -93,7 +93,7 @@ class Api {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
@@ -123,7 +123,7 @@ class Api {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
@@ -151,7 +151,7 @@ class Api {
         options: options,
         cancelToken: cancelToken,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
