@@ -4,36 +4,37 @@ import 'package:dio/dio.dart';
 
 /// a class / service that provide simple way of sending http requests and that automatically handle setting token and handling errors via dio interceptors
 class Api {
-  String _baseUrl = "";
+  String? _baseUrl;
   late Dio _dio;
   String? _token;
+  String? _refreshToken;
 
   static Api? _instance;
 
   // Private constructor
-  Api._internal(String baseUrl, Duration connectTimeout, Duration receiveTimeout) {
+  Api._internal(String? baseUrl, Duration connectTimeout, Duration receiveTimeout) {
     _baseUrl = baseUrl;
     _dio = Dio()
       ..options.connectTimeout = connectTimeout
       ..options.receiveTimeout = receiveTimeout;
 
     _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
+      onRequest: (options, handler){
         _token ??= AppStorage().getString('userToken');
         options.headers['Authorization'] = 'Bearer $_token';
         handler.next(options);
       },
     ));
 
-    _dio.interceptors.add(DioInterceptor());
+    _dio.interceptors.add(DioErrorHandler());
   }
 
   /// Factory method to return the singleton instance
-  static Future<Api> getInstance({
-    required String baseUrl,
+  static Api getInstance({
+    String? baseUrl,
     Duration connectTimeout = const Duration(seconds:15),
     Duration receiveTimeout = const Duration(seconds: 15)
-  }) async {
+  }){
     _instance ??= Api._internal(baseUrl=baseUrl, connectTimeout, receiveTimeout);
     return _instance!;
   }
@@ -42,15 +43,27 @@ class Api {
     _baseUrl = baseUrl;
   }
 
-  
+  /// set the token value for this api instance 
+  /// set save = false if you dont want to save it in local storage 
   Future<void> setToken({required String token, bool? save = true}) async {
     _dio.options.headers['Authorization'] = 'Bearer $token';
     _token = token;
 
     if (save == true) {
-      await AppStorage().setString('userToken', token);
+      await AppStorage().setToken(token);
     }
   }
+ 
+  /// set the refreshtoken value for this api instance 
+  /// set save = false if you dont want to save it in local storage
+  Future<void> setRefreshToken({required String refreshToken, bool? save = true}) async {
+    _refreshToken = refreshToken;
+
+    if (save == true) {
+      await AppStorage().setRefreshToken(refreshToken);
+    }
+  }
+
 
   Future<Response?> get(
     String url, {

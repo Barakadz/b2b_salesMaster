@@ -12,9 +12,9 @@ class ServerResponseHandler {
     switch (statusCode) {
       case 400:
         return RepoLocalizations.translate("bad_request");
-      case 401:
-        // TODO should redirect to login screen
-        return RepoLocalizations.translate("unauthorized");
+      // case 401:
+      //   // TODO should redirect to login screen
+      //   return RepoLocalizations.translate("unauthorized");
       case 403:
         return RepoLocalizations.translate("forbidden");
       case 404:

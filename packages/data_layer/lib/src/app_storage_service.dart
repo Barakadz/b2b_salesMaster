@@ -39,9 +39,29 @@ class AppStorage {
     return _sharedPrefs.getBool(key);
   }
 
+  String? getToken(){
+    return _sharedPrefs.getString("token");
+  }
+  Future<bool> setToken(String token) async{
+    return await _sharedPrefs.setString("token", token);
+  }
+
+  String? getRefreshToken(){
+    return _sharedPrefs.getString("token");
+  }
+
+  Future<bool> setRefreshToken(String refreshToken)async{
+    return await _sharedPrefs.setString("refreshToken", refreshToken);
+  }
+
+  Future<bool> removeData(String key)async{
+    return await _sharedPrefs.remove(key);
+  }
+
   Future<bool> setInt(String key, int value) async{
     return await _sharedPrefs.setInt(key, value);
   }
+
 
   Future<bool> setString(String key, String value) async{
     return await _sharedPrefs.setString(key, value);
