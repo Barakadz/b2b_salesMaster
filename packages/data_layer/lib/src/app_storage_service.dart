@@ -1,6 +1,7 @@
+import 'package:data_layer/src/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// app locale storage service (using shared preferences ) to store key value 
+/// app locale storage service (using shared preferences ) to store key value
 /// data on device locale storage
 class AppStorage {
   late final SharedPreferences _sharedPrefs;
@@ -39,39 +40,39 @@ class AppStorage {
     return _sharedPrefs.getBool(key);
   }
 
-  String? getToken(){
-    return _sharedPrefs.getString("token");
-  }
-  Future<bool> setToken(String token) async{
-    return await _sharedPrefs.setString("token", token);
+  String? getToken() {
+    return _sharedPrefs.getString(Config.tokenKey);
   }
 
-  String? getRefreshToken(){
-    return _sharedPrefs.getString("token");
+  Future<bool> setToken(String token) async {
+    return await _sharedPrefs.setString(Config.tokenKey, token);
   }
 
-  Future<bool> setRefreshToken(String refreshToken)async{
-    return await _sharedPrefs.setString("refreshToken", refreshToken);
+  String? getRefreshToken() {
+    return _sharedPrefs.getString(Config.refreshTokenKey);
   }
 
-  Future<bool> removeData(String key)async{
+  Future<bool> setRefreshToken(String refreshToken) async {
+    return await _sharedPrefs.setString(Config.refreshTokenKey, refreshToken);
+  }
+
+  Future<bool> removeData(String key) async {
     return await _sharedPrefs.remove(key);
   }
 
-  Future<bool> setInt(String key, int value) async{
+  Future<bool> setInt(String key, int value) async {
     return await _sharedPrefs.setInt(key, value);
   }
 
-
-  Future<bool> setString(String key, String value) async{
+  Future<bool> setString(String key, String value) async {
     return await _sharedPrefs.setString(key, value);
   }
 
-  Future<bool> setBool(String key, bool value) async{
+  Future<bool> setBool(String key, bool value) async {
     return await _sharedPrefs.setBool(key, value);
   }
 
-  Future<bool> clearAll() async{
+  Future<bool> clearAll() async {
     return await _sharedPrefs.clear();
   }
 }

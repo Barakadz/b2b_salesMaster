@@ -12,15 +12,16 @@ class Api {
   static Api? _instance;
 
   // Private constructor
-  Api._internal(String? baseUrl, Duration connectTimeout, Duration receiveTimeout) {
+  Api._internal(
+      String? baseUrl, Duration connectTimeout, Duration receiveTimeout) {
     _baseUrl = baseUrl;
     _dio = Dio()
       ..options.connectTimeout = connectTimeout
       ..options.receiveTimeout = receiveTimeout;
 
     _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler){
-        _token ??= AppStorage().getString('userToken');
+      onRequest: (options, handler) {
+        _token ??= AppStorage().getToken();
         options.headers['Authorization'] = 'Bearer $_token';
         handler.next(options);
       },
@@ -30,21 +31,21 @@ class Api {
   }
 
   /// Factory method to return the singleton instance
-  static Api getInstance({
-    String? baseUrl,
-    Duration connectTimeout = const Duration(seconds:15),
-    Duration receiveTimeout = const Duration(seconds: 15)
-  }){
-    _instance ??= Api._internal(baseUrl=baseUrl, connectTimeout, receiveTimeout);
+  static Api getInstance(
+      {String? baseUrl,
+      Duration connectTimeout = const Duration(seconds: 15),
+      Duration receiveTimeout = const Duration(seconds: 15)}) {
+    _instance ??=
+        Api._internal(baseUrl = baseUrl, connectTimeout, receiveTimeout);
     return _instance!;
   }
 
-  set baseUrl(String baseUrl){
+  set baseUrl(String baseUrl) {
     _baseUrl = baseUrl;
   }
 
-  /// set the token value for this api instance 
-  /// set save = false if you dont want to save it in local storage 
+  /// set the token value for this api instance
+  /// set save = false if you dont want to save it in local storage
   Future<void> setToken({required String token, bool? save = true}) async {
     _dio.options.headers['Authorization'] = 'Bearer $token';
     _token = token;
@@ -53,17 +54,17 @@ class Api {
       await AppStorage().setToken(token);
     }
   }
- 
-  /// set the refreshtoken value for this api instance 
+
+  /// set the refreshtoken value for this api instance
   /// set save = false if you dont want to save it in local storage
-  Future<void> setRefreshToken({required String refreshToken, bool? save = true}) async {
+  Future<void> setRefreshToken(
+      {required String refreshToken, bool? save = true}) async {
     _refreshToken = refreshToken;
 
     if (save == true) {
       await AppStorage().setRefreshToken(refreshToken);
     }
   }
-
 
   Future<Response?> get(
     String url, {
@@ -80,13 +81,16 @@ class Api {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      SnackbarService.showError(
+          errorMessage: RepoLocalizations.translate("something_went_wrong"));
       return null;
     }
   }
@@ -110,13 +114,16 @@ class Api {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      SnackbarService.showError(
+          errorMessage: RepoLocalizations.translate("something_went_wrong"));
       return null;
     }
   }
@@ -140,13 +147,16 @@ class Api {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      SnackbarService.showError(
+          errorMessage: RepoLocalizations.translate("something_went_wrong"));
       return null;
     }
   }
@@ -168,13 +178,16 @@ class Api {
         options: options,
         cancelToken: cancelToken,
       );
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return response;
       }
       ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      SnackbarService.showError(
+          errorMessage: RepoLocalizations.translate("something_went_wrong"));
       return null;
     }
   }
