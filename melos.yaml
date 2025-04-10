@@ -4,6 +4,8 @@ packages:
   - packages/*
 
 
+sdkPath: .fvm/flutter_sdk
+
 scripts:
   formatting:check: melos exec -- dart format --set-exit-if-changed .
 

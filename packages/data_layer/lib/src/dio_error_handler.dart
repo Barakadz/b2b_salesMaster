@@ -25,7 +25,7 @@ class DioErrorHandler extends Interceptor {
         // retry original Request with new token
         final requestOptions = err.requestOptions;
         requestOptions.headers["Authorization"] =
-            'Bearer ${AppStorage().getToken()}';
+            '${Config.tokenPrefix} ${AppStorage().getToken()}';
 
         try {
           final response = await Dio().request(requestOptions.path,
@@ -80,6 +80,7 @@ class DioErrorHandler extends Interceptor {
   }
 
   String _handleDioError(DioException dioError) {
+    print("dio error handler");
     switch (dioError.type) {
       case DioExceptionType.cancel:
         return RepoLocalizations.translate("request_cancelled");

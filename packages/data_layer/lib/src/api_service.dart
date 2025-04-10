@@ -22,7 +22,7 @@ class Api {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
         _token ??= AppStorage().getToken();
-        options.headers['Authorization'] = 'Bearer $_token';
+        options.headers['Authorization'] = '${Config.tokenPrefix} $_token';
         handler.next(options);
       },
     ));
@@ -47,7 +47,7 @@ class Api {
   /// set the token value for this api instance
   /// set save = false if you dont want to save it in local storage
   Future<void> setToken({required String token, bool? save = true}) async {
-    _dio.options.headers['Authorization'] = 'Bearer $token';
+    _dio.options.headers['Authorization'] = '${Config.tokenPrefix} $token';
     _token = token;
 
     if (save == true) {
