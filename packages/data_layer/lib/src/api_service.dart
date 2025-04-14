@@ -22,7 +22,9 @@ class Api {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
         _token ??= AppStorage().getToken();
-        options.headers['Authorization'] = '${Config.tokenPrefix} $_token';
+        if (_token != null) {
+          options.headers['Authorization'] = '${Config.tokenPrefix} $_token';
+        }
         handler.next(options);
       },
     ));
@@ -66,6 +68,8 @@ class Api {
     }
   }
 
+  bool _isSuccess(int? code) => code != null && code >= 200 && code < 300;
+
   Future<Response?> get(
     String url, {
     Map<String, dynamic>? queryParameters,
@@ -81,16 +85,12 @@ class Api {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (_isSuccess(response.statusCode)) {
         return response;
       }
-      ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(
-          errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      print(e);
       return null;
     }
   }
@@ -114,16 +114,12 @@ class Api {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (_isSuccess(response.statusCode)) {
         return response;
       }
-      ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(
-          errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      print(e);
       return null;
     }
   }
@@ -147,16 +143,12 @@ class Api {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (_isSuccess(response.statusCode)) {
         return response;
       }
-      ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(
-          errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      print(e);
       return null;
     }
   }
@@ -178,16 +170,12 @@ class Api {
         options: options,
         cancelToken: cancelToken,
       );
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (_isSuccess(response.statusCode)) {
         return response;
       }
-      ServerResponseHandler.handleResponse(response);
       return null;
     } catch (e) {
-      SnackbarService.showError(
-          errorMessage: RepoLocalizations.translate("something_went_wrong"));
+      print(e);
       return null;
     }
   }

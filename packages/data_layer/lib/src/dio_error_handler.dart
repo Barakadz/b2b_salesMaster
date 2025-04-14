@@ -1,6 +1,5 @@
 import 'package:core_utility/core_utility.dart';
 import 'package:data_layer/data_layer.dart';
-import 'package:data_layer/src/config.dart';
 import 'package:dio/dio.dart';
 
 class DioErrorHandler extends Interceptor {
@@ -46,7 +45,7 @@ class DioErrorHandler extends Interceptor {
       }
     }
 
-    String errorMessage = _handleDioError(err);
+    String errorMessage = _extractErrorMessage(err);
 
     SnackbarService.showError(errorMessage: errorMessage);
 
@@ -79,15 +78,69 @@ class DioErrorHandler extends Interceptor {
     }
   }
 
-  String _handleDioError(DioException dioError) {
-    print("dio error handler");
-    switch (dioError.type) {
+  String _handleDioError(DioException err) {
+    switch (err.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.sendTimeout:
+        return RepoLocalizations.translate("connection_timeout");
+      case DioExceptionType.badCertificate:
+        return RepoLocalizations.translate("bad_certificate");
       case DioExceptionType.cancel:
         return RepoLocalizations.translate("request_cancelled");
-      case DioExceptionType.sendTimeout || DioException.receiveTimeout:
-        return RepoLocalizations.translate("connection_timeout");
+      case DioExceptionType.connectionError:
+        return RepoLocalizations.translate("connection_error");
+      case DioExceptionType.unknown:
       default:
-        return RepoLocalizations.translate("something_went_wrong");
+        return RepoLocalizations.translate("unexpected_response");
+    }
+  }
+
+  String _extractErrorMessage(DioException err) {
+    final response = err.response;
+
+    // Case: No response at all (timeout, no internet)
+    if (response == null) {
+      return _handleDioError(err);
+    }
+
+    // Try to parse known error response formats
+    try {
+      final data = response.data;
+
+      if (data is Map<String, dynamic>) {
+        if (data.containsKey('detail')) {
+          return data['detail'].toString();
+        }
+
+        // Handle case: {"email": "email already used"}
+        if (data.values.isNotEmpty && data.values.first is String) {
+          return data.values.first.toString();
+        }
+        if (data.values.isNotEmpty && data.values.first is List) {
+          return data.values.first[0].toString();
+        }
+      }
+    } catch (_) {
+      // Ignore and fall back to status-based message
+    }
+
+    // Fall back to HTTP status code-based message
+    return _statusCodeMessage(response.statusCode);
+  }
+
+  String _statusCodeMessage(int? code) {
+    switch (code) {
+      case 400:
+        return RepoLocalizations.translate("bad_request");
+      case 403:
+        return RepoLocalizations.translate("forbidden");
+      case 404:
+        return RepoLocalizations.translate("not_found");
+      case 500:
+        return RepoLocalizations.translate("server_error");
+      default:
+        return RepoLocalizations.translate("unexpected_response");
     }
   }
 }
