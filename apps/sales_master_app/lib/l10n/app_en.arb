@@ -1,3 +1,16 @@
 {
-  "greeting":"Hello World"
+  "login_page_hint":"Phone Number",
+  "login_titler": "Enter Your Number",
+  "login_description":"it should be your work phone number",
+  "login_hint" : "Phone Number",
+  "by_clicking": "By clicking continue, you agree to our ",
+  "terms_of_service": "Terms of Service ",
+  "privacy_policy": "Privacy Policy ",
+  "and": "and ",
+  "next" : "Next",
+  "verification" : "Verification",
+  "otp_title" : "Enter Verification OTP",
+  "code_sent" : "we've sent a code to +213 ",
+  "receiving_issue" : "Experincing issue receiving the code",
+  "resend_code" : "Resend code"
 }
