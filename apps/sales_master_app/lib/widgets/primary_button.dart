@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sales_master_app/constants.dart';
+import 'package:sales_master_app/config/constants.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback? onTap;

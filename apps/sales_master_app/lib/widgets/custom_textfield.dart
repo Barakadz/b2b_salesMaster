@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sales_master_app/constants.dart';
+import 'package:sales_master_app/config/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String? labelText;

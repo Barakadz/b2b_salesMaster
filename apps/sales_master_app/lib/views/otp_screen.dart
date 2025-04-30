@@ -1,9 +1,9 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sales_master_app/constants.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sales_master_app/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/otp_form.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 
@@ -30,7 +30,7 @@ class OtpScreen extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop();
+                      context.pop();
                     },
                     child: Icon(
                       Icons.west_sharp,

@@ -2,6 +2,7 @@ import 'package:core_utility/core_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/themes/dark_theme.dart';
 import 'package:sales_master_app/themes/light_theme.dart';
 import 'package:sales_master_app/views/login_screen.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: lightTheme,
       darkTheme: darkTheme,
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         Locale('en'),
         Locale('fr'),
       ],
-      home: const LoginScreen(),
+      routerConfig: AppRoutes.router,
     );
   }
 }

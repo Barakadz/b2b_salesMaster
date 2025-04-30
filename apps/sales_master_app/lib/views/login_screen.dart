@@ -2,8 +2,10 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sales_master_app/constants.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sales_master_app/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/views/otp_screen.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
@@ -106,10 +108,7 @@ class LoginScreen extends StatelessWidget {
               ),
               PrimaryButton(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => OtpScreen()),
-                  );
+                  context.push(AppRoutes.otpValidation.path);
                 },
                 text: AppLocalizations.of(context)!.next,
               )
