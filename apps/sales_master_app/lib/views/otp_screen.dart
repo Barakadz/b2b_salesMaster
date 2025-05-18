@@ -1,17 +1,28 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/auth_controller.dart';
 import 'package:sales_master_app/widgets/otp_form.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double width = (MediaQuery.sizeOf(context).width -
+            paddingOtpGap -
+            (paddingBetweenOtp * 4) -
+            (paddingXl * 2)) /
+        6;
+    AuthController authController = Get.find();
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -66,7 +77,7 @@ class OtpScreen extends StatelessWidget {
                 height: paddingXxs,
               ),
               Text(
-                AppLocalizations.of(context)!.code_sent,
+                "${AppLocalizations.of(context)!.code_sent} ${authController.msisdn}",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(
@@ -79,17 +90,23 @@ class OtpScreen extends StatelessWidget {
               SizedBox(
                 height: paddingM,
               ),
-              OtpInput(),
+              OtpInput(width: width),
               SizedBox(
                 height: paddingXm,
               ),
-              Text(
-                "04:23",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
+              Obx(() {
+                return Countdown(
+                  seconds: 60,
+                  controller: authController.otpTimerController.value,
+                  build: (BuildContext context, double time) => Text(
+                    time > 59 ? "1:00" : "0:${time.truncate().toString()}",
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.primary),
+                  ),
+                  interval: Duration(milliseconds: 1000),
+                  onFinished: () {},
+                );
+              }),
               SizedBox(
                 height: paddingM,
               ),
@@ -108,7 +125,9 @@ class OtpScreen extends StatelessWidget {
                 height: paddingXxxxxl,
               ),
               PrimaryButton(
-                onTap: () {},
+                onTap: () {
+                  context.push(AppRoutes.notification.path);
+                },
                 text: AppLocalizations.of(context)!.next,
               )
             ],

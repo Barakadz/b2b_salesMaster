@@ -4,18 +4,14 @@ import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 
 class OtpInput extends StatelessWidget {
+  double width;
   final List<TextEditingController> controllers =
       List.generate(6, (_) => TextEditingController());
 
-  OtpInput({super.key});
+  OtpInput({super.key, required this.width});
 
   @override
   Widget build(BuildContext context) {
-    double width = (MediaQuery.sizeOf(context).width -
-            paddingOtpGap -
-            (paddingBetweenOtp * 4) -
-            (paddingXl * 2)) /
-        6;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(6, (index) {
@@ -27,6 +23,7 @@ class OtpInput extends StatelessWidget {
             height: 64,
             width: width,
             child: CustomTextFormField(
+              login: true,
               controller: controllers[index],
               keyboardType: TextInputType.number,
               maxLength: 1,

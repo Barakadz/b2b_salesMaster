@@ -12,6 +12,8 @@
   "otp_title" : "Enter Verification OTP",
   "code_sent" : "we've sent a code to +213 ",
   "receiving_issue" : "Experincing issue receiving the code",
-  "resend_code" : "Resend code"
+  "resend_code" : "Resend code",
+  "notifications_page_title": "Notifications"
+
 }
 

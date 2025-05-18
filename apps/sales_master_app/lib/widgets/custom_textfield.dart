@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:sales_master_app/config/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
+  final bool login;
   final String? labelText;
   final String? hintText;
   final TextEditingController? controller;
@@ -25,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? outlineColor;
   final String? countrerText;
   final EdgeInsetsGeometry? innerPadding;
+  final String? suffixText;
 
   const CustomTextFormField(
       {super.key,
@@ -49,6 +51,8 @@ class CustomTextFormField extends StatelessWidget {
       this.radius,
       this.textAlign,
       this.maxLength,
+      this.login = false,
+      this.suffixText,
       this.onchanged});
 
   @override
@@ -68,6 +72,7 @@ class CustomTextFormField extends StatelessWidget {
       maxLength: maxLength,
       textAlign: textAlign ?? TextAlign.left,
       decoration: InputDecoration(
+        suffixText: suffixText,
         contentPadding: innerPadding ?? const EdgeInsets.all(paddingXm),
         counterText: countrerText ?? "",
         suffixIcon: suffixIcon,
@@ -77,7 +82,15 @@ class CustomTextFormField extends StatelessWidget {
         filled: filled,
         fillColor: fillColor ?? Theme.of(context).colorScheme.surface,
         labelStyle: Theme.of(context).inputDecorationTheme.labelStyle,
-        hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
+        hintStyle: login == true
+            ? Theme.of(context).inputDecorationTheme.hintStyle
+            : TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurfaceVariant
+                    .withOpacity(0.30)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius ?? borderRadius),
           borderSide: BorderSide(

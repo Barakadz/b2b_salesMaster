@@ -2,11 +2,12 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sales_master_app/config/routes.dart';
-import 'package:sales_master_app/views/otp_screen.dart';
+import 'package:sales_master_app/controllers/auth_controller.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 
@@ -15,6 +16,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.find<AuthController>();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -64,17 +66,26 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: paddingM,
               ),
-              CustomTextFormField(
-                prifixIcon: Icon(
-                  Icons.phone,
-                  color: Theme.of(context).iconTheme.color,
-                  size: 24,
+              Form(
+                key: authController.msisddnFormKey,
+                child: CustomTextFormField(
+                  login: true,
+                  prifixIcon: Icon(
+                    Icons.phone,
+                    color: Theme.of(context).iconTheme.color,
+                    size: 24,
+                  ),
+                  controller: authController.msisdnController,
+                  validator: (String? msisdn) {
+                    return authController.validateMsisdn(msisdn);
+                  },
+                  hintText: AppLocalizations.of(context)!.login_hint,
+                  filled: true,
+                  textFormaters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
+                  maxLength: 10,
+                  fillColor: Theme.of(context).colorScheme.primaryContainer,
                 ),
-                hintText: AppLocalizations.of(context)!.login_hint,
-                filled: true,
-                textFormaters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
-                fillColor: Theme.of(context).colorScheme.primaryContainer,
               ),
               SizedBox(
                 height: paddingXm,
@@ -108,7 +119,10 @@ class LoginScreen extends StatelessWidget {
               ),
               PrimaryButton(
                 onTap: () {
-                  context.push(AppRoutes.otpValidation.path);
+                  bool res = authController.login();
+                  if (res == true) {
+                    context.push(AppRoutes.otpValidation.path);
+                  }
                 },
                 text: AppLocalizations.of(context)!.next,
               )
