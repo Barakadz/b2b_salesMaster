@@ -50,7 +50,7 @@ class NotificationScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.push(AppRoutes.clientDetails.path);
+                      context.push(AppRoutes.myClients.path);
                     },
                     child: Icon(
                       Icons.close,
@@ -74,22 +74,24 @@ class NotificationScreen extends StatelessWidget {
                     notificationController.setTabIndex(0);
                   }, child: Obx(() {
                     return NotificationTab(
-                        title: "All Notifications",
-                        clicked: notificationController.tabIndex == 0);
+                        title: AppLocalizations.of(context)!.all_notifications,
+                        clicked: notificationController.tabIndex.value == 0);
                   })),
                   GestureDetector(onTap: () {
                     notificationController.setTabIndex(1);
                   }, child: Obx(() {
                     return NotificationTab(
-                        title: "Outlook",
-                        clicked: notificationController.tabIndex == 1);
+                        title:
+                            AppLocalizations.of(context)!.outlook_notifications,
+                        clicked: notificationController.tabIndex.value == 1);
                   })),
                   GestureDetector(onTap: () {
                     notificationController.setTabIndex(2);
                   }, child: Obx(() {
                     return NotificationTab(
-                        title: "Unread",
-                        clicked: notificationController.tabIndex == 2);
+                        title:
+                            AppLocalizations.of(context)!.unread_notifications,
+                        clicked: notificationController.tabIndex.value == 2);
                   }))
                 ],
               ),
@@ -112,7 +114,7 @@ class NotificationScreen extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: paddingS),
                           child: Text(
-                            "Today",
+                            AppLocalizations.of(context)!.today,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
@@ -136,7 +138,7 @@ class NotificationScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: paddingS),
                             child: Text(
-                              "Older",
+                              AppLocalizations.of(context)!.older,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall

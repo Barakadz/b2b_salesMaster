@@ -5,10 +5,12 @@ class Client {
   int msisdnCount;
   double annualRevenue;
   double totalUnpaid;
+  double globalDueAj;
   double lastBill;
   String msisdn;
   DateTime? expirationDate;
   bool isTopClient;
+  bool active;
 
   Client(
       {required this.companyName,
@@ -20,6 +22,8 @@ class Client {
       required this.lastBill,
       required this.msisdn,
       required this.expirationDate,
+      required this.active,
+      required this.globalDueAj,
       required this.isTopClient});
 
   factory Client.fromJson(Map<String, dynamic> json) {
@@ -33,6 +37,8 @@ class Client {
         lastBill: json["derniere_facture"],
         msisdn: json["msisdn"],
         isTopClient: json["topClient"],
+        active: json["active"],
+        globalDueAj: json["due_aj"],
         expirationDate: json["topClient"] == true
             ? DateTime.now().add(Duration(days: 30))
             : null);

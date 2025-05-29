@@ -12,6 +12,7 @@ final lightColorScheme = ColorScheme.light(
     onSurface: Color(0xB3000000), // text on background
     onBackground: Color(0xff828282), // lighter text
     primaryContainer: Color(0x40EFF2F7), // selected sidebare item fillcolor
+    tertiaryContainer: Color(0xFFEDEDED), // selected sidebare item fillcolor
     //surface: Colors.white, // Cards, sheets
     //onSurface: Color(0xFF333333), // Text on surface
     error: Colors.red,

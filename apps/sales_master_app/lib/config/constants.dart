@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const double paddingXxs = 4;
 const double paddingXs = 12;
 const double paddingS = 12;
@@ -17,6 +19,8 @@ const double paddingXxxxl = 99;
 const double paddingXxxxxl = 125;
 
 const double borderRadius = 15;
+const double borderRadiusSmall = 5;
+const double borderRadiusMedium = 10;
 const double primaryButtonHeight = 62;
 
 const String outlookNotificationAsset = "assets/outlook_notification.svg";
@@ -27,4 +31,9 @@ Map<String, dynamic> notificationAssets = {
   "outlook": outlookNotificationAsset,
   "meeting": meetingNotificationAsset,
   "reminder": reminderNotificationAsset
+};
+
+Map<bool, dynamic> clientActiveColors = {
+  true: {"textColor": Color(0xff53DAA0), "bgColor": Color(0x2652DF96)},
+  false: {"textColor": Color(0XffEF2B48), "bgColor": Color(0X1AEF2B481A)}
 };

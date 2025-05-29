@@ -27,6 +27,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? countrerText;
   final EdgeInsetsGeometry? innerPadding;
   final String? suffixText;
+  final bool customTextField; // bilal textfield
 
   const CustomTextFormField(
       {super.key,
@@ -53,6 +54,7 @@ class CustomTextFormField extends StatelessWidget {
       this.maxLength,
       this.login = false,
       this.suffixText,
+      this.customTextField = false,
       this.onchanged});
 
   @override
@@ -73,7 +75,9 @@ class CustomTextFormField extends StatelessWidget {
       textAlign: textAlign ?? TextAlign.left,
       decoration: InputDecoration(
         suffixText: suffixText,
-        contentPadding: innerPadding ?? const EdgeInsets.all(paddingXm),
+        isDense: customTextField ? true : false,
+        contentPadding: innerPadding ??
+            const EdgeInsets.symmetric(horizontal: paddingXs, vertical: 0),
         counterText: countrerText ?? "",
         suffixIcon: suffixIcon,
         prefixIcon: prifixIcon,
