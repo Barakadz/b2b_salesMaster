@@ -4,6 +4,7 @@ class Config {
   static String refreshTokenUrl = "/auth/refresh-token";
   static String tokenPrefix = "Bearer";
   static String responseMessageKey = "message";
+  static String msisdnKey = "msisdn";
 
   static bool enableRefreshToken = true;
   static Function? onAuthFail;
@@ -15,6 +16,7 @@ class Config {
       bool? enableRefreshToken,
       void Function()? onAuthFail,
       String? tokenPrefix,
+      String? msisdnKey,
       String? responseMessageKey}) {
     if (tokenKey != null) Config.tokenKey = tokenKey;
     if (refreshTokenKey != null) Config.refreshTokenKey = refreshTokenKey;
@@ -23,6 +25,7 @@ class Config {
       Config.enableRefreshToken = enableRefreshToken;
     if (onAuthFail != null) Config.onAuthFail = onAuthFail;
     if (tokenPrefix != null) Config.tokenPrefix = tokenPrefix;
+    if (msisdnKey != null) Config.msisdnKey = msisdnKey;
     if (responseMessageKey != null)
       Config.responseMessageKey = responseMessageKey;
   }

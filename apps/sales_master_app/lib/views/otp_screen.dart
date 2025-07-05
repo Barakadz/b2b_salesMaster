@@ -1,3 +1,4 @@
+import 'package:data_layer/data_layer.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -126,7 +127,8 @@ class OtpScreen extends StatelessWidget {
               ),
               PrimaryButton(
                 onTap: () {
-                  context.push(AppRoutes.notification.path);
+                  AppStorage().setToken("something");
+                  context.push(AppRoutes.myClients.path);
                 },
                 text: AppLocalizations.of(context)!.next,
               )

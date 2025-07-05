@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/baddebt_details_controller.dart';
+import 'package:sales_master_app/controllers/client_details_controller.dart';
 import 'package:sales_master_app/controllers/clients_controller.dart';
 import 'package:sales_master_app/widgets/client_card.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
@@ -10,11 +12,10 @@ import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ClientsScreen extends StatelessWidget {
-  final ClientsController clientsController = Get.put(ClientsController());
-  ClientsScreen({super.key});
-
+  const ClientsScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final ClientsController clientsController = Get.put(ClientsController());
     clientsController.getClients();
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -117,7 +118,7 @@ class ClientsScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: Obx(() {
-                      return clientsController.on_clients_view.value == true
+                      return clientsController.onClientsView.value == true
                           ? ListView.builder(
                               itemCount: clientsController.clients.length,
                               itemBuilder: (BuildContext context, int index) {
@@ -126,9 +127,16 @@ class ClientsScreen extends StatelessWidget {
                                       const EdgeInsets.only(bottom: paddingXs),
                                   child: GestureDetector(
                                     onTap: () {
-                                      context.push(
-                                        AppRoutes.clientDetails.path,
-                                      );
+                                      final tag = clientsController
+                                          .clients[index].id
+                                          .toString();
+                                      Get.put(
+                                          ClientDetailsController(
+                                              client: clientsController
+                                                  .clients[index]),
+                                          tag: tag);
+                                      context.push(AppRoutes.clientDetails.path,
+                                          extra: tag);
                                     },
                                     child: ClientCard(
                                         name: clientsController
@@ -148,18 +156,27 @@ class ClientsScreen extends StatelessWidget {
                                       const EdgeInsets.only(bottom: paddingXs),
                                   child: GestureDetector(
                                     onTap: () {
+                                      final tag = clientsController
+                                          .badDebts[index].id
+                                          .toString();
+
+                                      Get.put(
+                                          BaddebtDetailsController(
+                                              baddebt: clientsController
+                                                  .badDebts[index]),
+                                          tag: tag);
+
                                       context.push(
                                           AppRoutes.badDebtDetails.path,
-                                          extra: clientsController
-                                              .badDebts[index]);
+                                          extra: tag);
                                     },
                                     child: ClientCard(
                                         name: clientsController
                                             .badDebts[index].companyName,
                                         msisdn: clientsController
-                                            .badDebts[index].msisdn,
+                                            .badDebts[index].phoneNumber,
                                         isActive: clientsController
-                                            .badDebts[index].active),
+                                            .badDebts[index].isActive),
                                   ),
                                 );
                               });

@@ -50,7 +50,7 @@ class NotificationScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.push(AppRoutes.myClients.path);
+                      context.pop();
                     },
                     child: Icon(
                       Icons.close,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
+import 'package:sales_master_app/config/routes.dart';
 
 class PageDetail extends StatelessWidget {
   final String title;
@@ -35,7 +37,7 @@ class PageDetail extends StatelessWidget {
               title,
               style: Theme.of(context)
                   .textTheme
-                  .titleSmall
+                  .titleMedium
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
             // Icon(
@@ -44,11 +46,14 @@ class PageDetail extends StatelessWidget {
             //   color: Theme.of(context).colorScheme.onSurfaceVariant,
             // )
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.push(AppRoutes.notification.path);
+              },
               child: SvgPicture.asset(
-                color: Theme.of(context).colorScheme.onPrimary,
+                //color: Theme.of(context).colorScheme.onPrimary,
                 "assets/notification_bell.svg",
                 height: 22,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             )
           ],

@@ -1,4 +1,5 @@
 import 'package:core_utility/core_utility.dart';
+import 'package:data_layer/data_layer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,9 +10,15 @@ import 'package:sales_master_app/themes/light_theme.dart';
 
 import 'controllers/auth_controller.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   RepoLocalizations.setLocale(Locale("en"));
-  Get.put(AuthController());
+  await AppStorage().init();
+  AuthController authController = Get.put(AuthController(), permanent: true);
+  Config.configure(
+    enableRefreshToken: false,
+  );
+  Api.getInstance(baseUrl: authController.getBaseUrl());
 
   runApp(const MyApp());
 }
@@ -37,7 +44,7 @@ class MyApp extends StatelessWidget {
         Locale('en'),
         Locale('fr'),
       ],
-      routerConfig: AppRoutes.router,
+      routerConfig: AppRoutes().router,
     );
   }
 }

@@ -1,4 +1,6 @@
-# melos_managed_dependency_overrides: core_utility
+# melos_managed_dependency_overrides: core_utility,data_layer
 dependency_overrides:
   core_utility:
     path: ../../packages/core_utility
+  data_layer:
+    path: ../../packages/data_layer

@@ -3,18 +3,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/constants.dart';
-import 'package:sales_master_app/controllers/clients_controller.dart';
+import 'package:sales_master_app/controllers/client_details_controller.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ClientDetailsScreen extends StatelessWidget {
-  final ClientsController clientsController = Get.put(ClientsController());
-  ClientDetailsScreen({super.key});
+  final String clientId;
+
+  const ClientDetailsScreen({super.key, required this.clientId});
 
   @override
   Widget build(BuildContext context) {
+    final ClientDetailsController clientDetailsController =
+        Get.find<ClientDetailsController>(tag: clientId);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -56,25 +60,21 @@ class ClientDetailsScreen extends StatelessWidget {
                       ),
                       CustomTextFormField(
                         hintText: AppLocalizations.of(context)!.raison_sociale,
+                        controller:
+                            clientDetailsController.raisonSocialeTextController,
                         filled: false,
                       ),
                       SizedBox(
                         height: textfieldsPadding,
                       ),
                       CustomTextFormField(
+                        controller:
+                            clientDetailsController.telecomTextController,
                         hintText:
                             AppLocalizations.of(context)!.nom_telecom_manager,
                         filled: false,
                         suffixIcon: GestureDetector(
                           onTap: () {
-                            // Get.dialog(Container(
-                            //   constraints: BoxConstraints(maxWidth: 350),
-                            //   decoration: BoxDecoration(
-                            //       color: Theme.of(context).colorScheme.surface),
-                            //   child: Column(
-                            //     children: [Text("dialog")],
-                            //   ),
-                            // ));
                             showDialog(
                                 context: context,
                                 builder: ((context) {
@@ -260,18 +260,24 @@ class ClientDetailsScreen extends StatelessWidget {
                         height: formSectionBottomPadding,
                       ),
                       CustomTextFormField(
+                        controller:
+                            clientDetailsController.nombreLignesTextController,
                         hintText: AppLocalizations.of(context)!.nombre_lignes,
                       ),
                       SizedBox(
                         height: textfieldsPadding,
                       ),
                       CustomTextFormField(
+                        controller:
+                            clientDetailsController.offersTextController,
                         hintText: AppLocalizations.of(context)!.offres,
                       ),
                       SizedBox(
                         height: textfieldsPadding,
                       ),
                       CustomTextFormField(
+                        controller:
+                            clientDetailsController.reconductionTextController,
                         hintText: AppLocalizations.of(context)!.reconduction,
                       ),
                       SizedBox(
@@ -279,6 +285,8 @@ class ClientDetailsScreen extends StatelessWidget {
                       ),
                       CustomTextFormField(
                         hintText: AppLocalizations.of(context)!.expiration_date,
+                        controller: clientDetailsController
+                            .expirationDateTextController,
                         filled: false,
                         suffixIcon: Icon(
                           Icons.calendar_today_outlined,
@@ -302,12 +310,16 @@ class ClientDetailsScreen extends StatelessWidget {
                         height: formSectionBottomPadding,
                       ),
                       CustomTextFormField(
+                        controller: clientDetailsController
+                            .revenuAnnuelDateTextController,
                         hintText: AppLocalizations.of(context)!.revenu_annuel,
                       ),
                       SizedBox(
                         height: textfieldsPadding,
                       ),
                       CustomTextFormField(
+                        controller:
+                            clientDetailsController.openBillsTextController,
                         hintText: AppLocalizations.of(context)!.open_bills,
                       ),
                       SizedBox(
@@ -346,6 +358,7 @@ class ClientDetailsScreen extends StatelessWidget {
                         height: textfieldsPadding,
                       ),
                       CustomTextFormField(
+                        controller: clientDetailsController.momTextController,
                         hintText: AppLocalizations.of(context)!.mom,
                         maxLines: 5,
                       ),

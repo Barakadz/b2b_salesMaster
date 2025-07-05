@@ -1,3 +1,4 @@
+import 'package:data_layer/data_layer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:timer_count_down/timer_controller.dart';
@@ -5,9 +6,21 @@ import 'package:timer_count_down/timer_controller.dart';
 class AuthController extends GetxController {
   Rx<bool> isLoged = false.obs;
   TextEditingController msisdnController = TextEditingController();
-  final GlobalKey<FormState> msisddnFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> msisdnFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> otpFormKey = GlobalKey<FormState>();
-  String msisdn = "";
+  Rx<String?> msisdn = Rx<String?>(null);
+
+  bool prod = false;
+  late String baseUrl;
+
+  @override
+  void onInit() {
+    isLoged.value = AppStorage().getToken() != null;
+    baseUrl = prod == true
+        ? "http://10.14.1.8:8000/api/v1"
+        : "http://10.14.1.8:8000/api/v1/uat";
+    super.onInit();
+  }
 
   final Rx<CountdownController> otpTimerController =
       CountdownController(autoStart: true).obs;
@@ -25,11 +38,27 @@ class AuthController extends GetxController {
     return null;
   }
 
-  bool login() {
-    if (msisddnFormKey.currentState!.validate() != true) {
+  String? getMsisdn() {
+    return msisdn.value ?? AppStorage().getMsisdn();
+  }
+
+  String getBaseUrl() {
+    return getMsisdn() == null ? baseUrl : "$baseUrl/${getMsisdn()}";
+  }
+
+  bool sendOtp() {
+    if (msisdnFormKey.currentState!.validate() != true) {
       return false;
     }
-    msisdn = msisdnController.text;
+    msisdn.value = msisdnController.text;
+    return true;
+  }
+
+  bool login() {
+    //validate otp then
+    isLoged.value = true;
+    AppStorage().setMsisdn(msisdn.value!);
+    Api.getInstance().setBaseUrl(getBaseUrl());
     return true;
   }
 }

@@ -1,13 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sales_master_app/models/client.dart';
+import 'package:sales_master_app/controllers/auth_controller.dart';
+import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/views/bad_debt_details.dart';
+import 'package:sales_master_app/views/base_view.dart';
+import 'package:sales_master_app/views/catalogue_screen.dart';
 import 'package:sales_master_app/views/client_details_screen.dart';
 import 'package:sales_master_app/views/clients_screen.dart';
+import 'package:sales_master_app/views/deals_details_screen.dart';
+import 'package:sales_master_app/views/deals_screen.dart';
 import 'package:sales_master_app/views/login_screen.dart';
 import 'package:sales_master_app/views/notification_screen.dart';
 import 'package:sales_master_app/views/otp_screen.dart';
+import 'package:sales_master_app/views/pipeline_main_page.dart';
+//import 'package:sales_master_app/views/precess_and_forms.dart';
+import 'package:sales_master_app/views/realisation_screen.dart';
+import 'package:sales_master_app/views/todolist_archive_screen.dart';
+import 'package:sales_master_app/views/todolist_screen.dart';
 
 class AppRoutes {
+  static final GlobalKey<NavigatorState> _rootNavigatorKey = Get.key;
+  static final _sectionNavigatorKey = GlobalKey<NavigatorState>();
+
   static const login = _Route(path: '/login', name: 'login');
   static const otpValidation = _Route(path: '/otpValidation', name: 'otp');
   static const notification =
@@ -15,11 +30,31 @@ class AppRoutes {
   static const clientDetails =
       _Route(path: '/clientDetails', name: 'clientDetails');
   static const myClients = _Route(path: '/myClients', name: 'myClients');
+  static const processAndForms =
+      _Route(path: '/processAndForms', name: 'processAndForms');
   static const badDebtDetails =
       _Route(path: '/badDebtDetails', name: "badDebtDetails");
+  static const pipeline = _Route(path: '/Pipeline', name: "pipeline");
+  static const todolist = _Route(path: '/todolist', name: "todolist");
+  static const dealsScreen = _Route(path: "/deals", name: "deals");
+  static const todolistArchive =
+      _Route(path: "/todolist_archive", name: "todolist_archive");
+  static const dealDetails = _Route(path: "/dealDetails", name: "dealDetails");
+  static const catalogue = _Route(path: "/catalogue", name: "catalogue");
+  static const dashboardRealisations =
+      _Route(path: "/realisations", name: "realisations");
 
-  static final router = GoRouter(
-    initialLocation: AppRoutes.login.path,
+  final router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: '/login',
+    // redirect: (BuildContext context, GoRouterState state) {
+    //   final isAuthenticated = Get.find<AuthController>().isLoged.value;
+    //   if (!isAuthenticated) {
+    //     return '/login';
+    //   } else {
+    //     return null;
+    //   }
+    // },
     routes: [
       GoRoute(
         name: AppRoutes.login.name,
@@ -29,28 +64,152 @@ class AppRoutes {
       GoRoute(
         name: AppRoutes.otpValidation.name,
         path: AppRoutes.otpValidation.path,
-        builder: (context, state) => OtpScreen(),
+        builder: (context, state) => const OtpScreen(),
       ),
       GoRoute(
-          name: AppRoutes.notification.name,
-          path: AppRoutes.notification.path,
-          builder: (context, state) => NotificationScreen()),
+        name: AppRoutes.notification.name,
+        path: AppRoutes.notification.path,
+        builder: (context, state) => const NotificationScreen(),
+      ),
       GoRoute(
-          name: AppRoutes.clientDetails.name,
-          path: AppRoutes.clientDetails.path,
-          builder: (context, state) => ClientDetailsScreen()),
+        name: AppRoutes.dealsScreen.name,
+        path: AppRoutes.dealsScreen.path,
+        builder: (context, state) => const DealsScreen(),
+      ),
       GoRoute(
-          name: AppRoutes.myClients.name,
-          path: AppRoutes.myClients.path,
-          builder: (context, state) => ClientsScreen()),
+        name: AppRoutes.dealDetails.name,
+        path: AppRoutes.dealDetails.path,
+        builder: (context, state) {
+          Deal? deal = state.extra as Deal?;
+          return DealsDetailsScreen(
+            deal: deal,
+          );
+        },
+      ),
       GoRoute(
-          name: AppRoutes.badDebtDetails.name,
-          path: AppRoutes.badDebtDetails.path,
-          builder: (context, state) => BadDebtDetails(
-                clientinDebt: state.extra as Client,
-              )),
+        name: AppRoutes.clientDetails.name,
+        path: AppRoutes.clientDetails.path,
+        builder: (context, state) {
+          String id = state.extra as String;
+          return ClientDetailsScreen(
+            clientId: id,
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.badDebtDetails.name,
+        path: AppRoutes.badDebtDetails.path,
+        builder: (context, state) {
+          String id = state.extra as String;
+          return BadDebtDetails(
+            badDebtId: id,
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.todolistArchive.name,
+        path: AppRoutes.todolistArchive.path,
+        builder: (context, state) {
+          return TodolistArchiveScreen();
+        },
+      ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return BaseView(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: _sectionNavigatorKey,
+            routes: [
+              GoRoute(
+                name: AppRoutes.myClients.name,
+                path: AppRoutes.myClients.path,
+                builder: (context, state) => ClientsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: AppRoutes.pipeline.name,
+                path: AppRoutes.pipeline.path,
+                builder: (context, state) => PipelineMainPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: AppRoutes.todolist.name,
+                path: AppRoutes.todolist.path,
+                builder: (context, state) => TodolistScreen(),
+              ),
+            ],
+          ),
+          // StatefulShellBranch(
+          //   routes: [
+          //     GoRoute(
+          //       name: AppRoutes.processAndForms.name,
+          //       path: AppRoutes.processAndForms.path,
+          //       builder: (context, state) => ProcessAndForms(),
+          //     ),
+          //   ],
+          // ),
+
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: AppRoutes.catalogue.name,
+                path: AppRoutes.catalogue.path,
+                builder: (context, state) => CatalogueScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: AppRoutes.dashboardRealisations.name,
+                path: AppRoutes.dashboardRealisations.path,
+                builder: (context, state) => RealisationScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
     ],
   );
+
+  // static final router = GoRouter(
+  //   initialLocation: AppRoutes.login.path,
+  //   routes: [
+  //     GoRoute(
+  //       name: AppRoutes.login.name,
+  //       path: AppRoutes.login.path,
+  //       builder: (context, state) => LoginScreen(),
+  //     ),
+  //     GoRoute(
+  //       name: AppRoutes.otpValidation.name,
+  //       path: AppRoutes.otpValidation.path,
+  //       builder: (context, state) => OtpScreen(),
+  //     ),
+  //     GoRoute(
+  //         name: AppRoutes.notification.name,
+  //         path: AppRoutes.notification.path,
+  //         builder: (context, state) => NotificationScreen()),
+  //     GoRoute(
+  //         name: AppRoutes.clientDetails.name,
+  //         path: AppRoutes.clientDetails.path,
+  //         builder: (context, state) => ClientDetailsScreen()),
+  //     GoRoute(
+  //         name: AppRoutes.myClients.name,
+  //         path: AppRoutes.myClients.path,
+  //         builder: (context, state) => ClientsScreen()),
+  //     GoRoute(
+  //         name: AppRoutes.badDebtDetails.name,
+  //         path: AppRoutes.badDebtDetails.path,
+  //         builder: (context, state) => BadDebtDetails()),
+  //   ],
+  // );
 }
 
 class _Route {

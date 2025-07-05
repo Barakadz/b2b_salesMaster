@@ -52,6 +52,10 @@ class AppStorage {
     return _sharedPrefs.getString(Config.refreshTokenKey);
   }
 
+  String? getMsisdn() {
+    return _sharedPrefs.getString(Config.msisdnKey);
+  }
+
   Future<bool> setRefreshToken(String refreshToken) async {
     return await _sharedPrefs.setString(Config.refreshTokenKey, refreshToken);
   }
@@ -70,6 +74,10 @@ class AppStorage {
 
   Future<bool> setBool(String key, bool value) async {
     return await _sharedPrefs.setBool(key, value);
+  }
+
+  Future<bool> setMsisdn(String msisdn) async {
+    return await _sharedPrefs.setString(Config.msisdnKey, msisdn);
   }
 
   Future<bool> clearAll() async {

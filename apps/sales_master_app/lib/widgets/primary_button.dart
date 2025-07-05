@@ -6,11 +6,13 @@ class PrimaryButton extends StatelessWidget {
   final String text;
   final Widget? child;
   final double? height;
+  final Widget? prefixIcon;
 
   const PrimaryButton(
       {super.key,
       required this.onTap,
       required this.text,
+      this.prefixIcon,
       this.child,
       this.height});
 
@@ -27,7 +29,15 @@ class PrimaryButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
         onPressed: onTap,
-        child: child ??
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: paddingXs),
+              child: child ?? prefixIcon ?? SizedBox(),
+            ),
             Text(
               text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -35,6 +45,8 @@ class PrimaryButton extends StatelessWidget {
                   fontSize: 17,
                   fontWeight: FontWeight.w600),
             ),
+          ],
+        ),
       ),
     );
   }

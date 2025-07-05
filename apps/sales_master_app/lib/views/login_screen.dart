@@ -67,7 +67,7 @@ class LoginScreen extends StatelessWidget {
                 height: paddingM,
               ),
               Form(
-                key: authController.msisddnFormKey,
+                key: authController.msisdnFormKey,
                 child: CustomTextFormField(
                   login: true,
                   prifixIcon: Icon(
@@ -91,10 +91,9 @@ class LoginScreen extends StatelessWidget {
                 height: paddingXm,
               ),
               RichText(
-                textAlign: TextAlign.center, // Optional, center the text
+                textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 14), // Default style
+                  style: TextStyle(color: Colors.black, fontSize: 14),
                   children: [
                     TextSpan(
                         text: AppLocalizations.of(context)!.by_clicking,
@@ -119,7 +118,7 @@ class LoginScreen extends StatelessWidget {
               ),
               PrimaryButton(
                 onTap: () {
-                  bool res = authController.login();
+                  bool res = authController.sendOtp();
                   if (res == true) {
                     context.push(AppRoutes.otpValidation.path);
                   }

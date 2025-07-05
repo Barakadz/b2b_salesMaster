@@ -23,6 +23,8 @@ const double borderRadiusSmall = 5;
 const double borderRadiusMedium = 10;
 const double primaryButtonHeight = 62;
 
+const double startsIconSize = 18;
+
 const String outlookNotificationAsset = "assets/outlook_notification.svg";
 const String meetingNotificationAsset = "assets/group_notification.svg";
 const String reminderNotificationAsset = "assets/alert_notification.svg";

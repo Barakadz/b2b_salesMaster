@@ -1,4 +1,5 @@
 class Client {
+  int id;
   String companyName;
   String telecomManager;
   int openBills;
@@ -11,9 +12,13 @@ class Client {
   DateTime? expirationDate;
   bool isTopClient;
   bool active;
+  int offers;
+  String reconduction;
+  String? mom;
 
   Client(
-      {required this.companyName,
+      {required this.id,
+      required this.companyName,
       required this.telecomManager,
       required this.openBills,
       required this.msisdnCount,
@@ -23,11 +28,15 @@ class Client {
       required this.msisdn,
       required this.expirationDate,
       required this.active,
+      required this.offers,
       required this.globalDueAj,
+      required this.reconduction,
+      this.mom,
       required this.isTopClient});
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
+        id: json["id"],
         companyName: json["raison_social"],
         telecomManager: json["telecom_manager"],
         openBills: json["facture_ouverte"],
@@ -39,6 +48,9 @@ class Client {
         isTopClient: json["topClient"],
         active: json["active"],
         globalDueAj: json["due_aj"],
+        offers: json["offers"],
+        mom: json["mom"],
+        reconduction: json["reconduction"],
         expirationDate: json["topClient"] == true
             ? DateTime.now().add(Duration(days: 30))
             : null);

@@ -42,7 +42,7 @@ class Api {
     return _instance!;
   }
 
-  set baseUrl(String baseUrl) {
+  void setBaseUrl(String baseUrl) {
     _baseUrl = baseUrl;
   }
 
