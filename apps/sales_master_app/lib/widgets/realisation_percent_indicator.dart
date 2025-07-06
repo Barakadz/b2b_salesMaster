@@ -95,7 +95,7 @@ class RealisationPercentIndicator extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 5,
-                    backgroundColor: style.categoryColor,
+                    backgroundColor: textColor ?? style.categoryColor,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -172,11 +172,14 @@ class RealisationPercentIndicator extends StatelessWidget {
     final style = realisationCategoryStyles[evaluation.name]!;
     final double stars = (evaluation.currentValue * 5) / evaluation.target;
 
+    Color starColor = textColor ?? Colors.orange;
+
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Row(
         children: [
-          CircleAvatar(radius: 5, backgroundColor: style.categoryColor),
+          CircleAvatar(
+              radius: 5, backgroundColor: textColor ?? style.categoryColor),
           const SizedBox(width: 8),
           Text(
             evaluation.name,
@@ -187,14 +190,13 @@ class RealisationPercentIndicator extends StatelessWidget {
           Row(
             children: List.generate(5, (index) {
               if (index + 1 <= stars.floor()) {
-                return const Icon(Icons.star,
-                    size: startsIconSize, color: Colors.orange);
+                return Icon(Icons.star, size: startsIconSize, color: starColor);
               } else if (index < stars && stars - index >= 0.5) {
-                return const Icon(Icons.star_half,
-                    size: startsIconSize, color: Colors.orange);
+                return Icon(Icons.star_half,
+                    size: startsIconSize, color: starColor);
               } else {
-                return const Icon(Icons.star_border,
-                    size: startsIconSize, color: Colors.orange);
+                return Icon(Icons.star_border,
+                    size: startsIconSize, color: starColor);
               }
             }),
           ),

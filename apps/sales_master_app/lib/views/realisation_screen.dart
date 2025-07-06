@@ -1,3 +1,4 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/constants.dart';
@@ -15,6 +16,8 @@ class RealisationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     RealisationsController realisationsController =
         Get.put(RealisationsController());
+    final PageController pageController =
+        PageController(viewportFraction: 0.96);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
       body: SafeArea(
@@ -74,20 +77,58 @@ class RealisationScreen extends StatelessWidget {
                       height: paddingXs,
                     ),
                     Obx(() {
-                      return RealisationChartContainer(
-                        disabled: !realisationsController
-                                    .showRealisation.value ==
-                                true ||
-                            realisationsController.loadingRealisations.value ==
-                                true,
-                        date: "March 2025",
-                        gloabl: true,
-                        totalTarget: realisationsController.getTotalTarget(),
-                        totalrealised:
-                            realisationsController.getTotalRealisations(),
-                        totalRealisations:
-                            realisationsController.totalRealisations.value ??
-                                TotalRealisation(increase: 0, realisations: []),
+                      final List<Widget> chartItems = [];
+
+                      chartItems.add(Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: paddingXxs),
+                        child: RealisationChartContainer(
+                            date: "March 2025",
+                            gloabl: true,
+                            disabled:
+                                realisationsController.showRealisation.value ==
+                                        false ||
+                                    realisationsController
+                                            .loadingRealisations.value ==
+                                        true,
+                            totalrealised:
+                                realisationsController.getTotalRealisations(),
+                            totalTarget:
+                                realisationsController.getTotalTarget(),
+                            totalRealisations: realisationsController
+                                    .totalRealisations.value ??
+                                TotalRealisation(
+                                    increase: realisationsController
+                                            .totalRealisations
+                                            .value
+                                            ?.increase ??
+                                        0,
+                                    realisations: [])),
+                      ));
+
+                      for (Realisation realisation in realisationsController
+                              .totalRealisations.value?.realisations ??
+                          []) {
+                        chartItems.add(Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: paddingXxs),
+                          child: RealisationChartContainer(
+                              date: "March 2025",
+                              gloabl: false,
+                              totalrealised: realisation.currentValue,
+                              totalTarget: realisation.target,
+                              totalRealisations: TotalRealisation(
+                                  increase: realisationsController
+                                          .totalRealisations.value?.increase ??
+                                      0,
+                                  realisations: [realisation])),
+                        ));
+                      }
+
+                      return ExpandablePageView(
+                        children: chartItems,
+                        controller: pageController,
+                        clipBehavior: Clip.none,
                       );
                     }),
                     SizedBox(

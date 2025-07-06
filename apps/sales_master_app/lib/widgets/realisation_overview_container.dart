@@ -42,6 +42,12 @@ class RealisationOverviewContainer extends StatelessWidget {
               height: paddingM,
             ),
             RealisationPercentIndicator(
+                textColor: showPlaceHolder == true
+                    ? Theme.of(context)
+                        .colorScheme
+                        .onSurfaceVariant
+                        .withValues(alpha: 0.25)
+                    : null,
                 realisations: showPlaceHolder
                     ? [
                         Realisation(target: 100, currentValue: 0, name: "GA"),

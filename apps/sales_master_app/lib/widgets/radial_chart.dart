@@ -8,14 +8,17 @@ class RadialChart extends StatelessWidget {
   final double totalrealised;
   final double totalTarget;
   final Color? textColor;
+  final bool? gloabl;
   const RadialChart(
       {super.key,
       this.textColor,
+      this.gloabl = false,
       required this.realisations,
       required this.totalTarget,
       required this.totalrealised});
 
   List<PieChartSectionData> showSections() {
+    // i am doing this because this package does not allow to set bg color for empty state, and the display is off when there is less then two sections
     if (realisations.length == 1) {
       realisations.add(Realisation(
           target: totalTarget - totalrealised,
@@ -63,7 +66,9 @@ class RadialChart extends StatelessWidget {
                         .titleLarge
                         ?.copyWith(color: textColor)),
                 Text(
-                  "Réalisations",
+                  realisations.length > 2 || gloabl == true
+                      ? "Réalisations"
+                      : realisations.first.name,
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall

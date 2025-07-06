@@ -65,10 +65,8 @@ class SalaryNote extends StatelessWidget {
             Text(
               "Vous avez +$raise de votre Salair de base",
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: textColor ?? Color(0XffFFAD49)),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 12, color: textColor ?? Color(0XffFFAD49)),
             )
           ],
         ),

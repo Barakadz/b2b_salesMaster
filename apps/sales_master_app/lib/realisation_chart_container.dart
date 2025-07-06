@@ -64,6 +64,7 @@ class RealisationChartContainer extends StatelessWidget {
             Container(
                 height: 200,
                 child: RadialChart(
+                  gloabl: gloabl,
                   textColor: disabled == true
                       ? Theme.of(context)
                           .colorScheme
