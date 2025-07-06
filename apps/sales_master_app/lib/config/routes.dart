@@ -178,38 +178,6 @@ class AppRoutes {
       ),
     ],
   );
-
-  // static final router = GoRouter(
-  //   initialLocation: AppRoutes.login.path,
-  //   routes: [
-  //     GoRoute(
-  //       name: AppRoutes.login.name,
-  //       path: AppRoutes.login.path,
-  //       builder: (context, state) => LoginScreen(),
-  //     ),
-  //     GoRoute(
-  //       name: AppRoutes.otpValidation.name,
-  //       path: AppRoutes.otpValidation.path,
-  //       builder: (context, state) => OtpScreen(),
-  //     ),
-  //     GoRoute(
-  //         name: AppRoutes.notification.name,
-  //         path: AppRoutes.notification.path,
-  //         builder: (context, state) => NotificationScreen()),
-  //     GoRoute(
-  //         name: AppRoutes.clientDetails.name,
-  //         path: AppRoutes.clientDetails.path,
-  //         builder: (context, state) => ClientDetailsScreen()),
-  //     GoRoute(
-  //         name: AppRoutes.myClients.name,
-  //         path: AppRoutes.myClients.path,
-  //         builder: (context, state) => ClientsScreen()),
-  //     GoRoute(
-  //         name: AppRoutes.badDebtDetails.name,
-  //         path: AppRoutes.badDebtDetails.path,
-  //         builder: (context, state) => BadDebtDetails()),
-  //   ],
-  // );
 }
 
 class _Route {

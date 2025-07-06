@@ -98,6 +98,9 @@ class RealisationScreen extends StatelessWidget {
                             totalRealisations: realisationsController
                                     .totalRealisations.value ??
                                 TotalRealisation(
+                                    trimester: "Q3",
+                                    year: "2025",
+                                    assignedTo: 1,
                                     increase: realisationsController
                                             .totalRealisations
                                             .value
@@ -118,6 +121,9 @@ class RealisationScreen extends StatelessWidget {
                               totalrealised: realisation.currentValue,
                               totalTarget: realisation.target,
                               totalRealisations: TotalRealisation(
+                                  trimester: "Q3",
+                                  year: "2025",
+                                  assignedTo: 1,
                                   increase: realisationsController
                                           .totalRealisations.value?.increase ??
                                       0,
@@ -136,9 +142,14 @@ class RealisationScreen extends StatelessWidget {
                     ),
                     Obx(() {
                       return RealisationOverviewContainer(
-                          totalRealisation: realisationsController
-                                  .totalRealisations.value ??
-                              TotalRealisation(increase: 0, realisations: []),
+                          totalRealisation:
+                              realisationsController.totalRealisations.value ??
+                                  TotalRealisation(
+                                      trimester: "Q3",
+                                      year: "2025",
+                                      assignedTo: 1,
+                                      increase: 0,
+                                      realisations: []),
                           totalrealised:
                               realisationsController.getTotalRealisations(),
                           totalTarget: realisationsController.getTotalTarget(),

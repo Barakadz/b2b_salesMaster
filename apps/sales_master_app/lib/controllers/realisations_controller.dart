@@ -44,13 +44,18 @@ class RealisationsController extends GetxController {
     errorLoadingRealisation.value = false;
 
     await Future.delayed(Duration(seconds: 3));
-    totalRealisations.value = TotalRealisation(increase: 1.5, realisations: [
-      Realisation(target: 100, currentValue: 20, name: "GA"),
-      Realisation(target: 100, currentValue: 50, name: "Net Adds"),
-      Realisation(target: 100, currentValue: 85, name: "Solutions"),
-      Realisation(target: 100, currentValue: 15, name: "New Compte"),
-      Realisation(target: 100, currentValue: 30, name: "Evaluation"),
-    ]);
+    totalRealisations.value = TotalRealisation(
+        trimester: "Q3",
+        year: "2025",
+        assignedTo: 1,
+        increase: 1.5,
+        realisations: [
+          Realisation(target: 100, currentValue: 20, name: "GA"),
+          Realisation(target: 100, currentValue: 50, name: "Net Adds"),
+          Realisation(target: 100, currentValue: 85, name: "Solutions"),
+          Realisation(target: 100, currentValue: 15, name: "New Compte"),
+          Realisation(target: 100, currentValue: 30, name: "Evaluation"),
+        ]);
     totalRealisations.refresh();
 
     loadingRealisations.value = false;
