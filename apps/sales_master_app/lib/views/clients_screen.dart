@@ -7,6 +7,7 @@ import 'package:sales_master_app/controllers/baddebt_details_controller.dart';
 import 'package:sales_master_app/controllers/client_details_controller.dart';
 import 'package:sales_master_app/controllers/clients_controller.dart';
 import 'package:sales_master_app/widgets/client_card.dart';
+import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,6 +19,7 @@ class ClientsScreen extends StatelessWidget {
     final ClientsController clientsController = Get.put(ClientsController());
     clientsController.getClients();
     return Scaffold(
+      drawer: CustomAppDrawer(),
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
@@ -26,6 +28,7 @@ class ClientsScreen extends StatelessWidget {
           PageDetail(
             title: AppLocalizations.of(context)!.mon_portfeuille,
             bgColor: Theme.of(context).colorScheme.outlineVariant,
+            baseviewpage: false,
           ),
           Expanded(
             child: Padding(

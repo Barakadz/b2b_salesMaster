@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/state_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/drawer_controller.dart';
 
 class PageDetail extends StatelessWidget {
   final String title;
   final Color? bgColor;
+  final bool? baseviewpage;
 
-  const PageDetail({super.key, required this.title, this.bgColor});
+  const PageDetail(
+      {super.key, required this.title, this.bgColor, this.baseviewpage = true});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +33,19 @@ class PageDetail extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.menu_outlined,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              size: paddingL,
-            ),
+            Builder(
+                builder: (ctx) => GestureDetector(
+                      onTap: () {
+                        print("pressed");
+                        Get.find<CustomDrawerController>()
+                            .openDrawer(ctx, baseview: baseviewpage);
+                      },
+                      child: Icon(
+                        Icons.menu_outlined,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        size: paddingL,
+                      ),
+                    )),
             Text(
               title,
               style: Theme.of(context)

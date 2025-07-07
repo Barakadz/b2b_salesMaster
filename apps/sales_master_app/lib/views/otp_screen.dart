@@ -128,7 +128,7 @@ class OtpScreen extends StatelessWidget {
               PrimaryButton(
                 onTap: () {
                   AppStorage().setToken("something");
-                  context.push(AppRoutes.myClients.path);
+                  context.push(AppRoutes.home.path);
                 },
                 text: AppLocalizations.of(context)!.next,
               )

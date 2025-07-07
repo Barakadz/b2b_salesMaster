@@ -6,6 +6,7 @@ import 'package:sales_master_app/config/catalogues_options.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/controllers/catalogue_controller.dart';
 import 'package:sales_master_app/models/file_model.dart';
+import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/empty_widget.dart';
 import 'package:sales_master_app/widgets/file_card.dart';
@@ -53,6 +54,7 @@ class CatalogueScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     CatalogueController catalogueController = Get.put(CatalogueController());
     return Scaffold(
+      drawer: CustomAppDrawer(),
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
       body: SafeArea(
           child: Column(
@@ -199,7 +201,9 @@ class CatalogueScreen extends StatelessWidget {
                                         .colorScheme
                                         .outlineVariant,
                                     border: Border.all(
-                                        color: Theme.of(context).dividerColor)),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiaryContainer)),
                                 padding:
                                     const EdgeInsets.only(left: 0, right: 8),
                                 height: 35,
@@ -262,7 +266,8 @@ class CatalogueScreen extends StatelessWidget {
                                             .outlineVariant,
                                         border: Border.all(
                                             color: Theme.of(context)
-                                                .dividerColor)),
+                                                .colorScheme
+                                                .tertiaryContainer)),
                                     padding: const EdgeInsets.only(
                                         left: 0, right: 8),
                                     height: 35,

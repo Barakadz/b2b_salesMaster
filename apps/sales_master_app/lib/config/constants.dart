@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const double paddingXxs = 4;
-const double paddingXs = 12;
+const double paddingXs = 10;
 const double paddingS = 12;
 const double paddingM = 16;
 const double textfieldsPadding = 12;
@@ -28,6 +28,11 @@ const double startsIconSize = 18;
 const String outlookNotificationAsset = "assets/outlook_notification.svg";
 const String meetingNotificationAsset = "assets/group_notification.svg";
 const String reminderNotificationAsset = "assets/alert_notification.svg";
+
+const String dashboardAsset = "assets/dashboard.svg";
+const String clientsAsset = "assets/clients.svg";
+const String pipelineAsset = "assets/pipeline.svg";
+const String logoutAsset = "assets/logout.svg";
 
 Map<String, dynamic> notificationAssets = {
   "outlook": outlookNotificationAsset,

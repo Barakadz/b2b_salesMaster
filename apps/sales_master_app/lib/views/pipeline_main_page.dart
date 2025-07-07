@@ -7,6 +7,7 @@ import 'package:sales_master_app/controllers/deals_controller.dart';
 import 'package:sales_master_app/controllers/pipeline_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:sales_master_app/models/deal.dart';
+import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/deal_card.dart';
 import 'package:sales_master_app/widgets/my_chip.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
@@ -36,6 +37,7 @@ class PipelineMainPage extends StatelessWidget {
     DealsController dealsController = Get.put(DealsController());
     dealsController.loadDeals();
     return Scaffold(
+      drawer: CustomAppDrawer(),
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
       body: SafeArea(
@@ -44,7 +46,10 @@ class PipelineMainPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PageDetail(title: "Mon Pipeline"),
+            PageDetail(
+              title: "Mon Pipeline",
+              baseviewpage: false,
+            ),
             SizedBox(
               height: paddingL,
             ),

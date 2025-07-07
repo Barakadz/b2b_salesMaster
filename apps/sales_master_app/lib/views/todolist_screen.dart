@@ -7,6 +7,7 @@ import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/config/todolist_status_style.dart';
 import 'package:sales_master_app/controllers/todolist_controller.dart';
+import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/my_chip.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
@@ -85,6 +86,7 @@ class TodolistScreen extends StatelessWidget {
     //todolistController.loadFakeTodolist();
     todolistController.loadTasks();
     return Scaffold(
+      drawer: CustomAppDrawer(),
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
       body: SafeArea(
           child: Column(

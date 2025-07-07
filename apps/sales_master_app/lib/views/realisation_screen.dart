@@ -5,6 +5,7 @@ import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/controllers/realisations_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/realisation_chart_container.dart';
+import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/realisation_overview_container.dart';
@@ -19,6 +20,7 @@ class RealisationScreen extends StatelessWidget {
     final PageController pageController =
         PageController(viewportFraction: 0.96);
     return Scaffold(
+      drawer: CustomAppDrawer(),
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
       body: SafeArea(
           child: Column(
@@ -29,6 +31,7 @@ class RealisationScreen extends StatelessWidget {
           PageDetail(
             title: "Réalisations Trimestrielles",
             bgColor: Theme.of(context).colorScheme.outlineVariant,
+            baseviewpage: false,
           ),
           Expanded(
             child: SingleChildScrollView(

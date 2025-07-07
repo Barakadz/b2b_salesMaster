@@ -5,9 +5,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/drawer_controller.dart';
 import 'package:sales_master_app/themes/dark_theme.dart';
 import 'package:sales_master_app/themes/light_theme.dart';
-
 import 'controllers/auth_controller.dart';
 
 void main() async {
@@ -15,6 +15,7 @@ void main() async {
   RepoLocalizations.setLocale(Locale("en"));
   await AppStorage().init();
   AuthController authController = Get.put(AuthController(), permanent: true);
+  Get.put<CustomDrawerController>(CustomDrawerController());
   Config.configure(
     enableRefreshToken: false,
   );

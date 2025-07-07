@@ -26,8 +26,8 @@ class PrimaryButton extends StatelessWidget {
             elevation: 0,
             backgroundColor: Theme.of(context).colorScheme.primary,
             //shadowColor: Theme.of(context).colorScheme.primary,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         onPressed: onTap,
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -43,7 +43,7 @@ class PrimaryButton extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 17,
-                  fontWeight: FontWeight.w600),
+                  fontWeight: FontWeight.w500),
             ),
           ],
         ),

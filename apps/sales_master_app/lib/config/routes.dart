@@ -10,6 +10,7 @@ import 'package:sales_master_app/views/client_details_screen.dart';
 import 'package:sales_master_app/views/clients_screen.dart';
 import 'package:sales_master_app/views/deals_details_screen.dart';
 import 'package:sales_master_app/views/deals_screen.dart';
+import 'package:sales_master_app/views/home_screen.dart';
 import 'package:sales_master_app/views/login_screen.dart';
 import 'package:sales_master_app/views/notification_screen.dart';
 import 'package:sales_master_app/views/otp_screen.dart';
@@ -43,6 +44,7 @@ class AppRoutes {
   static const catalogue = _Route(path: "/catalogue", name: "catalogue");
   static const dashboardRealisations =
       _Route(path: "/realisations", name: "realisations");
+  static const home = _Route(path: "/homepage", name: "home");
 
   final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -72,9 +74,19 @@ class AppRoutes {
         builder: (context, state) => const NotificationScreen(),
       ),
       GoRoute(
+        name: AppRoutes.pipeline.name,
+        path: AppRoutes.pipeline.path,
+        builder: (context, state) => PipelineMainPage(),
+      ),
+      GoRoute(
         name: AppRoutes.dealsScreen.name,
         path: AppRoutes.dealsScreen.path,
         builder: (context, state) => const DealsScreen(),
+      ),
+      GoRoute(
+        name: AppRoutes.dashboardRealisations.name,
+        path: AppRoutes.dashboardRealisations.path,
+        builder: (context, state) => const RealisationScreen(),
       ),
       GoRoute(
         name: AppRoutes.dealDetails.name,
@@ -84,6 +96,13 @@ class AppRoutes {
           return DealsDetailsScreen(
             deal: deal,
           );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.myClients.name,
+        path: AppRoutes.myClients.path,
+        builder: (context, state) {
+          return ClientsScreen();
         },
       ),
       GoRoute(
@@ -122,21 +141,32 @@ class AppRoutes {
             navigatorKey: _sectionNavigatorKey,
             routes: [
               GoRoute(
-                name: AppRoutes.myClients.name,
-                path: AppRoutes.myClients.path,
-                builder: (context, state) => ClientsScreen(),
+                name: AppRoutes.home.name,
+                path: AppRoutes.home.path,
+                builder: (context, state) => HomeScreen(),
               ),
             ],
           ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                name: AppRoutes.pipeline.name,
-                path: AppRoutes.pipeline.path,
-                builder: (context, state) => PipelineMainPage(),
-              ),
-            ],
-          ),
+
+          // StatefulShellBranch(
+          //   navigatorKey: _sectionNavigatorKey,
+          //   routes: [
+          //     GoRoute(
+          //       name: AppRoutes.myClients.name,
+          //       path: AppRoutes.myClients.path,
+          //       builder: (context, state) => ClientsScreen(),
+          //     ),
+          //   ],
+          // ),
+          // StatefulShellBranch(
+          //   routes: [
+          //     GoRoute(
+          //       name: AppRoutes.pipeline.name,
+          //       path: AppRoutes.pipeline.path,
+          //       builder: (context, state) => PipelineMainPage(),
+          //     ),
+          //   ],
+          // ),
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -165,15 +195,15 @@ class AppRoutes {
               ),
             ],
           ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                name: AppRoutes.dashboardRealisations.name,
-                path: AppRoutes.dashboardRealisations.path,
-                builder: (context, state) => RealisationScreen(),
-              ),
-            ],
-          ),
+          // StatefulShellBranch(
+          //   routes: [
+          //     GoRoute(
+          //       name: AppRoutes.dashboardRealisations.name,
+          //       path: AppRoutes.dashboardRealisations.path,
+          //       builder: (context, state) => RealisationScreen(),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     ],
