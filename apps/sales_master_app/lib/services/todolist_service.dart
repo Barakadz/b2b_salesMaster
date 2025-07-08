@@ -14,8 +14,24 @@ class TodolistService {
     return null;
   }
 
-  Future<PaginatedTodoList?> getAllMyTasks() async {
-    final response = await Api.getInstance().get("todolist/assigned-to");
+  Future<PaginatedTodoList?> getTasks(
+      {String? createdBy, String? query, bool? done}) async {
+    final Map<String, dynamic> queryParams = {};
+
+    if (createdBy != null && createdBy.trim().isNotEmpty) {
+      queryParams['user_filter'] = createdBy.trim();
+    }
+
+    if (query != null && query.trim().isNotEmpty) {
+      queryParams['title'] = query.trim();
+    }
+    if (done == true) {
+      queryParams["done"] = done;
+    }
+    queryParams["per_page"] = 100;
+
+    final response = await Api.getInstance()
+        .get("todolist/assigned-to", queryParameters: queryParams);
     if (response != null) {
       try {
         return PaginatedTodoList.fromJson(response.data);
@@ -29,9 +45,8 @@ class TodolistService {
 
   Future<bool> deleteTask(int id) async {
     try {
-      final response =
-          await Api.getInstance().delete("msisdn.../todolist/$id/delete");
-      if (response != null) {
+      final response = await Api.getInstance().post("todolist/$id/delete");
+      if (response?.data["success"] == true) {
         return true;
       }
       return false;
@@ -57,13 +72,13 @@ class TodolistService {
         "priority": priority,
         "date_execution": executionDateTime,
         "assgined_to": assignedToId,
-        "status_id": done == true ? 2 : 1,
+        "done": done,
         "location": location,
         "date_reminder": reminderDateTime
       };
 
       final response =
-          await Api.getInstance().post("api/dist/customers/", data: body);
+          await Api.getInstance().post("api/todolist/", data: body);
 
       return response != null;
     } catch (e) {
@@ -72,11 +87,29 @@ class TodolistService {
     }
   }
 
-  Future<bool> updateTask() async {
+  Future<bool> updateTask(
+      {required int id,
+      required String title,
+      required String executionDateTime,
+      String? location,
+      String? reminderDateTime,
+      required bool done,
+      required int assignedToId,
+      String? description,
+      required String priority}) async {
     try {
-      Map<String, dynamic> body = {};
+      Map<String, dynamic> body = {
+        "title": title,
+        "description": description,
+        "priority": priority,
+        "date_execution": executionDateTime,
+        "assigned_to": assignedToId,
+        "done": false,
+        "location": location,
+        "date_reminder": reminderDateTime
+      };
       final response =
-          await Api.getInstance().put("api/dist/tasks//", data: body);
+          await Api.getInstance().put("todolist/$id/update", data: body);
       return response != null;
     } catch (e) {
       print("Error in updateTask: $e");

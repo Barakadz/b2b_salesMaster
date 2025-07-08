@@ -65,6 +65,7 @@ class TodolistArchiveScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: paddingL),
             child: CustomTextFormField(
               hintText: 'Search by task name',
+              controller: todolistController.todolistArchiveSearchController,
               fillColor: Theme.of(context).colorScheme.primaryContainer,
               filled: true,
               login: false,
@@ -73,15 +74,19 @@ class TodolistArchiveScreen extends StatelessWidget {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.symmetric(vertical: paddingM),
-            child: Obx(() {
-              return ListView.builder(
-                  itemCount: todolistController.archiveTodolist.length,
-                  itemBuilder: (context, index) {
-                    return TodolistCard(
-                        onChecked: () {},
-                        todolist: todolistController.archiveTodolist[index]);
-                  });
-            }),
+            child: RefreshIndicator(
+              onRefresh: () => todolistController.loadFakeArchiveTodolist(),
+              child: Obx(() {
+                return ListView.builder(
+                    itemCount: todolistController.archiveTodolist.length,
+                    itemBuilder: (context, index) {
+                      return TodolistCard(
+                          onChecked: () {},
+                          onClicked: () {},
+                          todolist: todolistController.archiveTodolist[index]);
+                    });
+              }),
+            ),
           )),
         ],
       )),

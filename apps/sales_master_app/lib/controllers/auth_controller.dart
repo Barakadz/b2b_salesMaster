@@ -1,6 +1,7 @@
 import 'package:data_layer/data_layer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:sales_master_app/controllers/currentuser_controller.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
 class AuthController extends GetxController {
@@ -51,14 +52,18 @@ class AuthController extends GetxController {
       return false;
     }
     msisdn.value = msisdnController.text;
+    print(msisdn.value);
     return true;
   }
 
   bool login() {
-    //validate otp then
+    //validate otp then if correct
     isLoged.value = true;
     AppStorage().setMsisdn(msisdn.value!);
     Api.getInstance().setBaseUrl(getBaseUrl());
+    Get.put(CurrentuserController());
+    print("baseurl");
+    print(getBaseUrl());
     return true;
   }
 }

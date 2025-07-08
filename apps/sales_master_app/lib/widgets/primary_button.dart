@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sales_master_app/config/constants.dart';
+import 'package:sales_master_app/widgets/loading_indicator.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -7,11 +8,13 @@ class PrimaryButton extends StatelessWidget {
   final Widget? child;
   final double? height;
   final Widget? prefixIcon;
+  final bool? loading;
 
   const PrimaryButton(
       {super.key,
       required this.onTap,
       required this.text,
+      this.loading,
       this.prefixIcon,
       this.child,
       this.height});
@@ -45,6 +48,14 @@ class PrimaryButton extends StatelessWidget {
                   fontSize: 17,
                   fontWeight: FontWeight.w500),
             ),
+            loading == true
+                ? Padding(
+                    padding: const EdgeInsets.only(left: paddingXs),
+                    child: LoadingIndicator(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  )
+                : SizedBox()
           ],
         ),
       ),

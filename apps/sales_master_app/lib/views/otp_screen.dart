@@ -127,6 +127,7 @@ class OtpScreen extends StatelessWidget {
               ),
               PrimaryButton(
                 onTap: () {
+                  authController.login();
                   AppStorage().setToken("something");
                   context.push(AppRoutes.home.path);
                 },
