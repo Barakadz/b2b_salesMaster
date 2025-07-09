@@ -41,7 +41,7 @@ class TotalRealisation {
         assignedTo: json["assigned_to"],
         increase: json["increase"],
         realisations: (json["realisations"] as List)
-            .map((item) => Realisation.fromJson(json))
+            .map((item) => Realisation.fromJson(item))
             .toList());
   }
 

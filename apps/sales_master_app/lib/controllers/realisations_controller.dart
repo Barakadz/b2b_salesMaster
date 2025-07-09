@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sales_master_app/models/realisation.dart';
+import 'package:sales_master_app/services/realisations_service.dart';
 
 class RealisationsController extends GetxController {
   RxBool loadData = false.obs;
@@ -60,5 +61,26 @@ class RealisationsController extends GetxController {
 
     loadingRealisations.value = false;
     errorLoadingRealisation.value = false;
+  }
+
+  Future<void> loadRealisation() async {
+    loadingRealisations.value = true;
+    errorLoadingRealisation.value = false;
+
+    try {
+      final TotalRealisation? result =
+          await RealisationService().fetchMyRealisations();
+
+      if (result != null) {
+        totalRealisations.value = result;
+      } else {
+        errorLoadingRealisation.value = true;
+      }
+    } catch (e) {
+      errorLoadingRealisation.value = true;
+    }
+
+    totalRealisations.refresh();
+    loadingRealisations.value = false;
   }
 }
