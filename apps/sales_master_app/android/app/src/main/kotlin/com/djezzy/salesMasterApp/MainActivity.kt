@@ -1,4 +1,4 @@
-package com.example.sales_master_app
+package com.djezzy.salesMasterApp
 
 import io.flutter.embedding.android.FlutterActivity
 

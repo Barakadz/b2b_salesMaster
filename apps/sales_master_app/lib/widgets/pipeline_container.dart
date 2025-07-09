@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sales_master_app/config/constants.dart';
+import 'package:sales_master_app/widgets/loading_indicator.dart';
 
 class PipelineContainer extends StatelessWidget {
   final double? globalValue;
@@ -33,26 +34,30 @@ class PipelineContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: paddingS,
           children: [
-            Text(
-              "Performance",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleSmall,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Performance",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                loading == true
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: paddingXs),
+                        child: LoadingIndicator(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      )
+                    : SizedBox()
+              ],
             ),
             Padding(
                 padding: const EdgeInsets.all(paddingS),
                 child: Container(
-                  child: error == true
-                      ? errorWidget
-                      : loading == true
-                          ? Container(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            )
-                          : child,
+                  child: error == true ? errorWidget : child,
                 )),
             globalValue != null
                 ? Container(

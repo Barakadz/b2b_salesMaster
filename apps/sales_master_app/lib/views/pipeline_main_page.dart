@@ -22,10 +22,10 @@ class PipelineMainPage extends StatelessWidget {
   Widget errorWidget() {
     return Column(
       children: [
-        Text("coound not load pipeline"),
+        Text("could not load pipeline"),
         PrimaryButton(
             onTap: () {
-              pipelineController.fetchPipeLine();
+              pipelineController.fetchFakePipeline();
             },
             text: "Try again")
       ],
@@ -61,14 +61,16 @@ class PipelineMainPage extends StatelessWidget {
                     children: [
                       Obx(() {
                         return PipelineContainer(
-                            loading: pipelineController.loadingPipeline.value,
-                            errorWidget: Container(),
-                            error:
-                                pipelineController.errorLoadingPipeline.value,
-                            globalValue:
-                                pipelineController.myPipeLine.value.globalValue,
-                            child: PipelineChart(
-                                pipeline: pipelineController.myPipeLine.value));
+                          loading: pipelineController.loadingPipeline.value,
+                          errorWidget: Container(),
+                          error: pipelineController.errorLoadingPipeline.value,
+                          globalValue:
+                              pipelineController.myPipeLine.value?.performance,
+                          child: PipelineChart(
+                            stats: pipelineController.myPipeLine.value?.stats ??
+                                [],
+                          ),
+                        );
                       }),
                       SizedBox(
                         height: paddingM,
@@ -102,22 +104,6 @@ class PipelineMainPage extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      // CustomTextFormField(
-                      //     login: false,
-                      //     filled: true,
-                      //     hintText: "seatch by raison sociale/ msisdn",
-                      //     fillColor:
-                      //         Theme.of(context).colorScheme.primaryContainer,
-                      //     prifixIcon: Icon(
-                      //       Icons.search,
-                      //       color: Theme.of(context)
-                      //           .colorScheme
-                      //           .onSurfaceVariant
-                      //           .withValues(alpha: 0.15),
-                      //     )),
-                      // SizedBox(
-                      //   height: paddingS,
-                      // ),
                       Container(
                         constraints: BoxConstraints(minHeight: 200),
                         child: Obx(() {
