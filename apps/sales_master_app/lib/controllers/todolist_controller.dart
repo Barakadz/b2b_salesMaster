@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/models/todolist.dart';
@@ -63,6 +65,9 @@ class TodolistController extends GetxController {
   late TextEditingController taskReminderDateController;
   late TextEditingController taskReminderTimeController;
 
+  Timer? _tasksDebounce;
+  Timer? _archiveTsksDebounce;
+
   @override
   void onInit() {
     super.onInit();
@@ -73,6 +78,23 @@ class TodolistController extends GetxController {
 
     tasktimeController = TextEditingController();
     taskReminderTimeController = TextEditingController();
+
+    todolistSearchController.addListener(() {
+      if (_tasksDebounce?.isActive ?? false) _tasksDebounce?.cancel();
+
+      _tasksDebounce = Timer(const Duration(milliseconds: 800), () {
+        loadTasks();
+      });
+    });
+
+    todolistArchiveSearchController.addListener(() {
+      if (_archiveTsksDebounce?.isActive ?? false)
+        _archiveTsksDebounce?.cancel();
+
+      _archiveTsksDebounce = Timer(const Duration(milliseconds: 800), () {
+        loadArchiveTask();
+      });
+    });
   }
 
   int mapPriorityToIndex(String priority) {
@@ -169,6 +191,12 @@ class TodolistController extends GetxController {
     tasktimeController.dispose();
     taskReminderDateController.dispose();
     taskReminderTimeController.dispose();
+
+    todolistSearchController.dispose();
+    todolistArchiveSearchController.dispose();
+    _tasksDebounce?.cancel();
+    _archiveTsksDebounce?.cancel();
+
     super.onClose();
   }
 
@@ -190,10 +218,16 @@ class TodolistController extends GetxController {
     return null;
   }
 
-  void togglecheck(int index) {
-    final current = todolist[index];
-    final updated = current.copyWith(done: !current.done);
-    todolist[index] = updated;
+  void togglecheck(int index) async {
+    final initialTask = todolist[index];
+    final updatedTask = initialTask.copyWith(done: !initialTask.done);
+    todolist[index] = updatedTask;
+
+    bool apiResponse = await TodolistService().switchStatus(initialTask.id);
+    if (!apiResponse) {
+      todolist[index] = initialTask;
+      todolist.refresh();
+    }
   }
 
   Future<void> loadFakeTodolist() async {

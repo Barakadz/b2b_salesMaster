@@ -43,6 +43,19 @@ class TodolistService {
     return null;
   }
 
+  Future<bool> switchStatus(int id) async {
+    try {
+      final response =
+          await Api.getInstance().post("todolist/$id/update-status");
+      if (response?.data["success"] == true) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> deleteTask(int id) async {
     try {
       final response = await Api.getInstance().post("todolist/$id/delete");
