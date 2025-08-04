@@ -1,11 +1,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/controllers/deal_details_controller.dart';
 import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/models/deal_status.dart';
+import 'package:sales_master_app/services/date_input_formatter.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/dropdown_container.dart';
 import 'package:sales_master_app/widgets/note.dart';
@@ -41,7 +43,8 @@ class DealsDetailsScreen extends StatelessWidget {
   @override
   build(BuildContext context) {
     DealDetailsController dealDetailsController =
-        Get.put(DealDetailsController(deal: deal));
+        Get.find<DealDetailsController>();
+    dealDetailsController.initializeForm(newDeal: deal);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -78,6 +81,9 @@ class DealsDetailsScreen extends StatelessWidget {
                   CustomTextFormField(
                     customTextField: true,
                     controller: dealDetailsController.raisonSociale,
+                    validator: (String? name) {
+                      return dealDetailsController.validateNames(name);
+                    },
                     innerPadding:
                         EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     suffixIcon: Icon(
@@ -130,6 +136,9 @@ class DealsDetailsScreen extends StatelessWidget {
                   CustomTextFormField(
                     customTextField: true,
                     controller: dealDetailsController.interlocuteur,
+                    validator: (String? name) {
+                      return dealDetailsController.validateNames(name);
+                    },
                     innerPadding:
                         EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     suffixIcon: Icon(
@@ -182,6 +191,9 @@ class DealsDetailsScreen extends StatelessWidget {
                   CustomTextFormField(
                     customTextField: true,
                     controller: dealDetailsController.numero,
+                    validator: (String? number) {
+                      return dealDetailsController.validateNumber(number);
+                    },
                     innerPadding:
                         EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     suffixIcon: Icon(
@@ -280,6 +292,16 @@ class DealsDetailsScreen extends StatelessWidget {
                               radius: 7,
                               filled: false,
                               login: false,
+                              hintText: "dd-mm-yyyy",
+                              validator: (String? date) {
+                                return dealDetailsController
+                                    .validateNumber(date, date: true);
+                              },
+                              keyboardType: TextInputType.number,
+                              textFormaters: [
+                                LengthLimitingTextInputFormatter(10),
+                                DateInputFormatter(),
+                              ],
                               controller: dealDetailsController.visitDate,
                             )
                           ],
@@ -330,10 +352,16 @@ class DealsDetailsScreen extends StatelessWidget {
                               height: paddingXxs,
                             ),
                             CustomTextFormField(
+                              hintText: 'dd-mm-yyyy',
+                              keyboardType: TextInputType.number,
+                              validator: (String? date) {
+                                return dealDetailsController
+                                    .validateNumber(date, date: true);
+                              },
                               radius: 7,
                               filled: false,
                               login: false,
-                              controller: dealDetailsController.visitDate,
+                              controller: dealDetailsController.nextVisittDate,
                             )
                           ],
                         ),
@@ -418,7 +446,16 @@ class DealsDetailsScreen extends StatelessWidget {
                   SizedBox(
                     height: paddingS,
                   ),
-                  PrimaryButton(onTap: () {}, text: "Enregistrer")
+                  Obx(() {
+                    return PrimaryButton(
+                        loading: dealDetailsController.saving.value,
+                        onTap: () async {
+                          bool res = deal == null
+                              ? await dealDetailsController.createNewDeal()
+                              : await dealDetailsController.editDeal(deal!.id);
+                        },
+                        text: "Enregistrer");
+                  })
                 ],
               ),
             ),

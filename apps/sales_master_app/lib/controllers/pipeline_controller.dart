@@ -4,8 +4,11 @@ import 'package:sales_master_app/services/pipeline_service.dart';
 
 class PipelineController extends GetxController {
   Rx<PipelinePerformance?> myPipeLine = Rx<PipelinePerformance?>(null);
+
   RxBool loadingPipeline = true.obs;
   RxBool errorLoadingPipeline = false.obs;
+
+  RxInt selectedPipelineStatusIndex = 0.obs;
 
   final PipelinePerformance emptyPipelinePerformance = PipelinePerformance(
     performance: 0,
@@ -24,6 +27,12 @@ class PipelineController extends GetxController {
   void onInit() {
     fetchFakePipeline();
     super.onInit();
+  }
+
+  void switchStatusInedx(int index) {
+    if (selectedPipelineStatusIndex.value != index) {
+      selectedPipelineStatusIndex.value = index;
+    }
   }
 
   void fetchFakePipeline() async {
@@ -50,6 +59,11 @@ class PipelineController extends GetxController {
       };
 
       myPipeLine.value = PipelinePerformance.fromJson(data);
+      // if (myPipeLine.value != null) {
+      //   totalDeals.value = myPipeLine.value!.stats
+      //       .fold(0, (previousvalue, element) => previousvalue + element.count);
+      // }
+      myPipeLine.refresh();
     } catch (e) {
       errorLoadingPipeline.value = true;
     }

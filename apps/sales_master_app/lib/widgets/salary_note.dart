@@ -23,6 +23,7 @@ class SalaryNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
           color: bgColor ?? Color(0xffF0C43F).withValues(alpha: 0.10),

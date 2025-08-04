@@ -21,7 +21,7 @@ const double paddingXxxxxl = 125;
 const double borderRadius = 15;
 const double borderRadiusSmall = 5;
 const double borderRadiusMedium = 10;
-const double primaryButtonHeight = 62;
+const double primaryButtonHeight = 55;
 
 const double startsIconSize = 18;
 
@@ -29,6 +29,12 @@ const String outlookNotificationAsset = "assets/outlook_notification.svg";
 const String meetingNotificationAsset = "assets/group_notification.svg";
 const String reminderNotificationAsset = "assets/alert_notification.svg";
 
+const String homeAsset = "assets/home.svg";
+const String selectedHomeAsset = "assets/home_selected.svg";
+const String todolistAsset = "assets/todolist.svg";
+const String selectedTodolistAsset = "assets/selected_todolist.svg";
+const String catalogueAsset = "assets/catalogue.svg";
+const String selectedCatalogueAsset = "assets/selected_catalogue.svg";
 const String dashboardAsset = "assets/dashboard.svg";
 const String clientsAsset = "assets/clients.svg";
 const String pipelineAsset = "assets/pipeline.svg";

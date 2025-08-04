@@ -9,6 +9,9 @@ class RealisationOverviewContainer extends StatelessWidget {
   final double totalTarget;
   final bool disabled;
   final bool loading;
+  final bool overview;
+  final bool mini;
+  final bool showSummary;
 
   const RealisationOverviewContainer(
       {super.key,
@@ -16,7 +19,26 @@ class RealisationOverviewContainer extends StatelessWidget {
       required this.totalrealised,
       required this.totalTarget,
       required this.loading,
-      required this.disabled});
+      required this.disabled,
+      this.overview = true,
+      this.mini = false,
+      this.showSummary = false});
+
+  Widget summary(BuildContext context) {
+    double performance = (totalrealised * 100) / totalTarget;
+    return performance > 0
+        ? RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                  text: 'Bravo! ',
+                  style: Theme.of(context).textTheme.titleSmall),
+              TextSpan(
+                  text: 'you completed $performance% of your total target',
+                  style: Theme.of(context).textTheme.bodySmall),
+            ]),
+          )
+        : SizedBox();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +56,15 @@ class RealisationOverviewContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Overview",
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            SizedBox(
-              height: paddingM,
-            ),
+            overview == true
+                ? Text(
+                    "Overview",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  )
+                : SizedBox(),
             RealisationPercentIndicator(
+                showSummary: showSummary,
+                mini: mini,
                 textColor: showPlaceHolder == true
                     ? Theme.of(context)
                         .colorScheme
@@ -62,7 +85,8 @@ class RealisationOverviewContainer extends StatelessWidget {
                       ]
                     : totalRealisation.realisations,
                 totalTarget: showPlaceHolder ? 500 : totalTarget,
-                totalrealised: showPlaceHolder ? 0 : totalrealised)
+                totalrealised: showPlaceHolder ? 0 : totalrealised),
+            showSummary == true ? summary(context) : SizedBox()
           ],
         ),
       ),

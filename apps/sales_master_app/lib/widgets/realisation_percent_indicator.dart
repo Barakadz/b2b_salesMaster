@@ -10,12 +10,17 @@ class RealisationPercentIndicator extends StatelessWidget {
   final double totalrealised;
   final double totalTarget;
   final Color? textColor;
+  final bool mini;
+  final bool showSummary;
+
   const RealisationPercentIndicator(
       {super.key,
       this.textColor,
       required this.realisations,
       required this.totalTarget,
-      required this.totalrealised});
+      required this.totalrealised,
+      required this.mini,
+      required this.showSummary});
 
   Widget buildMultiPercentIndicator() {
     List<Realisation> topBarRealisations = List.from(realisations);
@@ -30,7 +35,7 @@ class RealisationPercentIndicator extends StatelessWidget {
       ));
     }
 
-    for (var realisation in topBarRealisations) {
+    for (Realisation realisation in topBarRealisations) {
       final style = realisationCategoryStyles[realisation.name]!;
 
       double percent = realisation.currentValue / totalTarget;
@@ -240,12 +245,18 @@ class RealisationPercentIndicator extends StatelessWidget {
               )
             ]),
         buildMultiPercentIndicator(),
-        SizedBox(
-          height: paddingXs,
-        ),
-        buildAlignedRealisationRows(context, realisationsWithoutEvaluation),
-        evaluation != null
-            ? buildEvaluationStarsRow(context, evaluation)
+        mini == false
+            ? Padding(
+                padding: EdgeInsets.only(top: paddingXs),
+                child: buildAlignedRealisationRows(
+                    context, realisationsWithoutEvaluation),
+              )
+            : SizedBox(),
+        evaluation != null && mini != true
+            ? Padding(
+                padding: const EdgeInsets.only(top: paddingXs),
+                child: buildEvaluationStarsRow(context, evaluation),
+              )
             : SizedBox()
       ],
     );

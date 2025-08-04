@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
@@ -24,69 +25,67 @@ class BaseView extends StatelessWidget {
     );
   }
 
-  // Widget _getView(NavItem item) {
-  //   switch (item) {
-  //     case NavItem.clients:
-  //       return ClientsScreen();
-  //     case NavItem.pipeline:
-  //       return PipelineMainPage();
-  //     case NavItem.todolist:
-  //       return TodolistScreen();
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: drawerController.scaffoldKey,
-      drawer: CustomAppDrawer(),
+      drawer: CustomAppDrawer(
+        onItemSelected: (DrawerItemKey item) {
+          drawerController.selectedItem.value = item;
+
+          switch (item) {
+            case DrawerItemKey.home:
+              navigationController.selectItem(NavItem.home, navigationShell);
+              break;
+            case DrawerItemKey.dashboard:
+              GoRouter.of(context).go('/realisations');
+              break;
+            case DrawerItemKey.clients:
+              GoRouter.of(context).go('/myClients');
+              break;
+            case DrawerItemKey.pipeline:
+              GoRouter.of(context).go('/Pipeline');
+              break;
+          }
+        },
+      ),
       resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: navigationShell,
+      body: Column(
+        children: [
+          Expanded(
+            child: navigationShell,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.outline,
+                  offset: Offset(0, -4),
+                  blurRadius: 14,
+                  spreadRadius: 0,
+                ),
+              ],
+              color: Theme.of(context).colorScheme.surface,
             ),
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).colorScheme.outline,
-                    offset: Offset(0, -4),
-                    blurRadius: 14,
-                    spreadRadius: 0,
-                  ),
-                ],
-                color: Theme.of(context).colorScheme.surface,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // _buildNavIcon(NavItem.clients, Icons.work_outline,
-                  //     Icons.work_sharp, "Clients", context),
-                  // _buildNavIcon(NavItem.pipeline, Icons.timeline_outlined,
-                  //     Icons.timeline_sharp, "Pipeline", context),
-                  _buildNavIcon(NavItem.home, Icons.home_outlined,
-                      Icons.home_sharp, "Home", context),
-                  _buildNavIcon(NavItem.todolist, Icons.fact_check_outlined,
-                      Icons.fact_check, "Todo", context),
-                  // _buildNavIcon(NavItem.forms, Icons.folder_open_outlined,
-                  //     Icons.folder_open, "Forms", context),
-                  _buildNavIcon(NavItem.catalogue, Icons.redeem_outlined,
-                      Icons.redeem_sharp, "Catalogue", context),
-                  // _buildNavIcon(NavItem.realisation, Icons.dashboard_outlined,
-                  //     Icons.dashboard, "Board", context),
-                ],
-              ),
-            )
-          ],
-        ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavIcon(NavItem.home, homeAsset, selectedHomeAsset,
+                    "Home", context),
+                _buildNavIcon(NavItem.todolist, todolistAsset,
+                    selectedTodolistAsset, "To do list", context),
+                _buildNavIcon(NavItem.catalogue, catalogueAsset,
+                    selectedCatalogueAsset, "Catalogue", context),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
 
-  Widget _buildNavIcon(NavItem item, IconData outlined, IconData filledin,
+  Widget _buildNavIcon(NavItem item, String svgPath, String selectedSvgPath,
       String title, BuildContext context) {
     return Obx(() {
       final isSelected = navigationController.selectedItem.value == item;
@@ -99,10 +98,9 @@ class BaseView extends StatelessWidget {
             spacing: paddingXxs,
             children: isSelected
                 ? [
-                    Icon(
-                      filledin,
-                      size: 22,
-                      color: Theme.of(context).colorScheme.primary,
+                    SvgPicture.asset(
+                      selectedSvgPath,
+                      //color: Theme.of(context).colorScheme.outlineVariant,
                     ),
                     Text(
                       title,
@@ -112,20 +110,20 @@ class BaseView extends StatelessWidget {
                           ?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w500,
-                              fontSize: 14),
+                              fontSize: 12),
                     )
                   ]
                 : [
-                    Icon(
-                      outlined,
-                      size: 22,
+                    SvgPicture.asset(
+                      svgPath,
+                      //color: Theme.of(context).colorScheme.outlineVariant,
                     ),
                     Text(
                       title,
                       style: Theme.of(context)
                           .inputDecorationTheme
                           .hintStyle
-                          ?.copyWith(fontWeight: FontWeight.w500, fontSize: 14),
+                          ?.copyWith(fontWeight: FontWeight.w500, fontSize: 12),
                     )
                   ],
           ),

@@ -14,6 +14,7 @@ final darkColorScheme = ColorScheme.dark(
     primaryContainer: Color(0x40EFF2F7),
     //surface: Colors.white, // Cards, sheets
     //onSurface: Color(0xFF333333), // Text on surface
+    tertiaryContainer: Color(0X0DFFFFFF),
     error: Colors.red,
     onError: Colors.white,
     outline: Color(0X0DFFFFFF),

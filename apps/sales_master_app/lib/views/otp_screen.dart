@@ -8,6 +8,7 @@ import 'package:sales_master_app/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/auth_controller.dart';
+import 'package:sales_master_app/services/push_notification_service.dart';
 import 'package:sales_master_app/widgets/otp_form.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 import 'package:timer_count_down/timer_count_down.dart';
@@ -126,9 +127,10 @@ class OtpScreen extends StatelessWidget {
                 height: paddingXxxxxl,
               ),
               PrimaryButton(
-                onTap: () {
+                onTap: () async {
                   authController.login();
                   AppStorage().setToken("something");
+                  PushNotificationService.init(context);
                   context.push(AppRoutes.home.path);
                 },
                 text: AppLocalizations.of(context)!.next,

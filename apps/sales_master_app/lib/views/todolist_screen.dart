@@ -563,7 +563,7 @@ class TodolistScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     todolistController.todolistArchiveSearchController.clear();
-                    context.go(AppRoutes.todolistArchive.path);
+                    context.push(AppRoutes.todolistArchive.path);
                   },
                   child: Container(
                     decoration: BoxDecoration(

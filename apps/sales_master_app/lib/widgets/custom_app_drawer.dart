@@ -10,17 +10,19 @@ import 'package:sales_master_app/controllers/translation_controller.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 
 class CustomAppDrawer extends StatelessWidget {
+  final void Function(DrawerItemKey)? onItemSelected;
   final CustomDrawerController drawerController =
       Get.find<CustomDrawerController>();
   final TranslationController translationController =
       Get.put(TranslationController());
 
   final Map<DrawerItemKey, (String, String)> drawerItems = {
+    DrawerItemKey.home: (homeAsset, "Home"),
     DrawerItemKey.dashboard: (dashboardAsset, "Dashboard Realisations"),
     DrawerItemKey.clients: (clientsAsset, "Portefeuille client"),
     DrawerItemKey.pipeline: (pipelineAsset, "Pipeline"),
   };
-  CustomAppDrawer({super.key});
+  CustomAppDrawer({super.key, this.onItemSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +35,8 @@ class CustomAppDrawer extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Language Selector
               Row(
                 children: [
-                  // DropdownButton<String>(
-                  //   value: "Français",
-                  //   items: ["Français", "English"]
-                  //       .map((lang) =>
-                  //           DropdownMenuItem(value: lang, child: Text(lang)))
-                  //       .toList(),
-                  //   onChanged: (value) {
-                  //     // Handle language switch
-                  //   },
-                  // )
                   Center(
                     child: IntrinsicWidth(
                       child: DropdownButtonHideUnderline(
@@ -126,16 +117,17 @@ class CustomAppDrawer extends StatelessWidget {
 
               // pages
               ...drawerItems.entries.map((entry) {
-                return Obx(() => _buildDrawerItem(
-                      context,
-                      key: entry.key,
-                      svgPath: entry.value.$1,
-                      title: entry.value.$2,
-                      selected:
-                          drawerController.selectedItem.value == entry.key,
-                      onTap: () =>
-                          drawerController.selectItem(entry.key, context),
-                    ));
+                return Obx(() => _buildDrawerItem(context,
+                        key: entry.key,
+                        svgPath: entry.value.$1,
+                        title: entry.value.$2,
+                        selected: drawerController.selectedItem.value ==
+                            entry.key, onTap: () {
+                      if (onItemSelected != null) {
+                        onItemSelected!(DrawerItemKey.home);
+                      } else {}
+                      drawerController.selectItem(entry.key, context);
+                    }));
               }),
               const Spacer(),
               PrimaryButton(

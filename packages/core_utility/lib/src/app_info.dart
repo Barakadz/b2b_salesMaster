@@ -1,7 +1,7 @@
 import 'package:yaml/yaml.dart';
 import 'package:flutter/services.dart';
 
-///class to get app info like buildNUmber and version name , you should add pubspec.yaml to the assets section first
+///class to get app info like buildNUmber and version name , you should addpubspec.yaml to the assets section first
 class AppInfo {
   static String defaultVersion = "0.0.0+0";
   static Future<String> getAppInfo() async {

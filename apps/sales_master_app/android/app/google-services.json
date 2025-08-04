@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "703227333311",
+    "project_id": "b2b-sales-master-app",
+    "storage_bucket": "b2b-sales-master-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703227333311:android:edebaeb506465dd9e7940a",
+        "android_client_info": {
+          "package_name": "com.djezzy.salesMasterApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnXlo0jGh_j0mo-7EgLdAj3BI-CjckNmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

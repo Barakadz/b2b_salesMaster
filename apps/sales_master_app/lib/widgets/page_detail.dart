@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
-import 'package:get/state_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
@@ -36,7 +35,6 @@ class PageDetail extends StatelessWidget {
             Builder(
                 builder: (ctx) => GestureDetector(
                       onTap: () {
-                        print("pressed");
                         Get.find<CustomDrawerController>()
                             .openDrawer(ctx, baseview: baseviewpage);
                       },

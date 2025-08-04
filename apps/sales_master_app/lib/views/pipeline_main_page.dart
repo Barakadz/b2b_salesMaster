@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/deal_status_style.dart';
 import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/deal_details_controller.dart';
 import 'package:sales_master_app/controllers/deals_controller.dart';
 import 'package:sales_master_app/controllers/pipeline_controller.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,6 @@ class PipelineMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DealsController dealsController = Get.put(DealsController());
-    dealsController.loadDeals();
     return Scaffold(
       drawer: CustomAppDrawer(),
       resizeToAvoidBottomInset: true,
@@ -141,17 +141,20 @@ class PipelineMainPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       spacing: paddingXs,
-                                      children: dealsController.deals.value
-                                          .getRange(0, 2)
+                                      children: (dealsController.paginatedDeals
+                                                  .value?.deals ??
+                                              [])
+                                          .take(2)
                                           .map<Widget>((Deal deal) {
-                                        StatusStyle style =
-                                            statusStyles[deal.status] ??
-                                                StatusStyle(
-                                                    backgroundColor: Colors.grey
-                                                        .withValues(alpha: 0.3),
-                                                    textColor: Colors.grey);
+                                        StatusStyle style = statusStyles[
+                                                deal.status.toLowerCase()] ??
+                                            StatusStyle(
+                                                backgroundColor: Colors.grey
+                                                    .withValues(alpha: 0.3),
+                                                textColor: Colors.grey);
                                         return GestureDetector(
                                           onTap: () {
+                                            Get.put(DealDetailsController());
                                             context.push(
                                                 AppRoutes.dealDetails.path,
                                                 extra: deal);
@@ -173,7 +176,13 @@ class PipelineMainPage extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      PrimaryButton(onTap: () {}, text: "Ajouter Deal"),
+                      PrimaryButton(
+                          onTap: () {
+                            Get.put(DealDetailsController());
+
+                            context.push(AppRoutes.dealDetails.path);
+                          },
+                          text: "Ajouter Deal"),
                       SizedBox(
                         height: paddingL,
                       )

@@ -11,15 +11,15 @@ class AuthController extends GetxController {
   final GlobalKey<FormState> otpFormKey = GlobalKey<FormState>();
   Rx<String?> msisdn = Rx<String?>(null);
 
-  bool prod = false;
+  bool prod = true;
   late String baseUrl;
 
   @override
   void onInit() {
     isLoged.value = AppStorage().getToken() != null;
     baseUrl = prod == true
-        ? "http://10.14.1.8:8000/api/v1"
-        : "http://10.14.1.8:8000/api/v1/uat";
+        ? "http://192.168.182.197:8000/api/v1"
+        : "http://192.168.182.197:8000/api/v1/uat";
     super.onInit();
   }
 
