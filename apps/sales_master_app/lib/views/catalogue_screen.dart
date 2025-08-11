@@ -63,6 +63,7 @@ class CatalogueScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PageDetail(
+            baseviewpage: false,
             //title: AppLocalizations.of(context)!.mon_portfeuille,
             title: "Catalogues d’offres",
             bgColor: Theme.of(context).colorScheme.outlineVariant,

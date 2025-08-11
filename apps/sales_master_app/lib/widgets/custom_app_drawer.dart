@@ -21,7 +21,7 @@ class CustomAppDrawer extends StatelessWidget {
     DrawerItemKey.dashboard: (dashboardAsset, "Dashboard Realisations"),
     //DrawerItemKey.clients: (clientsAsset, "Portefeuille client"),
     //DrawerItemKey.pipeline: (pipelineAsset, "Pipeline"),
-    DrawerItemKey.process: (processAsset, "Process & Formulaires"),
+    DrawerItemKey.catalogue: (processAsset, "Catalogues des offres"),
   };
   CustomAppDrawer({super.key, this.onItemSelected});
 

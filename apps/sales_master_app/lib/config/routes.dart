@@ -89,10 +89,15 @@ class AppRoutes {
         path: AppRoutes.dashboardRealisations.path,
         builder: (context, state) => const RealisationScreen(),
       ),
+      // GoRoute(
+      //   name: AppRoutes.processAndForms.name,
+      //   path: AppRoutes.processAndForms.path,
+      //   builder: (context, state) => const ProcessAndForms(),
+      // ),
       GoRoute(
-        name: AppRoutes.processAndForms.name,
-        path: AppRoutes.processAndForms.path,
-        builder: (context, state) => const ProcessAndForms(),
+        name: AppRoutes.catalogue.name,
+        path: AppRoutes.catalogue.path,
+        builder: (context, state) => const CatalogueScreen(),
       ),
 
       GoRoute(

@@ -7,7 +7,7 @@ enum DrawerItemKey {
   dashboard,
   //clients,
   //pipeline,
-  process
+  catalogue
 }
 
 class CustomDrawerController extends GetxController {
@@ -23,8 +23,8 @@ class CustomDrawerController extends GetxController {
       case DrawerItemKey.dashboard:
         GoRouter.of(context).go('/realisations');
         break;
-      case DrawerItemKey.process:
-        GoRouter.of(context).go('/processAndForms');
+      case DrawerItemKey.catalogue:
+        GoRouter.of(context).go('/catalogue');
         break;
       // case DrawerItemKey.pipeline:
       //   GoRouter.of(context).go('/Pipeline');
