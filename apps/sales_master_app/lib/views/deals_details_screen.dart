@@ -51,7 +51,10 @@ class DealsDetailsScreen extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          PageDetail(title: "Mon Pipeline"),
+          PageDetail(
+            title: "Mon Pipeline",
+            goBack: true,
+          ),
           SizedBox(height: paddingS),
           Expanded(
               child: SingleChildScrollView(

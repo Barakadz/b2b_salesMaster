@@ -40,12 +40,12 @@ class BaseView extends StatelessWidget {
             case DrawerItemKey.dashboard:
               GoRouter.of(context).go('/realisations');
               break;
-            case DrawerItemKey.clients:
-              GoRouter.of(context).go('/myClients');
+            case DrawerItemKey.process:
+              GoRouter.of(context).go('/processAndForms');
               break;
-            case DrawerItemKey.pipeline:
-              GoRouter.of(context).go('/Pipeline');
-              break;
+            // case DrawerItemKey.pipeline:
+            //   GoRouter.of(context).go('/Pipeline');
+            //   break;
           }
         },
       ),
@@ -73,10 +73,14 @@ class BaseView extends StatelessWidget {
               children: [
                 _buildNavIcon(NavItem.home, homeAsset, selectedHomeAsset,
                     "Home", context),
+                _buildNavIcon(NavItem.clients, clientsAsset,
+                    selectedClientsAsset, "Clients", context),
+                _buildNavIcon(NavItem.pipeline, pipelineAsset,
+                    selectedPipelineAsset, "Pipeline", context),
                 _buildNavIcon(NavItem.todolist, todolistAsset,
-                    selectedTodolistAsset, "To do list", context),
-                _buildNavIcon(NavItem.catalogue, catalogueAsset,
-                    selectedCatalogueAsset, "Catalogue", context),
+                    selectedTodolistAsset, "Todo list", context),
+                // _buildNavIcon(NavItem.catalogue, catalogueAsset,
+                //     selectedCatalogueAsset, "Catalogue", context),
               ],
             ),
           )

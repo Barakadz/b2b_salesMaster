@@ -19,8 +19,9 @@ class CustomAppDrawer extends StatelessWidget {
   final Map<DrawerItemKey, (String, String)> drawerItems = {
     DrawerItemKey.home: (homeAsset, "Home"),
     DrawerItemKey.dashboard: (dashboardAsset, "Dashboard Realisations"),
-    DrawerItemKey.clients: (clientsAsset, "Portefeuille client"),
-    DrawerItemKey.pipeline: (pipelineAsset, "Pipeline"),
+    //DrawerItemKey.clients: (clientsAsset, "Portefeuille client"),
+    //DrawerItemKey.pipeline: (pipelineAsset, "Pipeline"),
+    DrawerItemKey.process: (processAsset, "Process & Formulaires"),
   };
   CustomAppDrawer({super.key, this.onItemSelected});
 

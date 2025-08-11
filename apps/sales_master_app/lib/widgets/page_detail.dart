@@ -10,9 +10,14 @@ class PageDetail extends StatelessWidget {
   final String title;
   final Color? bgColor;
   final bool? baseviewpage;
+  final bool? goBack;
 
   const PageDetail(
-      {super.key, required this.title, this.bgColor, this.baseviewpage = true});
+      {super.key,
+      required this.title,
+      this.bgColor,
+      this.baseviewpage = true,
+      this.goBack});
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +37,30 @@ class PageDetail extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Builder(
-                builder: (ctx) => GestureDetector(
-                      onTap: () {
-                        Get.find<CustomDrawerController>()
-                            .openDrawer(ctx, baseview: baseviewpage);
-                      },
-                      child: Icon(
-                        Icons.menu_outlined,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        size: paddingL,
-                      ),
-                    )),
+            goBack == true
+                ? GestureDetector(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Icon(
+                      Icons.arrow_back,
+                      size: 22,
+                      color: Theme.of(context).textTheme.titleSmall!.color,
+                    ),
+                  )
+                : Builder(
+                    builder: (ctx) => GestureDetector(
+                          onTap: () {
+                            Get.find<CustomDrawerController>()
+                                .openDrawer(ctx, baseview: baseviewpage);
+                          },
+                          child: Icon(
+                            Icons.menu_outlined,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            size: paddingL,
+                          ),
+                        )),
             Text(
               title,
               style: Theme.of(context)

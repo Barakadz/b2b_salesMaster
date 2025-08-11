@@ -5,9 +5,11 @@ enum NavItem {
   //clients,
   //pipeline,
   home,
+  clients,
+  pipeline,
   todolist,
   // forms,
-  catalogue,
+  //catalogue,
   //realisation
 }
 

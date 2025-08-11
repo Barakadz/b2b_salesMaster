@@ -29,6 +29,7 @@ class TodolistArchiveScreen extends StatelessWidget {
           ),
           PageDetail(
             title: "To do list",
+            goBack: true,
           ),
           SizedBox(height: paddingXs),
           Padding(

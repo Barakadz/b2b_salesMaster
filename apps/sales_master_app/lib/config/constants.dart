@@ -37,8 +37,11 @@ const String catalogueAsset = "assets/catalogue.svg";
 const String selectedCatalogueAsset = "assets/selected_catalogue.svg";
 const String dashboardAsset = "assets/dashboard.svg";
 const String clientsAsset = "assets/clients.svg";
+const String selectedClientsAsset = "assets/clients_selected.svg";
 const String pipelineAsset = "assets/pipeline.svg";
+const String selectedPipelineAsset = "assets/selected_pipeline.svg";
 const String logoutAsset = "assets/logout.svg";
+const String processAsset = "assets/process_forms.svg";
 
 Map<String, dynamic> notificationAssets = {
   "outlook": outlookNotificationAsset,

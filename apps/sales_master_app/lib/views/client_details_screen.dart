@@ -25,7 +25,10 @@ class ClientDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            PageDetail(title: AppLocalizations.of(context)!.mon_portfeuille),
+            PageDetail(
+              title: AppLocalizations.of(context)!.mon_portfeuille,
+              goBack: true,
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(

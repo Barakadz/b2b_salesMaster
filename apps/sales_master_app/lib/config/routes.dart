@@ -15,6 +15,7 @@ import 'package:sales_master_app/views/login_screen.dart';
 import 'package:sales_master_app/views/notification_screen.dart';
 import 'package:sales_master_app/views/otp_screen.dart';
 import 'package:sales_master_app/views/pipeline_main_page.dart';
+import 'package:sales_master_app/views/precess_and_forms.dart';
 //import 'package:sales_master_app/views/precess_and_forms.dart';
 import 'package:sales_master_app/views/realisation_screen.dart';
 import 'package:sales_master_app/views/todolist_archive_screen.dart';
@@ -73,11 +74,11 @@ class AppRoutes {
         path: AppRoutes.notification.path,
         builder: (context, state) => const NotificationScreen(),
       ),
-      GoRoute(
-        name: AppRoutes.pipeline.name,
-        path: AppRoutes.pipeline.path,
-        builder: (context, state) => PipelineMainPage(),
-      ),
+      // GoRoute(
+      //   name: AppRoutes.pipeline.name,
+      //   path: AppRoutes.pipeline.path,
+      //   builder: (context, state) => PipelineMainPage(),
+      // ),
       GoRoute(
         name: AppRoutes.dealsScreen.name,
         path: AppRoutes.dealsScreen.path,
@@ -89,6 +90,12 @@ class AppRoutes {
         builder: (context, state) => const RealisationScreen(),
       ),
       GoRoute(
+        name: AppRoutes.processAndForms.name,
+        path: AppRoutes.processAndForms.path,
+        builder: (context, state) => const ProcessAndForms(),
+      ),
+
+      GoRoute(
         name: AppRoutes.dealDetails.name,
         path: AppRoutes.dealDetails.path,
         builder: (context, state) {
@@ -98,13 +105,13 @@ class AppRoutes {
           );
         },
       ),
-      GoRoute(
-        name: AppRoutes.myClients.name,
-        path: AppRoutes.myClients.path,
-        builder: (context, state) {
-          return ClientsScreen();
-        },
-      ),
+      // GoRoute(
+      //   name: AppRoutes.myClients.name,
+      //   path: AppRoutes.myClients.path,
+      //   builder: (context, state) {
+      //     return ClientsScreen();
+      //   },
+      // ),
       GoRoute(
         name: AppRoutes.clientDetails.name,
         path: AppRoutes.clientDetails.path,
@@ -167,15 +174,6 @@ class AppRoutes {
           //     ),
           //   ],
           // ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                name: AppRoutes.todolist.name,
-                path: AppRoutes.todolist.path,
-                builder: (context, state) => TodolistScreen(),
-              ),
-            ],
-          ),
           // StatefulShellBranch(
           //   routes: [
           //     GoRoute(
@@ -185,16 +183,35 @@ class AppRoutes {
           //     ),
           //   ],
           // ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: AppRoutes.myClients.name,
+                path: AppRoutes.myClients.path,
+                builder: (context, state) => ClientsScreen(),
+              ),
+            ],
+          ),
 
           StatefulShellBranch(
             routes: [
               GoRoute(
-                name: AppRoutes.catalogue.name,
-                path: AppRoutes.catalogue.path,
-                builder: (context, state) => CatalogueScreen(),
+                name: AppRoutes.pipeline.name,
+                path: AppRoutes.pipeline.path,
+                builder: (context, state) => PipelineMainPage(),
               ),
             ],
           ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: AppRoutes.todolist.name,
+                path: AppRoutes.todolist.path,
+                builder: (context, state) => TodolistScreen(),
+              ),
+            ],
+          ),
+
           // StatefulShellBranch(
           //   routes: [
           //     GoRoute(

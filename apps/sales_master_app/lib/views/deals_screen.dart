@@ -54,6 +54,7 @@ class DealsScreen extends StatelessWidget {
             //title: AppLocalizations.of(context)!.mon_portfeuille,
             title: "Mon Pipeline",
             bgColor: Theme.of(context).colorScheme.outlineVariant,
+            goBack: true,
           ),
           SizedBox(
             height: paddingS,

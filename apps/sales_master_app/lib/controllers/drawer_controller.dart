@@ -5,8 +5,9 @@ import 'package:go_router/go_router.dart';
 enum DrawerItemKey {
   home,
   dashboard,
-  clients,
-  pipeline,
+  //clients,
+  //pipeline,
+  process
 }
 
 class CustomDrawerController extends GetxController {
@@ -22,12 +23,12 @@ class CustomDrawerController extends GetxController {
       case DrawerItemKey.dashboard:
         GoRouter.of(context).go('/realisations');
         break;
-      case DrawerItemKey.clients:
-        GoRouter.of(context).go('/myClients');
+      case DrawerItemKey.process:
+        GoRouter.of(context).go('/processAndForms');
         break;
-      case DrawerItemKey.pipeline:
-        GoRouter.of(context).go('/Pipeline');
-        break;
+      // case DrawerItemKey.pipeline:
+      //   GoRouter.of(context).go('/Pipeline');
+      //   break;
     }
   }
 
