@@ -5,7 +5,7 @@ import 'package:sales_master_app/models/file_model.dart';
 import 'package:sales_master_app/widgets/inbox_widget.dart';
 
 class FileCard extends StatelessWidget {
-  final UploadedFile file;
+  final CatalogueFile file;
   final bool? png;
   final bool clicked;
   const FileCard(

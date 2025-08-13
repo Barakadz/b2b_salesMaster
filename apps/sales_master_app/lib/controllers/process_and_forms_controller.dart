@@ -4,8 +4,8 @@ import 'package:sales_master_app/models/file_model.dart';
 
 class ProcessAndFormsController extends GetxController {
   Rx<int> selectedTab = 0.obs;
-  List<UploadedFile> formsFiles = <UploadedFile>[].obs;
-  List<UploadedFile> processFiles = <UploadedFile>[].obs;
+  List<CatalogueFile> formsFiles = <CatalogueFile>[].obs;
+  List<CatalogueFile> processFiles = <CatalogueFile>[].obs;
 
   Rx<bool> loadingForms = false.obs;
   Rx<bool> loadingProcess = false.obs;
@@ -37,21 +37,21 @@ class ProcessAndFormsController extends GetxController {
     await Future.delayed(Duration(seconds: 3));
 
     formsFiles.assignAll([
-      UploadedFile(
+      CatalogueFile(
           id: 0,
           name: "Formulaire N01",
           size: 94,
           uploadDate: "12/06/2025",
           unity: "kb",
           uploadedBy: "Imene Baya BETROUNI"),
-      UploadedFile(
+      CatalogueFile(
           id: 1,
           name: "Formulaire N02",
           size: 94,
           uploadDate: "12/06/2025",
           unity: "kb",
           uploadedBy: "Imene Baya BETROUNI"),
-      UploadedFile(
+      CatalogueFile(
           id: 2,
           name: "Formulaire N03",
           size: 94,
@@ -70,21 +70,21 @@ class ProcessAndFormsController extends GetxController {
     await Future.delayed(Duration(seconds: 3));
 
     processFiles.assignAll([
-      UploadedFile(
+      CatalogueFile(
           id: 0,
           name: "Process N01",
           size: 94,
           uploadDate: "12/06/2025",
           unity: "kb",
           uploadedBy: "Imene Baya BETROUNI"),
-      UploadedFile(
+      CatalogueFile(
           id: 1,
           name: "Process N02",
           size: 94,
           uploadDate: "12/06/2025",
           unity: "kb",
           uploadedBy: "Imene Baya BETROUNI"),
-      UploadedFile(
+      CatalogueFile(
           id: 2,
           name: "Process N03",
           size: 94,

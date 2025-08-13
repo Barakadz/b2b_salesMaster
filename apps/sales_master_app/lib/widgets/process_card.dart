@@ -5,7 +5,7 @@ import 'package:sales_master_app/models/file_model.dart';
 import 'package:sales_master_app/widgets/inbox_widget.dart';
 
 class ProcessCard extends StatelessWidget {
-  final UploadedFile file;
+  final CatalogueFile file;
   const ProcessCard({super.key, required this.file});
 
   Widget checkbox(BuildContext context) {
