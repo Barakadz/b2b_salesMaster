@@ -149,7 +149,7 @@ class RoamingView extends StatelessWidget {
               ? Center(child: LoadingIndicator())
               : catalogueController.roaming.value == null ||
                       catalogueController.selectedCountry.value == null
-                  ? EmptyWidget()
+                  ? Center(child: EmptyWidget())
                   : SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

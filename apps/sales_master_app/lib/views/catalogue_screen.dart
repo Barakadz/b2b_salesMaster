@@ -57,20 +57,23 @@ class CatalogueScreen extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingL),
-            child: CustomTextFormField(
-              login: false,
-              filled: true,
-              fillColor: Theme.of(context).colorScheme.primaryContainer,
-              hintText: "Search by file name",
-              controller: catalogueController.searchBarTextController,
-              prifixIcon: Icon(
-                Icons.search,
-                color: Theme.of(context).colorScheme.outline,
-              ),
-            ),
-          ),
+          // catalogueController.mainTabdsIndex.value == 0 ||
+          //         catalogueController.mainTabdsIndex.value == 1
+          //     ? Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: paddingL),
+          //         child: CustomTextFormField(
+          //           login: false,
+          //           filled: true,
+          //           fillColor: Theme.of(context).colorScheme.primaryContainer,
+          //           hintText: "Search by file name",
+          //           controller: catalogueController.searchBarTextController,
+          //           prifixIcon: Icon(
+          //             Icons.search,
+          //             color: Theme.of(context).colorScheme.outline,
+          //           ),
+          //         ),
+          //       )
+          //     : SizedBox(),
           Padding(
             padding: const EdgeInsets.symmetric(
                 vertical: paddingM, horizontal: paddingL),
