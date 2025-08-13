@@ -58,6 +58,7 @@ dependencies:
   firebase_messaging: ^15.2.9
   toastification: ^3.0.3
   flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,18 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/app_logo_white_on_red.png"
+
+flutter_native_splash:
+  color: "#F02D4A" # red background
+  image: "assets/app_logo_white_on_red.png"
+  android: true
+  ios: true
+
+  android_12:
+    image: "assets/app_logo_white_on_red.png"
+    icon_background_color: "#F02D4A"
+    image_dark: "assets/app_logo_white_on_red.png"
+    icon_background_color_dark: "#F02D4A"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
