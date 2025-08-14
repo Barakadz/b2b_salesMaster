@@ -82,7 +82,7 @@ class TodolistController extends GetxController {
     todolistSearchController.addListener(() {
       if (_tasksDebounce?.isActive ?? false) _tasksDebounce?.cancel();
 
-      _tasksDebounce = Timer(const Duration(milliseconds: 800), () {
+      _tasksDebounce = Timer(const Duration(milliseconds: 700), () {
         loadTasks();
       });
     });
@@ -91,7 +91,7 @@ class TodolistController extends GetxController {
       if (_archiveTsksDebounce?.isActive ?? false)
         _archiveTsksDebounce?.cancel();
 
-      _archiveTsksDebounce = Timer(const Duration(milliseconds: 800), () {
+      _archiveTsksDebounce = Timer(const Duration(milliseconds: 700), () {
         loadArchiveTask();
       });
     });

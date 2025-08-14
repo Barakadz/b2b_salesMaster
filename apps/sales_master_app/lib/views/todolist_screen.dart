@@ -9,6 +9,9 @@ import 'package:sales_master_app/config/todolist_status_style.dart';
 import 'package:sales_master_app/controllers/todolist_controller.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
+import 'package:sales_master_app/widgets/empty_widget.dart';
+import 'package:sales_master_app/widgets/error_widget.dart';
+import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/my_chip.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
@@ -606,45 +609,61 @@ class TodolistScreen extends StatelessWidget {
             child: RefreshIndicator(
               onRefresh: () => todolistController.loadFakeTodolist(),
               child: Obx(() {
-                return ListView.builder(
-                    itemCount: todolistController.todolist.length,
-                    itemBuilder: (context, index) {
-                      return Dismissible(
-                        confirmDismiss: (direction) async => true,
-                        key: UniqueKey(),
-                        direction: DismissDirection.endToStart,
-                        onDismissed: (_) {
-                          todolistController
-                              .deleteTask(todolistController.todolist[index]);
-                        },
-                        background: Container(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.05),
-                          margin: const EdgeInsets.symmetric(horizontal: 15),
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: paddingS),
-                            child: Icon(
-                              Icons.delete,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                        child: TodolistCard(
-                            onClicked: () {
-                              todolistController.fillFormFromTask(
-                                  todolistController.todolist[index]);
-                              openTaskBottomSheet(context, todolistController);
+                return todolistController.loadingTodolist.value == true
+                    ? Center(child: LoadingIndicator())
+                    : todolistController.errorLoadingTodolist.value == true
+                        ? Center(child: CustomErrorWidget(
+                            onTap: () {
+                              todolistController.loadTasks();
                             },
-                            onChecked: () {
-                              todolistController.togglecheck(index);
-                            },
-                            todolist: todolistController.todolist[index]),
-                      );
-                    });
+                          ))
+                        : todolistController.todolist.isEmpty == true
+                            ? Center(child: EmptyWidget())
+                            : ListView.builder(
+                                itemCount: todolistController.todolist.length,
+                                itemBuilder: (context, index) {
+                                  return Dismissible(
+                                    confirmDismiss: (direction) async => true,
+                                    key: UniqueKey(),
+                                    direction: DismissDirection.endToStart,
+                                    onDismissed: (_) {
+                                      todolistController.deleteTask(
+                                          todolistController.todolist[index]);
+                                    },
+                                    background: Container(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.05),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: paddingS),
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                    ),
+                                    child: TodolistCard(
+                                        onClicked: () {
+                                          todolistController.fillFormFromTask(
+                                              todolistController
+                                                  .todolist[index]);
+                                          openTaskBottomSheet(
+                                              context, todolistController);
+                                        },
+                                        onChecked: () {
+                                          todolistController.togglecheck(index);
+                                        },
+                                        todolist:
+                                            todolistController.todolist[index]),
+                                  );
+                                });
               }),
             ),
           )),

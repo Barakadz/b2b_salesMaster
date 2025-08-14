@@ -5,6 +5,9 @@ import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/todolist_status_style.dart';
 import 'package:sales_master_app/controllers/todolist_controller.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
+import 'package:sales_master_app/widgets/empty_widget.dart';
+import 'package:sales_master_app/widgets/error_widget.dart';
+import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/my_chip.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/todolist_card.dart';
@@ -78,14 +81,27 @@ class TodolistArchiveScreen extends StatelessWidget {
             child: RefreshIndicator(
               onRefresh: () => todolistController.loadFakeArchiveTodolist(),
               child: Obx(() {
-                return ListView.builder(
-                    itemCount: todolistController.archiveTodolist.length,
-                    itemBuilder: (context, index) {
-                      return TodolistCard(
-                          onChecked: () {},
-                          onClicked: () {},
-                          todolist: todolistController.archiveTodolist[index]);
-                    });
+                return todolistController.loadingArchiveTodolist.value == true
+                    ? Center(child: LoadingIndicator())
+                    : todolistController.errorLoadingArchiveTodolist.value ==
+                            true
+                        ? Center(child: CustomErrorWidget(
+                            onTap: () {
+                              todolistController.loadArchiveTask();
+                            },
+                          ))
+                        : todolistController.archiveTodolist.isEmpty == true
+                            ? Center(child: EmptyWidget())
+                            : ListView.builder(
+                                itemCount:
+                                    todolistController.archiveTodolist.length,
+                                itemBuilder: (context, index) {
+                                  return TodolistCard(
+                                      onChecked: () {},
+                                      onClicked: () {},
+                                      todolist: todolistController
+                                          .archiveTodolist[index]);
+                                });
               }),
             ),
           )),
