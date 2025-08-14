@@ -213,7 +213,10 @@ class BadDebtDetails extends StatelessWidget {
                       Container(
                           width: double.infinity,
                           child: PrimaryButton(
-                            onTap: () {},
+                            onTap: () {
+                              baddebtDetailsController.callNumber(
+                                  baddebtDetailsController.baddebt.phoneNumber);
+                            },
                             text: AppLocalizations.of(context)!.call,
                             height: 45,
                           ))
