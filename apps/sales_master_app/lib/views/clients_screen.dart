@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -50,32 +51,155 @@ class ClientsScreen extends StatelessWidget {
                             .titleSmall
                             ?.copyWith(fontSize: 16),
                       ),
-                      GestureDetector(
-                        onTap: clientsController.switchiew,
-                        child: Container(
-                          width: 81,
-
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary,
-                              borderRadius:
-                                  BorderRadius.circular(borderRadiusSmall)),
-                          //child: PrimaryButton(onTap: () {}, text: "clients")
-                          child: Center(
-                              child: Padding(
-                            padding: const EdgeInsets.all(paddingXxs),
-                            child: Text(
-                              AppLocalizations.of(context)!.clients,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary),
+                      IntrinsicWidth(
+                        child: Obx(() {
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: paddingXs),
+                                child: Text(
+                                  clientsController.onClientsView.value
+                                      ? AppLocalizations.of(context)!.clients
+                                      : AppLocalizations.of(context)!.badDebt,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary),
+                                ),
+                              ),
+                              selectedItemBuilder: (context) {
+                                return [
+                                  AppLocalizations.of(context)!.clients,
+                                  AppLocalizations.of(context)!.badDebt,
+                                ].map((view) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: paddingXs),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        view,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary,
+                                            ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList();
+                              },
+                              items: [
+                                AppLocalizations.of(context)!.clients,
+                                AppLocalizations.of(context)!.badDebt,
+                              ].map((String view) {
+                                return DropdownMenuItem<String>(
+                                  value: view,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: paddingXs),
+                                    child: Text(
+                                      view,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              value: clientsController.onClientsView.value
+                                  ? AppLocalizations.of(context)!.clients
+                                  : AppLocalizations.of(context)!.badDebt,
+                              onChanged: (String? value) {
+                                // if (value != null) {
+                                //   clientsController.onClientsView.toggle();
+                                // }
+                                if (value != null) {
+                                  if (value ==
+                                      AppLocalizations.of(context)!.clients) {
+                                    clientsController.onClientsView.value =
+                                        true;
+                                    clientsController.getClients();
+                                  } else {
+                                    clientsController.onClientsView.value =
+                                        false;
+                                    clientsController.loadBadDebts();
+                                  }
+                                }
+                              },
+                              buttonStyleData: ButtonStyleData(
+                                // decoration: BoxDecoration(
+                                //   color: Theme.of(context)
+                                //       .colorScheme
+                                //       .outlineVariant,
+                                //   border: Border.all(
+                                //     color: Theme.of(context)
+                                //         .colorScheme
+                                //         .tertiaryContainer,
+                                //   ),
+                                // ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Theme.of(context).colorScheme.primary,
+                                  border: Border.all(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .tertiaryContainer,
+                                  ),
+                                ),
+                                padding:
+                                    const EdgeInsets.only(left: 0, right: 8),
+                                height: 35,
+                                width: double.infinity,
+                              ),
+                              iconStyleData: IconStyleData(
+                                icon: Icon(Icons.arrow_drop_down,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 35,
+                                padding: EdgeInsets.zero,
+                              ),
                             ),
-                          )),
-                        ),
+                          );
+                        }),
                       )
+
+                      //GestureDetector(
+                      //  onTap: clientsController.switchiew,
+                      //  child: Container(
+                      //    width: 81,
+
+                      //    decoration: BoxDecoration(
+                      //        color: Theme.of(context).colorScheme.primary,
+                      //        borderRadius:
+                      //            BorderRadius.circular(borderRadiusSmall)),
+                      //    //child: PrimaryButton(onTap: () {}, text: "clients")
+                      //    child: Center(
+                      //        child: Padding(
+                      //      padding: const EdgeInsets.all(paddingXxs),
+                      //      child: Text(
+                      //        AppLocalizations.of(context)!.clients,
+                      //        style: Theme.of(context)
+                      //            .textTheme
+                      //            .bodySmall!
+                      //            .copyWith(
+                      //                color: Theme.of(context)
+                      //                    .colorScheme
+                      //                    .onPrimary),
+                      //      ),
+                      //    )),
+                      //  ),
+                      //)
                     ],
                   ),
                   SizedBox(
@@ -89,33 +213,33 @@ class ClientsScreen extends StatelessWidget {
                     filled: true,
                     fillColor: Theme.of(context).colorScheme.primaryContainer,
                   ),
-                  SizedBox(
-                    height: paddingXs,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.my_clients,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withValues(alpha: 0.5),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.view_all,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontSize: 14,
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
+                  // SizedBox(
+                  //   height: paddingXs,
+                  // ),
+                  // Row(
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     Text(
+                  //       AppLocalizations.of(context)!.my_clients,
+                  //       style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  //           color: Theme.of(context)
+                  //               .colorScheme
+                  //               .onSurfaceVariant
+                  //               .withValues(alpha: 0.5),
+                  //           fontSize: 14,
+                  //           fontWeight: FontWeight.w500),
+                  //     ),
+                  //     Text(
+                  //       AppLocalizations.of(context)!.view_all,
+                  //       style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  //           fontSize: 14,
+                  //           color: Theme.of(context).colorScheme.primary,
+                  //           fontWeight: FontWeight.w500),
+                  //     )
+                  //   ],
+                  // ),
                   SizedBox(
                     height: paddingXs,
                   ),

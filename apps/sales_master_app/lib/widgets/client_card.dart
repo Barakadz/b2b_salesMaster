@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/widgets/my_chip.dart';
 
@@ -26,10 +27,11 @@ class ClientCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.work_outlined,
-              size: 48,
-            ),
+            // Icon(
+            //   Icons.work_outlined,
+            //   size: 48,
+            // ),
+            SvgPicture.asset("assets/client.svg"),
             SizedBox(
               width: paddingXs,
             ),
