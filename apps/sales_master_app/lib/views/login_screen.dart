@@ -117,8 +117,8 @@ class LoginScreen extends StatelessWidget {
                 height: paddingXxxxxl,
               ),
               PrimaryButton(
-                onTap: () {
-                  bool res = authController.sendOtp();
+                onTap: () async {
+                  bool res = await authController.sendOtp();
                   if (res == true) {
                     context.push(AppRoutes.otpValidation.path);
                   }

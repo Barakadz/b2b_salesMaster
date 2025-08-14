@@ -58,6 +58,27 @@ class AppRoutes {
     //     return null;
     //   }
     // },
+
+    redirect: (BuildContext context, GoRouterState state) {
+      final authController = Get.find<AuthController>();
+      final isLoggedIn = authController.isLoged.value;
+
+      // If not logged in, always go to login (except if already on login/otp)
+      if (!isLoggedIn &&
+          state.matchedLocation != '/login' &&
+          state.matchedLocation != '/otpValidation') {
+        return '/login';
+      }
+
+      // If logged in and trying to go to login/otp, redirect to home
+      if (isLoggedIn &&
+          (state.matchedLocation == '/login' ||
+              state.matchedLocation == '/otpValidation')) {
+        return '/homepage';
+      }
+
+      return null; // stay on current route
+    },
     routes: [
       GoRoute(
         name: AppRoutes.login.name,
@@ -67,7 +88,7 @@ class AppRoutes {
       GoRoute(
         name: AppRoutes.otpValidation.name,
         path: AppRoutes.otpValidation.path,
-        builder: (context, state) => const OtpScreen(),
+        builder: (context, state) => OtpScreen(),
       ),
       GoRoute(
         name: AppRoutes.notification.name,
