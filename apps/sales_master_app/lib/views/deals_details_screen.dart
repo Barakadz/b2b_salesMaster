@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/controllers/deal_details_controller.dart';
+import 'package:sales_master_app/controllers/deals_controller.dart';
 import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/models/deal_status.dart';
 import 'package:sales_master_app/services/date_input_formatter.dart';
@@ -44,6 +46,7 @@ class DealsDetailsScreen extends StatelessWidget {
   build(BuildContext context) {
     DealDetailsController dealDetailsController =
         Get.find<DealDetailsController>();
+    DealsController dealsController = Get.find();
     dealDetailsController.initializeForm(newDeal: deal);
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -295,7 +298,7 @@ class DealsDetailsScreen extends StatelessWidget {
                               radius: 7,
                               filled: false,
                               login: false,
-                              hintText: "dd-mm-yyyy",
+                              hintText: "yyyy-mm-dd",
                               validator: (String? date) {
                                 return dealDetailsController
                                     .validateNumber(date, date: true);
@@ -355,12 +358,16 @@ class DealsDetailsScreen extends StatelessWidget {
                               height: paddingXxs,
                             ),
                             CustomTextFormField(
-                              hintText: 'dd-mm-yyyy',
+                              hintText: 'yyyy-mm-dd',
                               keyboardType: TextInputType.number,
                               validator: (String? date) {
                                 return dealDetailsController
                                     .validateNumber(date, date: true);
                               },
+                              textFormaters: [
+                                LengthLimitingTextInputFormatter(10),
+                                DateInputFormatter(),
+                              ],
                               radius: 7,
                               filled: false,
                               login: false,
@@ -408,6 +415,7 @@ class DealsDetailsScreen extends StatelessWidget {
                             value: dealDetailsController.selectedDeal.value,
                             onChanged: (String? name) {
                               if (name != null) {
+                                print("selected deal : ${name}");
                                 dealDetailsController.selectedDeal.value = name;
                               }
                             },
@@ -456,6 +464,11 @@ class DealsDetailsScreen extends StatelessWidget {
                           bool res = deal == null
                               ? await dealDetailsController.createNewDeal()
                               : await dealDetailsController.editDeal(deal!.id);
+
+                          if (res == true) {
+                            dealsController.loadDeals();
+                            context.pop();
+                          }
                         },
                         text: "Enregistrer");
                   })

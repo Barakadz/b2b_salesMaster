@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/models/deal_status.dart';
 import 'package:sales_master_app/services/deals_service.dart';
+import 'package:sales_master_app/services/phone_number_serive.dart';
 import 'package:sales_master_app/services/utilities.dart';
 
 class DealDetailsController extends GetxController {
@@ -16,24 +17,41 @@ class DealDetailsController extends GetxController {
 
   Rx<bool> saving = false.obs;
 
-  Rx<String> selectedDeal = "prise de contact".obs;
+  Rx<String> selectedDeal = "Prise de contact".obs;
+
+  // List<DealStatus> dealsStatus = [
+  //   DealStatus(id: 0, name: "prise de contact"),
+  //   DealStatus(id: 1, name: "depot d'offre"),
+  //   DealStatus(id: 2, name: "en cours"),
+  //   DealStatus(id: 3, name: "conclusion"),
+  //   DealStatus(id: 5, name: "on hold")
+  // ];
 
   List<DealStatus> dealsStatus = [
-    DealStatus(id: 0, name: "prise de contact"),
-    DealStatus(id: 1, name: "depot d'offre"),
-    DealStatus(id: 2, name: "en cours"),
-    DealStatus(id: 3, name: "conclusion"),
-    DealStatus(id: 5, name: "on hold")
+    DealStatus(id: 1, name: "Prise de contact"),
+    DealStatus(id: 2, name: "Depot d'offre"),
+    DealStatus(id: 3, name: "En cours"),
+    DealStatus(id: 4, name: "Conclusion"),
+    DealStatus(id: 5, name: "On hold")
   ];
 
   DealDetailsController({this.deal});
 
   final Deal? deal;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    initializeForm();
+  }
+
+  int? getStatusIdByName(String name) {
+    try {
+      return dealsStatus.firstWhere((status) => status.name == name).id;
+    } catch (e) {
+      return null; // if not found
+    }
+  }
 
   String? validateNames(String? name) {
     if (isEmpty(name)) {
@@ -53,13 +71,15 @@ class DealDetailsController extends GetxController {
   }
 
   void initializeForm({Deal? newDeal}) {
+    print('deal status : ${newDeal?.status}');
     if (newDeal != null) {
       raisonSociale.text = newDeal.raisonSociale;
       interlocuteur.text = newDeal.interlocuteur;
       numero.text = newDeal.numero;
-      visitDate.text = newDeal.visitDate;
-      nextVisittDate.text = newDeal.nextVisittDate;
+      visitDate.text = newDeal.visitDate.substring(0, 10);
+      nextVisittDate.text = newDeal.nextVisittDate.substring(0, 10);
       selectedDeal.value = newDeal.status;
+      status = newDeal.status;
       mom.text = newDeal.mom;
     } else {
       raisonSociale.clear();
@@ -75,15 +95,16 @@ class DealDetailsController extends GetxController {
   Map<String, dynamic> get _formData => {
         "raison_social": raisonSociale.text.trim(),
         "interlocutor_name": interlocuteur.text.trim(),
-        "numero_telephone": numero.text.trim(),
-        "last_visit_date": visitDate.text.trim(),
-        "next_visit_date": nextVisittDate.text.trim(),
-        "status": selectedDeal.value,
+        "numero_telephone": formatPhoneNumber(numero.text.trim()),
+        "visit_date": "${visitDate.text.trim()} 00:00:00",
+        "next_visit_date": "${nextVisittDate.text.trim()} 00:00:00",
+        "status_id": getStatusIdByName(selectedDeal.value)!,
         "mom": mom.text.trim(),
       };
 
   Future<bool> createNewDeal() async {
     saving.value = true;
+    print("status id : ${getStatusIdByName(selectedDeal.value)}");
     bool res = await DealsService().createDeal(_formData);
     saving.value = false;
     return res;

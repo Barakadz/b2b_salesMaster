@@ -21,7 +21,7 @@ class AuthService {
       // Use the auth host for this call (Api prepends baseUrl + '/' + url)
       api.setBaseUrl(_authHost);
 
-      final String msisdn = _formatMsisdn(msisdnRaw);
+      final String msisdn = formatMsisdn(msisdnRaw);
 
       final response = await api.post(
         'oauth2/registration',
@@ -67,7 +67,7 @@ class AuthService {
       // Use the auth host for this call
       api.setBaseUrl(_authHost);
 
-      final String msisdn = _formatMsisdn(msisdnRaw);
+      final String msisdn = formatMsisdn(msisdnRaw);
 
       final response = await api.post(
         'oauth2/token',
@@ -103,12 +103,12 @@ class AuthService {
   /// Helper to compute the **post-login base URL** your app needs:
   /// https://.../api/v1/{213xxxxxxxxx}
   String userScopedBaseUrl(String msisdnRaw) {
-    final msisdn = _formatMsisdn(msisdnRaw);
+    final msisdn = formatMsisdn(msisdnRaw);
     return '$_authHost/api/v1/$msisdn';
   }
 
   /// Format msisdn: remove leading 0 if present, prepend 213
-  String _formatMsisdn(String msisdn) {
+  String formatMsisdn(String msisdn) {
     final s = msisdn.trim();
     if (s.startsWith('213')) return s;
     final cleaned = s.startsWith('0') ? s.substring(1) : s;

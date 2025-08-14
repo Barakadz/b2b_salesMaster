@@ -120,27 +120,54 @@ class DealsScreen extends StatelessWidget {
                             );
                           }).toList();
                         },
-                        items: dealsController.dealsStatusFilters
-                            .map((String item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: paddingXs),
-                                    child: Text(
-                                      item,
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
+                        items:
+                            // dealsController.dealsStatusFilters
+                            // .map((String item) => DropdownMenuItem<String>(
+                            //       value: item,
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.symmetric(
+                            //             horizontal: paddingXs),
+                            //         child: Text(
+                            //           item,
+                            //           style:
+                            //               Theme.of(context).textTheme.bodySmall,
+                            //         ),
+                            //       ),
+                            //     ))
+                            // .toList(),
+                            dealsController.dealsStatusFilters
+                                .map((String key) {
+                          final displayName = key == 'empty' ? 'All' : key;
+                          return DropdownMenuItem<String>(
+                            value: key, // keep the key as the value
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: paddingXs),
+                              child: Text(
+                                displayName,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ),
+                          );
+                        }).toList(),
                         value: dealsController.selectedDealFilter.value,
-                        onChanged: (String? name) {
-                          if (name != null &&
-                              name !=
-                                  dealsController.selectedDealFilter.value) {
-                            dealsController.filterDeals(name);
+                        onChanged: (String? key) {
+                          if (key != null &&
+                              key != dealsController.selectedDealFilter.value) {
+                            dealsController.selectedDealFilter.value = key;
+                            // send null if 'empty' is selected
+                            if (key != "empty") {
+                              dealsController.filterDeals(key);
+                            } else {
+                              dealsController.loadDeals();
+                            }
                           }
+
+                          // if (name != null &&
+                          //     name !=
+                          //         dealsController.selectedDealFilter.value) {
+                          //   dealsController.filterDeals(name);
+                          // }
                         },
                         buttonStyleData: ButtonStyleData(
                           // decoration: BoxDecoration(
@@ -218,7 +245,7 @@ class DealsScreen extends StatelessWidget {
                 }
 
                 return RefreshIndicator(
-                  onRefresh: () => dealsController.loadFakeDeals(),
+                  onRefresh: () => dealsController.loadDeals(),
                   child: ListView.builder(
                     itemCount: paginatedDeals.deals.length,
                     itemBuilder: (context, index) {

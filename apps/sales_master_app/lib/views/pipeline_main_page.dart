@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/deal_card.dart';
+import 'package:sales_master_app/widgets/error_widget.dart';
 import 'package:sales_master_app/widgets/my_chip.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/pipeline_chart.dart';
@@ -119,20 +120,25 @@ class PipelineMainPage extends StatelessWidget {
                                   ),
                                 )
                               : dealsController.errorLoadingDeals.value == true
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text("failed to load deals"),
-                                        PrimaryButton(
-                                            onTap: () {
-                                              dealsController.loadingDeals();
-                                            },
-                                            text: "try again")
-                                      ],
+                                  // ? Column(
+                                  //     mainAxisAlignment:
+                                  //         MainAxisAlignment.center,
+                                  //     crossAxisAlignment:
+                                  //         CrossAxisAlignment.center,
+                                  //     mainAxisSize: MainAxisSize.min,
+                                  //     children: [
+                                  //       Text("failed to load deals"),
+                                  //       PrimaryButton(
+                                  //           onTap: () {
+                                  //             dealsController.loadDeals();
+                                  //           },
+                                  //           text: "try again")
+                                  //     ],
+                                  //   )
+                                  ? CustomErrorWidget(
+                                      onTap: () {
+                                        dealsController.loadDeals();
+                                      },
                                     )
                                   : Column(
                                       mainAxisSize: MainAxisSize.min,

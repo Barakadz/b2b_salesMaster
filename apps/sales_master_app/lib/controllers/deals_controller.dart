@@ -19,12 +19,20 @@ class DealsController extends GetxController {
 
   RxString selectedDealFilter = statusStyles.keys.first.obs;
 
+  // List<DealStatus> dealsStatus = [
+  //   DealStatus(id: 0, name: "prise de contact"),
+  //   DealStatus(id: 1, name: "depot d'offre"),
+  //   DealStatus(id: 2, name: "en cours"),
+  //   DealStatus(id: 3, name: "conclusion"),
+  //   DealStatus(id: 5, name: "on hold")
+  // ];
+
   List<DealStatus> dealsStatus = [
-    DealStatus(id: 0, name: "prise de contact"),
-    DealStatus(id: 1, name: "depot d'offre"),
-    DealStatus(id: 2, name: "en cours"),
-    DealStatus(id: 3, name: "conclusion"),
-    DealStatus(id: 5, name: "on hold")
+    DealStatus(id: 0, name: "Prise de contact"),
+    DealStatus(id: 1, name: "Depot d'offre"),
+    DealStatus(id: 2, name: "En cours"),
+    DealStatus(id: 3, name: "Conclusion"),
+    DealStatus(id: 5, name: "On hold")
   ];
 
   Timer? _dealsDebounce;
@@ -32,21 +40,23 @@ class DealsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadFakeDeals();
+    //loadFakeDeals();
+    loadDeals();
     dealSearchController.addListener(() {
       if (_dealsDebounce?.isActive ?? false) _dealsDebounce?.cancel();
 
       _dealsDebounce = Timer(const Duration(milliseconds: 700), () {
         //loadDeals();
-        loadFakeDeals();
+        //loadFakeDeals();
+        loadDeals();
       });
     });
   }
 
   void filterDeals(String filter) {
     selectedDealFilter.value = filter;
-    loadFakeDeals();
-    //loadDeals();
+    //loadFakeDeals();
+    loadDeals();
   }
 
   Future<void> loadFakeDeals() async {
@@ -141,8 +151,11 @@ class DealsController extends GetxController {
     loadingDeals.value = true;
     errorLoadingDeals.value = false;
 
-    final PaginatedDeals? result =
-        await DealsService().getAllDeals(dealSearchController.text);
+    final PaginatedDeals? result = await DealsService().getAllDeals(
+        dealSearchController.text,
+        selectedDealFilter.value != null
+            ? statusStyles[selectedDealFilter.value!]?.value
+            : null);
 
     if (result == null) {
       errorLoadingDeals.value = true;

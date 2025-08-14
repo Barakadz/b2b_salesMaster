@@ -44,12 +44,24 @@ class PaginatedDeals {
       required this.perPage,
       required this.deals});
 
+  // factory PaginatedDeals.fromJson(Map<String, dynamic> json) {
+  //   return PaginatedDeals(
+  //     currentPage: json["current_page"],
+  //     lastPage: json["last_page"],
+  //     perPage: json["per_page"],
+  //     deals: (json['data'] as List).map((item) => Deal.fromJson(item)).toList(),
+  //   );
+  // }
+
   factory PaginatedDeals.fromJson(Map<String, dynamic> json) {
+    final meta = json['meta'] ?? {};
+    final dataList = json['data'] as List? ?? [];
+
     return PaginatedDeals(
-      currentPage: json["current_page"],
-      lastPage: json["last_page"],
-      perPage: json["per_page"],
-      deals: (json['data'] as List).map((item) => Deal.fromJson(item)).toList(),
+      currentPage: meta['current_page'] ?? 1,
+      lastPage: meta['last_page'] ?? 1,
+      perPage: meta['per_page'] ?? dataList.length,
+      deals: dataList.map((item) => Deal.fromJson(item)).toList(),
     );
   }
 }

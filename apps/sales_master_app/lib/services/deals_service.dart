@@ -2,12 +2,17 @@ import 'package:data_layer/data_layer.dart';
 import 'package:sales_master_app/models/deal.dart';
 
 class DealsService {
-  Future<PaginatedDeals?> getAllDeals(String? searchQuery) async {
+  Future<PaginatedDeals?> getAllDeals(
+      String? searchQuery, String? status) async {
     try {
       Map<String, dynamic> queryParameters = {};
 
       if (searchQuery != null && searchQuery.trim().isNotEmpty) {
         queryParameters["search"] = searchQuery;
+      }
+
+      if (status != null) {
+        queryParameters["status"] = status;
       }
       final response = await Api.getInstance()
           .get("deal/my-deals", queryParameters: queryParameters);
@@ -38,7 +43,7 @@ class DealsService {
   Future<bool> updateDeal(int id, Map<String, dynamic> data) async {
     try {
       final response =
-          await Api.getInstance().put("deal/$id/update", data: data);
+          await Api.getInstance().post("deal/$id/update", data: data);
       return response != null && response.data["success"] == true;
     } catch (e) {
       print("Failed to update deal: $e");

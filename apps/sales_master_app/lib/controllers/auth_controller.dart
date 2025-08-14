@@ -14,14 +14,16 @@ class AuthController extends GetxController {
   bool prod = false;
   late String baseUrl;
 
+  String testPhoneNumber = '770901100';
+
   final AuthService _authService = AuthService();
 
   @override
   void onInit() {
     isLoged.value = AppStorage().getToken() != null;
     baseUrl = prod == true
-        ? "https://apim.djezzy.dz/prod/djezzy-api/b2b/master/api/v1/"
-        : "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1/";
+        ? "https://apim.djezzy.dz/prod/djezzy-api/b2b/master/api/v1"
+        : "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1";
     super.onInit();
   }
 
@@ -99,11 +101,15 @@ class AuthController extends GetxController {
         await Api.getInstance()
             .setRefreshToken(refreshToken: tokens.refreshToken!);
       }
-      AppStorage().setMsisdn(msisdn.value!);
+      AppStorage().setMsisdn(AuthService().formatMsisdn(msisdn.value!));
       Api.getInstance().setBaseUrl(
         _authService.userScopedBaseUrl(msisdn.value!),
       );
+
       isLoged.value = true;
+      final testBaseUrl =
+          "${baseUrl}/${AuthService().formatMsisdn(msisdn.value!)}";
+      Api.getInstance().setBaseUrl(testBaseUrl);
       return true;
     }
 
