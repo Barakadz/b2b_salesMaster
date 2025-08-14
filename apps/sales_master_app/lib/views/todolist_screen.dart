@@ -485,6 +485,7 @@ class TodolistScreen extends StatelessWidget {
           ),
           PageDetail(
             title: "To do list",
+            baseviewpage: false,
           ),
           SizedBox(height: paddingXs),
           Padding(

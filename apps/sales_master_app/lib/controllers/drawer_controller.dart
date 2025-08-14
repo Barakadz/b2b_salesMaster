@@ -12,7 +12,13 @@ enum DrawerItemKey {
 
 class CustomDrawerController extends GetxController {
   var selectedItem = DrawerItemKey.dashboard.obs;
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // Each controller instance gets its own unique scaffold key
+  late final GlobalKey<ScaffoldState> scaffoldKey;
+
+  CustomDrawerController() {
+    scaffoldKey = GlobalKey<ScaffoldState>();
+  }
 
   void selectItem(DrawerItemKey item, BuildContext context) {
     selectedItem.value = item;
@@ -26,18 +32,10 @@ class CustomDrawerController extends GetxController {
       case DrawerItemKey.catalogue:
         GoRouter.of(context).go('/catalogue');
         break;
-      // case DrawerItemKey.pipeline:
-      //   GoRouter.of(context).go('/Pipeline');
-      //   break;
     }
   }
 
-  // void openDrawer() {
-  //   scaffoldKey.currentState?.openDrawer();
-  // }
-
   void openDrawer(BuildContext context, {bool? baseview}) {
-    print(baseview);
     if (baseview == true) {
       scaffoldKey.currentState?.openDrawer();
     } else {
@@ -45,3 +43,39 @@ class CustomDrawerController extends GetxController {
     }
   }
 }
+
+// class CustomDrawerController extends GetxController {
+//   var selectedItem = DrawerItemKey.dashboard.obs;
+//   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+//   void selectItem(DrawerItemKey item, BuildContext context) {
+//     selectedItem.value = item;
+//     switch (item) {
+//       case DrawerItemKey.home:
+//         GoRouter.of(context).go('/homepage');
+//         break;
+//       case DrawerItemKey.dashboard:
+//         GoRouter.of(context).go('/realisations');
+//         break;
+//       case DrawerItemKey.catalogue:
+//         GoRouter.of(context).go('/catalogue');
+//         break;
+//       // case DrawerItemKey.pipeline:
+//       //   GoRouter.of(context).go('/Pipeline');
+//       //   break;
+//     }
+//   }
+
+//   // void openDrawer() {
+//   //   scaffoldKey.currentState?.openDrawer();
+//   // }
+
+//   void openDrawer(BuildContext context, {bool? baseview}) {
+//     print(baseview);
+//     if (baseview == true) {
+//       scaffoldKey.currentState?.openDrawer();
+//     } else {
+//       Scaffold.of(context).openDrawer();
+//     }
+//   }
+// }

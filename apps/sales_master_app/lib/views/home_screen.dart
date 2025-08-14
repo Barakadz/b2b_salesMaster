@@ -115,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                           return GestureDetector(
                             onTap: () {
                               Get.find<CustomDrawerController>()
-                                  .openDrawer(ctx, baseview: true);
+                                  .openDrawer(ctx, baseview: false);
                             },
                             child: Icon(
                               Icons.density_medium,

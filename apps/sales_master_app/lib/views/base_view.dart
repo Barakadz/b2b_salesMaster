@@ -11,8 +11,13 @@ class BaseView extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
   final NavigationController navigationController =
       Get.put(NavigationController());
-  final CustomDrawerController drawerController =
-      Get.find<CustomDrawerController>();
+  // final CustomDrawerController drawerController =
+  //     Get.find<CustomDrawerController>();
+
+  final CustomDrawerController drawerController = Get.put(
+    CustomDrawerController(),
+    tag: UniqueKey().toString(), // unique per BaseView instance
+  );
 
   BaseView({super.key, required this.navigationShell});
 
