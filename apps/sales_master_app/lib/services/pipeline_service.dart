@@ -43,7 +43,7 @@ class PipelineService {
       );
 
       if (response != null && response.data != null) {
-        return PipelinePerformance.fromJson(response.data['data']);
+        return PipelinePerformance.fromJson(response.data);
       }
     } catch (e) {
       print("Error fetching pipeline performance: $e");

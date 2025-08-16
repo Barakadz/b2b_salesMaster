@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/controllers/deal_details_controller.dart';
 import 'package:sales_master_app/controllers/deals_controller.dart';
+import 'package:sales_master_app/controllers/pipeline_controller.dart';
 import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/models/deal_status.dart';
 import 'package:sales_master_app/services/date_input_formatter.dart';
@@ -47,6 +48,7 @@ class DealsDetailsScreen extends StatelessWidget {
     DealDetailsController dealDetailsController =
         Get.find<DealDetailsController>();
     DealsController dealsController = Get.find();
+    PipelineController pipelineController = Get.find();
     dealDetailsController.initializeForm(newDeal: deal);
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -467,6 +469,7 @@ class DealsDetailsScreen extends StatelessWidget {
 
                           if (res == true) {
                             dealsController.loadDeals();
+                            pipelineController.fetchPipeLine();
                             context.pop();
                           }
                         },

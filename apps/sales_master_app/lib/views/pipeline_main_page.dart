@@ -106,11 +106,10 @@ class PipelineMainPage extends StatelessWidget {
                         height: paddingS,
                       ),
                       Container(
-                        constraints: BoxConstraints(minHeight: 200),
                         child: Obx(() {
                           return dealsController.loadingDeals.value == true
                               ? Container(
-                                  height: 10,
+                                  constraints: BoxConstraints(minHeight: 200),
                                   child: Center(
                                     child: CircularProgressIndicator(
                                       color:
@@ -147,8 +146,8 @@ class PipelineMainPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       spacing: paddingXs,
-                                      children: (dealsController.paginatedDeals
-                                                  .value?.deals ??
+                                      children: (dealsController
+                                                  .allDeals.value?.deals ??
                                               [])
                                           .take(2)
                                           .map<Widget>((Deal deal) {

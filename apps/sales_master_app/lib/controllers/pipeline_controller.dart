@@ -25,7 +25,8 @@ class PipelineController extends GetxController {
 
   @override
   void onInit() {
-    fetchFakePipeline();
+    //fetchFakePipeline();
+    fetchPipeLine();
     super.onInit();
   }
 

@@ -43,12 +43,14 @@ class CustomErrorWidget extends StatelessWidget {
         SizedBox(
           height: paddingS,
         ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 170),
-          child: PrimaryButton(
-            onTap: onTap,
-            text: "reload".tr,
-            height: 44,
+        GestureDetector(
+          onTap: onTap,
+          child: Text(
+            "reload".tr,
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(color: Theme.of(context).colorScheme.primary),
           ),
         )
       ],
