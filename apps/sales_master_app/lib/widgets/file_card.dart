@@ -67,7 +67,7 @@ class FileCard extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
                   child: Text(
@@ -80,7 +80,7 @@ class FileCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  file.uploadDate,
+                  file.uploadDate.substring(0, 10),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context)
                           .colorScheme
