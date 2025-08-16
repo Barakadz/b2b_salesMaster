@@ -128,10 +128,10 @@ class RoamingView extends StatelessWidget {
           children: [
             Obx(() {
               return CustomTab(
-                  isActive: catalogueController.roamingType.value == "postpaid",
-                  title: "postpaid",
+                  isActive: catalogueController.roamingType.value == "prepaid",
+                  title: "prepaid",
                   ontap: () {
-                    catalogueController.switchRoamingType("postpaid");
+                    catalogueController.switchRoamingType("prepaid");
                   });
             }),
             Obx(() {

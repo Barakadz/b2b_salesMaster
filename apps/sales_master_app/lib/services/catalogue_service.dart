@@ -8,11 +8,11 @@ class DocumentService {
       final response = await Api.getInstance().get("document/service");
 
       if (response != null && response.data["success"] == true) {
-        return CatalogueFile.fromJson(response.data);
+        return CatalogueFile.fromJson(response.data["data"]);
       }
       return null;
-    } catch (e) {
-      print("Error fetching benchmark documents: $e");
+    } catch (e, stackTrace) {
+      print("Error fetching services document: $e\n $stackTrace");
       return null;
     }
   }
@@ -27,7 +27,7 @@ class DocumentService {
       }
       return null;
     } catch (e) {
-      print("Error fetching offer documents: $e");
+      print("Error fetching offers document: $e");
       return null;
     }
   }
@@ -42,7 +42,7 @@ class DocumentService {
       }
       return null;
     } catch (e) {
-      print("Error fetching benchmark documents: $e");
+      print("Error fetching benchmark document: $e");
       return null;
     }
   }

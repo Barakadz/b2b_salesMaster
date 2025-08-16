@@ -5,6 +5,7 @@ import 'package:sales_master_app/models/coutry_model.dart';
 import 'package:sales_master_app/models/file_model.dart';
 import 'package:sales_master_app/models/roaming_model.dart';
 import 'package:sales_master_app/services/catalogue_service.dart';
+import 'package:sales_master_app/services/countries_service.dart';
 
 class CatalogueController extends GetxController {
   Rx<int> mainTabdsIndex = 0.obs;
@@ -35,7 +36,7 @@ class CatalogueController extends GetxController {
 
   Rx<int?> clickedFileIndex = Rx<int?>(null);
 
-  Rx<String> roamingType = "postpaid".obs;
+  Rx<String> roamingType = "prepaid".obs;
 
   RxList<Country> countries = <Country>[].obs;
   RxList<Offer> offers =
@@ -56,30 +57,31 @@ class CatalogueController extends GetxController {
   }
 
   void loadCountries() async {
-    countries.assignAll([
-      Country(zone: 0, country: "france", cc: 23, countryCode: "FR"),
-      Country(zone: 2, country: "spain", cc: 24, countryCode: "ESP"),
-    ]);
-    //countries.assignAll(await CountryService().fetchCountries());
+    // countries.assignAll([
+    //   Country(zone: 0, country: "france", cc: 23, countryCode: "FR"),
+    //   Country(zone: 2, country: "spain", cc: 24, countryCode: "ESP"),
+    // ]);
+    List<Country> res = await CountryService().fetchCountries();
+    countries.assignAll(res);
   }
 
   void loadRoaming(int zoneId) async {
     errorRoaming.value = false;
     loadingRoaming.value = true;
-    // roaming.value =
-    //     await DocumentService().fetchTarifRoaming(zoneId, roamingType.value);
+    roaming.value =
+        await DocumentService().fetchTarifRoaming(zoneId, roamingType.value);
 
-    await Future.delayed(Duration(seconds: 2));
-    roaming.value = TarifRoaming(
-        zone: 1,
-        type: "postpaid",
-        localCall: 10,
-        callToAlgeria: 50,
-        internationalCall: 100,
-        receiveCall: 60,
-        sms: 30,
-        dataB2B: 3500,
-        dataB2C: 4000);
+    // await Future.delayed(Duration(seconds: 2));
+    // roaming.value = TarifRoaming(
+    //     zone: 1,
+    //     type: "postpaid",
+    //     localCall: 10,
+    //     callToAlgeria: 50,
+    //     internationalCall: 100,
+    //     receiveCall: 60,
+    //     sms: 30,
+    //     dataB2B: 3500,
+    //     dataB2C: 4000);
 
     if (roaming.value == null) {
       errorLoadingFile.value = true;
@@ -152,15 +154,15 @@ class CatalogueController extends GetxController {
     errorOffers.value = false;
     loadingOffers.value = true;
 
-    await Future.delayed(Duration(seconds: 3));
-    // djezzyoffersFiles.value = await DocumentService().fetchOffersDocument();
-    djezzyoffersFiles.value = CatalogueFile(
-        id: 1,
-        name: "Offres Djezzy 2025",
-        size: 94,
-        uploadDate: "12/06/2025",
-        unity: "KB",
-        uploadedBy: "Imene Baya BETROUNI");
+    djezzyoffersFiles.value = await DocumentService().fetchOffersDocument();
+    //await Future.delayed(Duration(seconds: 3));
+    // djezzyoffersFiles.value = CatalogueFile(
+    //     id: 1,
+    //     name: "Offres Djezzy 2025",
+    //     size: 94,
+    //     uploadDate: "12/06/2025",
+    //     unity: "KB",
+    //     uploadedBy: "Imene Baya BETROUNI");
 
     loadingOffers.value = false;
   }
@@ -169,16 +171,16 @@ class CatalogueController extends GetxController {
     errorBenchmark.value = false;
     loadingBenchmark.value = true;
 
-    //benchMarkFiles.value = await DocumentService().fetchBenchMarkDocument();
+    benchMarkFiles.value = await DocumentService().fetchBenchMarkDocument();
 
-    await Future.delayed(Duration(seconds: 3));
-    benchMarkFiles.value = CatalogueFile(
-        id: 1,
-        name: "Offres Djezzy 2025",
-        size: 94,
-        uploadDate: "12/06/2025",
-        unity: "KB",
-        uploadedBy: "Imene Baya BETROUNI");
+    // await Future.delayed(Duration(seconds: 3));
+    // benchMarkFiles.value = CatalogueFile(
+    //     id: 1,
+    //     name: "Offres Djezzy 2025",
+    //     size: 94,
+    //     uploadDate: "12/06/2025",
+    //     unity: "KB",
+    //     uploadedBy: "Imene Baya BETROUNI");
 
     loadingBenchmark.value = false;
   }
@@ -187,16 +189,16 @@ class CatalogueController extends GetxController {
     errorServices.value = false;
     loadingServices.value = true;
 
-    //servicesFiles.value = await DocumentService().fetchServiceDocuments();
+    servicesFiles.value = await DocumentService().fetchServiceDocuments();
 
-    await Future.delayed(Duration(seconds: 3));
-    servicesFiles.value = CatalogueFile(
-        id: 1,
-        name: "Offres Djezzy 2025",
-        size: 94,
-        uploadDate: "12/06/2025",
-        unity: "KB",
-        uploadedBy: "Imene Baya BETROUNI");
+    //await Future.delayed(Duration(seconds: 3));
+    // servicesFiles.value = CatalogueFile(
+    //     id: 1,
+    //     name: "Offres Djezzy 2025",
+    //     size: 94,
+    //     uploadDate: "12/06/2025",
+    //     unity: "KB",
+    //     uploadedBy: "Imene Baya BETROUNI");
 
     loadingServices.value = false;
   }
