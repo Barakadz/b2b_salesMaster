@@ -447,7 +447,8 @@ class TodolistScreen extends StatelessWidget {
                                     : await todolistController.editTask();
 
                             if (res == true) {
-                              // pop;
+                              context.pop();
+                              todolistController.loadTasks();
                             }
                           },
                           text: todolistController.editingTask.value != null
@@ -469,8 +470,8 @@ class TodolistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TodolistController todolistController = Get.put(TodolistController());
-    todolistController.loadFakeTodolist();
-    // todolistController.loadTasks();
+    //todolistController.loadFakeTodolist();
+    todolistController.loadTasks();
     return Scaffold(
       drawer: CustomAppDrawer(),
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,

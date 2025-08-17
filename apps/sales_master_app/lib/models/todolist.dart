@@ -64,25 +64,60 @@ class Task {
   }
 }
 
+// class PaginatedTodoList {
+//   final int count;
+//   final String? next;
+//   final String? previous;
+//   final List<Task> tasks;
+
+//   PaginatedTodoList({
+//     required this.count,
+//     this.next,
+//     this.previous,
+//     required this.tasks,
+//   });
+
+//   factory PaginatedTodoList.fromJson(Map<String, dynamic> json) {
+//     return PaginatedTodoList(
+//         count: json["count"],
+//         next: json["next"],
+//         previous: json["previous"],
+//         tasks:
+//             (json["data"] as List).map((item) => Task.fromJson(item)).toList());
+//   }
+// }
+
 class PaginatedTodoList {
-  final int count;
+  final int currentPage;
+  final int lastPage;
+  final int perPage;
+  final int total;
   final String? next;
   final String? previous;
   final List<Task> tasks;
 
   PaginatedTodoList({
-    required this.count,
+    required this.currentPage,
+    required this.lastPage,
+    required this.perPage,
+    required this.total,
     this.next,
     this.previous,
     required this.tasks,
   });
 
   factory PaginatedTodoList.fromJson(Map<String, dynamic> json) {
+    final data = json["data"];
+    final meta = data["meta"];
+
     return PaginatedTodoList(
-        count: json["count"],
-        next: json["next"],
-        previous: json["previous"],
-        tasks:
-            (json["data"] as List).map((item) => Task.fromJson(item)).toList());
+      currentPage: meta["current_page"],
+      lastPage: meta["last_page"],
+      perPage: meta["per_page"],
+      total: meta["total"],
+      next: meta["next_page_url"],
+      previous: meta["prev_page_url"],
+      tasks: (data["data"] as List).map((item) => Task.fromJson(item)).toList(),
+    );
   }
 }

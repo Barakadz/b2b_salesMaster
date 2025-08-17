@@ -173,33 +173,6 @@ class ClientsScreen extends StatelessWidget {
                           );
                         }),
                       )
-
-                      //GestureDetector(
-                      //  onTap: clientsController.switchiew,
-                      //  child: Container(
-                      //    width: 81,
-
-                      //    decoration: BoxDecoration(
-                      //        color: Theme.of(context).colorScheme.primary,
-                      //        borderRadius:
-                      //            BorderRadius.circular(borderRadiusSmall)),
-                      //    //child: PrimaryButton(onTap: () {}, text: "clients")
-                      //    child: Center(
-                      //        child: Padding(
-                      //      padding: const EdgeInsets.all(paddingXxs),
-                      //      child: Text(
-                      //        AppLocalizations.of(context)!.clients,
-                      //        style: Theme.of(context)
-                      //            .textTheme
-                      //            .bodySmall!
-                      //            .copyWith(
-                      //                color: Theme.of(context)
-                      //                    .colorScheme
-                      //                    .onPrimary),
-                      //      ),
-                      //    )),
-                      //  ),
-                      //)
                     ],
                   ),
                   SizedBox(
@@ -213,33 +186,6 @@ class ClientsScreen extends StatelessWidget {
                     filled: true,
                     fillColor: Theme.of(context).colorScheme.primaryContainer,
                   ),
-                  // SizedBox(
-                  //   height: paddingXs,
-                  // ),
-                  // Row(
-                  //   mainAxisSize: MainAxisSize.max,
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: [
-                  //     Text(
-                  //       AppLocalizations.of(context)!.my_clients,
-                  //       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  //           color: Theme.of(context)
-                  //               .colorScheme
-                  //               .onSurfaceVariant
-                  //               .withValues(alpha: 0.5),
-                  //           fontSize: 14,
-                  //           fontWeight: FontWeight.w500),
-                  //     ),
-                  //     Text(
-                  //       AppLocalizations.of(context)!.view_all,
-                  //       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  //           fontSize: 14,
-                  //           color: Theme.of(context).colorScheme.primary,
-                  //           fontWeight: FontWeight.w500),
-                  //     )
-                  //   ],
-                  // ),
                   SizedBox(
                     height: paddingXs,
                   ),

@@ -21,6 +21,9 @@ class RealisationService {
         return TotalRealisation.fromUnstructuredJson(data);
       }
     } catch (e) {
+      final testBaseUrl = "${baseUrl}/213784617787";
+      Api.getInstance().setBaseUrl(testBaseUrl);
+
       print("Error fetching realisations: $e");
     }
 

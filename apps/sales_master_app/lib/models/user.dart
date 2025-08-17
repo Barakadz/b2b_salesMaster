@@ -9,22 +9,29 @@ class User {
   bool isSupervisor;
   List<Employee> employees;
 
-  User(
-      {required this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.isSupervisor,
-      this.email,
-      this.phone,
-      required this.employees});
+  User({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.isSupervisor,
+    this.email,
+    this.phone,
+    required this.employees,
+  });
 
   factory User.fromJson(Map<String, dynamic> json) {
+    final employeesList = (json["employees"] as List<dynamic>)
+        .map((item) => Employee.fromJson(item))
+        .toList();
+
     return User(
-        id: json["id"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        employees:
-            json["employee"].map((item) => Employee.fromJson(item)).toList(),
-        isSupervisor: json["employee"].length > 0);
+      id: json["id"],
+      firstName: json["firstName"],
+      lastName: json["lastName"],
+      email: json["email"],
+      phone: json["phone"],
+      employees: employeesList,
+      isSupervisor: employeesList.isNotEmpty,
+    );
   }
 }

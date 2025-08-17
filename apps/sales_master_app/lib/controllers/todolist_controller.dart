@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sales_master_app/controllers/currentuser_controller.dart';
 import 'package:sales_master_app/models/todolist.dart';
+import 'package:sales_master_app/models/user.dart';
 import 'package:sales_master_app/services/todolist_service.dart';
 import 'package:sales_master_app/services/utilities.dart';
 
@@ -38,6 +40,8 @@ class TodolistController extends GetxController {
   Rx<bool> showReminderTimePicker = false.obs;
 
   final GlobalKey<FormState> taskFormKey = GlobalKey<FormState>();
+
+  CurrentuserController userController = Get.put(CurrentuserController());
 
   // Helpers
   final DateTime now = DateTime.now();
@@ -109,6 +113,7 @@ class TodolistController extends GetxController {
     todolistTitleController.clear();
     taskDescriptionController.clear();
     todolistLocationController.clear();
+    editingTask.value = null;
     taskDateController = TextEditingController(text: formatDate(now));
     taskReminderDateController =
         TextEditingController(text: formatDate(nextWeek));
@@ -405,14 +410,15 @@ class TodolistController extends GetxController {
     creatingTask.value = true;
     bool res = await TodolistService().createTask(
         title: todolistTitleController.text,
+        description: taskDescriptionController.text,
         executionDateTime:
-            "${taskDateController.text} ${tasktimeController.text}",
+            "${taskDateController.text} ${tasktimeController.text}:00",
         done: false,
-        assignedToId: 1,
+        assignedToId: userController.currentUser.value?.id ?? 0,
         reminderDateTime: taskReminderDateController.isBlank == true ||
                 taskReminderTimeController.isBlank == true
             ? null
-            : "${taskReminderDateController.text} ${taskReminderTimeController.text}",
+            : "${taskReminderDateController.text} ${taskReminderTimeController.text}:00",
         priority: priority.value);
     creatingTask.value = false;
     if (res == true) {
@@ -432,10 +438,11 @@ class TodolistController extends GetxController {
     bool res = await TodolistService().updateTask(
         id: editingTask.value!.id,
         title: todolistTitleController.text,
+        description: taskDescriptionController.text,
         executionDateTime:
             "${taskDateController.text} ${tasktimeController.text}",
         done: false,
-        assignedToId: 1,
+        assignedToId: userController.currentUser.value?.id ?? 0,
         reminderDateTime: taskReminderDateController.isBlank == true ||
                 taskReminderTimeController.isBlank == true
             ? null

@@ -3,7 +3,7 @@ import 'package:sales_master_app/models/todolist.dart';
 
 class TodolistService {
   Future<Task?> getTaskById(int id) async {
-    final response = await Api.getInstance().get("api//");
+    final response = await Api.getInstance().get("todolist/$id");
     if (response != null) {
       try {
         return Task.fromJson(response.data);
@@ -23,7 +23,7 @@ class TodolistService {
     }
 
     if (query != null && query.trim().isNotEmpty) {
-      queryParams['title'] = query.trim();
+      queryParams['search'] = query.trim();
     }
     if (done == true) {
       queryParams["done"] = done;
@@ -82,16 +82,15 @@ class TodolistService {
       final body = {
         "title": title,
         "description": description,
-        "priority": priority,
+        "priority": priority.toLowerCase(),
         "date_execution": executionDateTime,
-        "assgined_to": assignedToId,
+        "assigned_to": assignedToId,
         "done": done,
         "location": location,
         "date_reminder": reminderDateTime
       };
 
-      final response =
-          await Api.getInstance().post("api/todolist/", data: body);
+      final response = await Api.getInstance().post("todolist/", data: body);
 
       return response != null;
     } catch (e) {
@@ -114,7 +113,7 @@ class TodolistService {
       Map<String, dynamic> body = {
         "title": title,
         "description": description,
-        "priority": priority,
+        "priority": priority.toLowerCase(),
         "date_execution": executionDateTime,
         "assigned_to": assignedToId,
         "done": false,

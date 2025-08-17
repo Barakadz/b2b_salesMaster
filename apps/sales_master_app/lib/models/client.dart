@@ -56,3 +56,31 @@ class Client {
             : null);
   }
 }
+
+class PaginatedClient {
+  final List<Client> clients;
+  final int currentPage;
+  final int lastPage;
+  final int perPage;
+  final int total;
+
+  PaginatedClient({
+    required this.clients,
+    required this.currentPage,
+    required this.lastPage,
+    required this.perPage,
+    required this.total,
+  });
+
+  factory PaginatedClient.fromJson(Map<String, dynamic> json) {
+    return PaginatedClient(
+      clients: (json["data"] as List)
+          .map((clientJson) => Client.fromJson(clientJson))
+          .toList(),
+      currentPage: json["current_page"],
+      lastPage: json["last_page"],
+      perPage: json["per_page"],
+      total: json["total"],
+    );
+  }
+}
