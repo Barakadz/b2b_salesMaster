@@ -20,10 +20,19 @@ class RadialChart extends StatelessWidget {
   List<PieChartSectionData> showSections() {
     // i am doing this because this package does not allow to set bg color for empty state, and the display is off when there is less then two sections
     if (realisations.length == 1) {
-      realisations.add(Realisation(
-          target: totalTarget - totalrealised,
-          currentValue: totalTarget - totalrealised,
-          name: "Empty"));
+      if (totalrealised == 0.0) {
+        realisations
+            .add(Realisation(target: 100, currentValue: 100, name: "Empty"));
+      } else {
+        realisations.add(Realisation(
+            target: totalrealised > totalTarget
+                ? totalTarget
+                : totalTarget - totalrealised,
+            currentValue: totalrealised > totalTarget
+                ? totalTarget
+                : totalTarget - totalrealised,
+            name: "Empty"));
+      }
     } else if (realisations.isEmpty) {
       realisations
           .add(Realisation(target: 100, currentValue: 100, name: "Empty"));
@@ -31,12 +40,15 @@ class RadialChart extends StatelessWidget {
           .add(Realisation(target: 100, currentValue: 1, name: "Empty"));
     }
     return List.generate(realisations.length, (index) {
+      print(realisations[index].currentValue);
       RealisationCategoryStyle style =
           realisationCategoryStyles[realisations[index].name]!;
       return PieChartSectionData(
           showTitle: false,
           color: style.categoryColor,
-          value: realisations[index].currentValue,
+          value: realisations.length <= 2
+              ? realisations[index].currentValue
+              : realisations[index].percentage,
           radius: 20);
     });
   }

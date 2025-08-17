@@ -47,40 +47,58 @@ class TotalRealisation {
 
   factory TotalRealisation.fromUnstructuredJson(Map<String, dynamic> json) {
     return TotalRealisation(
-      increase: double.tryParse(json["pct_resultat_salaire"] ?? "0") ?? 0,
+      increase:
+          double.tryParse((json["pct_resultat_salaire"] ?? "0").toString()) ??
+              0,
       assignedTo: json["assigned_to"],
       trimester: json["trimester"],
       year: json["year"],
       realisations: [
         Realisation(
           name: "GA",
-          target: double.tryParse(json["target_ga"] ?? "0") ?? 0,
-          currentValue: double.tryParse(json["real_ga"] ?? "0") ?? 0,
-          percentage: double.tryParse(json["pct_ga"] ?? ""),
+          target: double.tryParse((json["target_ga"] ?? "0").toString()) ?? 0,
+          currentValue:
+              double.tryParse((json["real_ga"] ?? "0").toString()) ?? 0,
+          percentage: double.tryParse((json["pct_ga"] ?? "0").toString()) ?? 0,
         ),
         Realisation(
           name: "Net Adds",
-          target: double.tryParse(json["target_net_adds"] ?? "0") ?? 0,
-          currentValue: double.tryParse(json["real_net_adds"] ?? "0") ?? 0,
-          percentage: double.tryParse(json["pct_net_adds"] ?? ""),
+          target:
+              double.tryParse((json["target_net_adds"] ?? "0").toString()) ?? 0,
+          currentValue:
+              double.tryParse((json["real_net_adds"] ?? "0").toString()) ?? 0,
+          percentage:
+              double.tryParse((json["pct_net_adds"] ?? "0").toString()) ?? 0,
         ),
         Realisation(
           name: "Solutions",
-          target: double.tryParse(json["target_solutions"] ?? "0") ?? 0,
-          currentValue: double.tryParse(json["real_solutions"] ?? "0") ?? 0,
-          percentage: double.tryParse(json["pct_solutions"] ?? ""),
+          target:
+              double.tryParse((json["target_solutions"] ?? "0").toString()) ??
+                  0,
+          currentValue:
+              double.tryParse((json["real_solutions"] ?? "0").toString()) ?? 0,
+          percentage:
+              double.tryParse((json["pct_solutions"] ?? "0").toString()) ?? 0,
         ),
         Realisation(
           name: "New Compte",
-          target: double.tryParse(json["target_new_compte"] ?? "0") ?? 0,
-          currentValue: double.tryParse(json["real_new_compte"] ?? "0") ?? 0,
-          percentage: double.tryParse(json["pct_new_compte"] ?? ""),
+          target:
+              double.tryParse((json["target_new_compte"] ?? "0").toString()) ??
+                  0,
+          currentValue:
+              double.tryParse((json["real_new_compte"] ?? "0").toString()) ?? 0,
+          percentage:
+              double.tryParse((json["pct_new_compte"] ?? "0").toString()) ?? 0,
         ),
         Realisation(
           name: "Evaluation",
-          target: double.tryParse(json["target_eval_qual"] ?? "0") ?? 0,
-          currentValue: double.tryParse(json["real_eval_qual"] ?? "0") ?? 0,
-          percentage: double.tryParse(json["pct_eval_qual"] ?? ""),
+          target:
+              double.tryParse((json["target_eval_qual"] ?? "0").toString()) ??
+                  0,
+          currentValue:
+              double.tryParse((json["real_eval_qual"] ?? "0").toString()) ?? 0,
+          percentage:
+              double.tryParse((json["pct_eval_qual"] ?? "0").toString()) ?? 0,
         ),
       ],
     );

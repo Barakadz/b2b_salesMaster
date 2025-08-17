@@ -17,6 +17,7 @@ class RealisationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     RealisationsController realisationsController =
         Get.put(RealisationsController());
+    realisationsController.loadRealisation();
     final PageController pageController =
         PageController(viewportFraction: 0.96);
     return Scaffold(
@@ -43,42 +44,42 @@ class RealisationScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Mes réalisations",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Obx(() {
-                          return realisationsController
-                                      .loadingRealisations.value ==
-                                  true
-                              ? Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: paddingXxs),
-                                  child: LoadingIndicator(),
-                                )
-                              : SizedBox();
-                        }),
-                        Spacer(),
-                        Obx(() {
-                          return Switch(
-                            value: realisationsController.showRealisation.value,
-                            onChanged: (value) {
-                              realisationsController.toggleShowRealisation();
-                            },
-                            activeColor:
-                                Theme.of(context).colorScheme.outlineVariant,
-                            activeTrackColor: Color(0Xff53DAA0),
-                          );
-                        })
-                      ],
-                    ),
-                    SizedBox(
-                      height: paddingXs,
-                    ),
+                    // Row(
+                    //   mainAxisSize: MainAxisSize.max,
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   children: [
+                    //     Text(
+                    //       "Mes réalisations",
+                    //       style: Theme.of(context).textTheme.titleMedium,
+                    //     ),
+                    //     Obx(() {
+                    //       return realisationsController
+                    //                   .loadingRealisations.value ==
+                    //               true
+                    //           ? Padding(
+                    //               padding:
+                    //                   const EdgeInsets.only(left: paddingXxs),
+                    //               child: LoadingIndicator(),
+                    //             )
+                    //           : SizedBox();
+                    //     }),
+                    //     Spacer(),
+                    //     Obx(() {
+                    //       return Switch(
+                    //         value: realisationsController.showRealisation.value,
+                    //         onChanged: (value) {
+                    //           realisationsController.toggleShowRealisation();
+                    //         },
+                    //         activeColor:
+                    //             Theme.of(context).colorScheme.outlineVariant,
+                    //         activeTrackColor: Color(0Xff53DAA0),
+                    //       );
+                    //     })
+                    //   ],
+                    // ),
+                    // SizedBox(
+                    //   height: paddingXs,
+                    // ),
                     Obx(() {
                       final List<Widget> chartItems = [];
 
@@ -86,23 +87,25 @@ class RealisationScreen extends StatelessWidget {
                         padding:
                             const EdgeInsets.symmetric(horizontal: paddingXxs),
                         child: RealisationChartContainer(
-                            date: "March 2025",
+                            date:
+                                "${realisationsController.selectedQuarter.value} ${DateTime.now().year}",
                             gloabl: true,
-                            disabled:
-                                realisationsController.showRealisation.value ==
-                                        false ||
-                                    realisationsController
-                                            .loadingRealisations.value ==
-                                        true,
-                            totalrealised:
-                                realisationsController.getTotalRealisations(),
-                            totalTarget:
-                                realisationsController.getTotalTarget(),
+                            disabled: realisationsController
+                                        .showRealisation.value ==
+                                    false ||
+                                realisationsController
+                                        .loadingRealisations.value ==
+                                    true,
+                            totalrealised: realisationsController
+                                .getTotalRealisations(),
+                            totalTarget: realisationsController
+                                .getTotalTarget(),
                             totalRealisations: realisationsController
                                     .totalRealisations.value ??
                                 TotalRealisation(
-                                    trimester: "Q3",
-                                    year: "2025",
+                                    trimester: realisationsController
+                                        .selectedQuarter.value,
+                                    year: DateTime.now().year.toString(),
                                     assignedTo: 1,
                                     increase: realisationsController
                                             .totalRealisations
@@ -119,17 +122,17 @@ class RealisationScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: paddingXxs),
                           child: RealisationChartContainer(
-                              date: "March 2025",
+                              date:
+                                  "${realisationsController.selectedQuarter.value} ${DateTime.now().year}",
                               gloabl: false,
                               totalrealised: realisation.currentValue,
                               totalTarget: realisation.target,
                               totalRealisations: TotalRealisation(
-                                  trimester: "Q3",
-                                  year: "2025",
+                                  trimester:
+                                      "${realisationsController.selectedQuarter.value}",
+                                  year: realisationsController.year,
                                   assignedTo: 1,
-                                  increase: realisationsController
-                                          .totalRealisations.value?.increase ??
-                                      0,
+                                  increase: realisationsController.totalRealisations.value?.increase ?? 0,
                                   realisations: [realisation])),
                         ));
                       }
@@ -148,8 +151,9 @@ class RealisationScreen extends StatelessWidget {
                           totalRealisation:
                               realisationsController.totalRealisations.value ??
                                   TotalRealisation(
-                                      trimester: "Q3",
-                                      year: "2025",
+                                      trimester: realisationsController
+                                          .selectedQuarter.value,
+                                      year: realisationsController.year,
                                       assignedTo: 1,
                                       increase: 0,
                                       realisations: []),

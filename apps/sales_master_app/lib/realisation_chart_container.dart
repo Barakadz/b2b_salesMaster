@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sales_master_app/config/constants.dart';
+import 'package:sales_master_app/controllers/realisations_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/widgets/radial_chart.dart';
 import 'package:sales_master_app/widgets/salary_note.dart';
@@ -24,6 +26,8 @@ class RealisationChartContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RealisationsController controller =
+        Get.find<RealisationsController>();
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.outlineVariant,
@@ -42,20 +46,42 @@ class RealisationChartContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.chevron_left,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant
-                        .withValues(alpha: 0.5)),
+                GestureDetector(
+                  onTap: () {
+                    final currentIndex = controller.filter
+                        .indexOf(controller.selectedQuarter.value);
+                    if (currentIndex > 0) {
+                      controller.selectedQuarter.value =
+                          controller.filter[currentIndex - 1];
+                      controller.loadRealisation();
+                    }
+                  },
+                  child: Icon(Icons.chevron_left,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurfaceVariant
+                          .withValues(alpha: 0.5)),
+                ),
                 Text(
                   date,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                Icon(Icons.chevron_right,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant
-                        .withValues(alpha: 0.5))
+                GestureDetector(
+                  onTap: () {
+                    final currentIndex = controller.filter
+                        .indexOf(controller.selectedQuarter.value);
+                    if (currentIndex < controller.filter.length - 1) {
+                      controller.selectedQuarter.value =
+                          controller.filter[currentIndex + 1];
+                      controller.loadRealisation();
+                    }
+                  },
+                  child: Icon(Icons.chevron_right,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurfaceVariant
+                          .withValues(alpha: 0.5)),
+                )
               ],
             ),
             SizedBox(

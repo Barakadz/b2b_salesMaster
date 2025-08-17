@@ -75,13 +75,25 @@ class RealisationOverviewContainer extends StatelessWidget {
                     ? [
                         Realisation(target: 100, currentValue: 0, name: "GA"),
                         Realisation(
-                            target: 100, currentValue: 0, name: "Net Adds"),
+                            target: 100,
+                            currentValue: 0,
+                            name: "Net Adds",
+                            percentage: 0),
                         Realisation(
-                            target: 100, currentValue: 0, name: "Solutions"),
+                            target: 100,
+                            currentValue: 0,
+                            name: "Solutions",
+                            percentage: 0),
                         Realisation(
-                            target: 100, currentValue: 0, name: "New Compte"),
+                            target: 100,
+                            currentValue: 0,
+                            name: "New Compte",
+                            percentage: 0),
                         Realisation(
-                            target: 100, currentValue: 0, name: "Evaluation")
+                            target: 100,
+                            currentValue: 0,
+                            name: "Evaluation",
+                            percentage: 0)
                       ]
                     : totalRealisation.realisations,
                 totalTarget: showPlaceHolder ? 500 : totalTarget,

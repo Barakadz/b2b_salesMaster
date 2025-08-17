@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
         Get.put(RealisationsController());
     PipelineController pipelineController = Get.put(PipelineController());
     OutlookController outlookController = Get.put(OutlookController());
-    realisationsController.loadFakeRealisation();
+    realisationsController.loadRealisation();
     return Scaffold(
       drawer: CustomAppDrawer(),
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,

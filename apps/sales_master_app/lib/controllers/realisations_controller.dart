@@ -4,7 +4,9 @@ import 'package:sales_master_app/services/realisations_service.dart';
 
 class RealisationsController extends GetxController {
   RxBool loadData = false.obs;
-  RxBool showRealisation = false.obs;
+  RxBool showRealisation = true.obs;
+  RxString selectedQuarter = "q2".obs;
+  List<String> filter = ["q1", "q2", "q3", "q4"];
 
   //RxList<Realisation> realisations = <Realisation>[].obs;
   Rx<TotalRealisation?> totalRealisations = Rx<TotalRealisation?>(null);
@@ -12,15 +14,30 @@ class RealisationsController extends GetxController {
   RxBool loadingRealisations = false.obs;
   RxBool errorLoadingRealisation = false.obs;
 
-  void toggleShowRealisation() {
-    showRealisation.toggle();
-    if (showRealisation.value == true) {
-      loadFakeRealisation();
-    } else {
-      totalRealisations.value = null;
-      totalRealisations.refresh();
-    }
-  }
+  String year = DateTime.now().year.toString();
+
+  //void toggleShowRealisation() {
+  //  showRealisation.toggle();
+  //  if (showRealisation.value == true) {
+  //    //loadFakeRealisation();
+  //    loadRealisation();
+  //  } else {
+  //    totalRealisations.value = null;
+  //    totalRealisations.refresh();
+  //  }
+  //}
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   loadRealisation();
+  // }
+
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  //   loadRealisation();
+  // }
 
   double getTotalTarget() {
     double totalTarget = 0;
@@ -30,6 +47,16 @@ class RealisationsController extends GetxController {
 
     return totalTarget;
   }
+
+  // double getTotalRealisations() {
+  //   double totalrealised = 0;
+
+  //   totalrealised = (totalRealisations.value?.realisations ?? []).fold(
+  //       totalrealised,
+  //       (previous, element) => previous + element.percentage!.toInt());
+
+  //   return totalrealised;
+  // }
 
   double getTotalRealisations() {
     double totalrealised = 0;
@@ -64,12 +91,14 @@ class RealisationsController extends GetxController {
   }
 
   Future<void> loadRealisation() async {
+    totalRealisations.value = null;
     loadingRealisations.value = true;
     errorLoadingRealisation.value = false;
+    //totalRealisations.refresh();
 
     try {
       final TotalRealisation? result =
-          await RealisationService().fetchMyRealisations();
+          await RealisationService().fetchMyRealisations(selectedQuarter.value);
 
       if (result != null) {
         totalRealisations.value = result;

@@ -22,29 +22,118 @@ class RealisationPercentIndicator extends StatelessWidget {
       required this.mini,
       required this.showSummary});
 
+  //Widget buildMultiPercentIndicator() {
+  //  List<Realisation> topBarRealisations = List.from(realisations);
+  //  List<SegmentLinearIndicator> segments = [];
+
+  //  // just filling the remining space with gray ...
+  //  if (totalrealised < totalTarget) {
+  //    topBarRealisations.add(Realisation(
+  //        target: totalTarget - totalrealised,
+  //        currentValue: totalTarget - totalrealised,
+  //        name: "Empty",
+  //        percentage: 10));
+  //  }
+
+  //  for (Realisation realisation in topBarRealisations) {
+  //    final style = realisationCategoryStyles[realisation.name]!;
+
+  //    //double percent = realisation.currentValue / totalTarget;
+  //    final double percent = (realisation.percentage == 0
+  //            ? 0
+  //            : realisation.percentage! >= 100
+  //                ? 1
+  //                : realisation.percentage! / 100) /
+  //        5;
+
+  //    print("${realisation.name}: $percent");
+
+  //    segments.add(SegmentLinearIndicator(
+  //      percent: percent,
+  //      color: style.categoryColor,
+  //    ));
+  //  }
+
+  //  return MultiSegmentLinearIndicator(
+  //    animation: true,
+  //    lineHeight: 10,
+  //    padding: EdgeInsets.zero,
+  //    segments: segments,
+  //    width: double.infinity,
+  //  );
+  //}
+
+  // Widget buildMultiPercentIndicator() {
+  //   List<SegmentLinearIndicator> segments = [];
+
+  //   // Convert percentages to [0..1] fractions and clamp >100% to 1
+  //   double usedFraction = 0.0;
+  //   for (Realisation realisation in realisations) {
+  //     if (realisation.name == "Evaluation") continue; // skip evaluation in bar
+
+  //     final style = realisationCategoryStyles[realisation.name]!;
+  //     final double percent = (realisation.percentage ?? 0) / 100;
+  //     final double clamped = percent.clamp(0.0, 1.0);
+
+  //     if (clamped > 0) {
+  //       segments.add(SegmentLinearIndicator(
+  //         percent: clamped,
+  //         color: style.categoryColor,
+  //       ));
+  //       usedFraction += clamped;
+  //     }
+  //   }
+
+  //   // Add gray filler if there’s space left
+  //   if (usedFraction < 1.0) {
+  //     final emptyStyle = realisationCategoryStyles["Empty"]!;
+  //     segments.add(SegmentLinearIndicator(
+  //       percent: (1.0 - usedFraction).clamp(0.0, 1.0),
+  //       color: emptyStyle.categoryColor,
+  //     ));
+  //   }
+
+  //   return MultiSegmentLinearIndicator(
+  //     animation: true,
+  //     lineHeight: 10,
+  //     padding: EdgeInsets.zero,
+  //     segments: segments,
+  //     width: double.infinity,
+  //   );
+  // }
+
   Widget buildMultiPercentIndicator() {
     List<Realisation> topBarRealisations = List.from(realisations);
     List<SegmentLinearIndicator> segments = [];
 
-    // just filling the remining space with gray ...
-    if (totalrealised != totalTarget) {
+    // Fill the remaining space with gray if needed
+    if (totalrealised < totalTarget) {
       topBarRealisations.add(Realisation(
         target: totalTarget - totalrealised,
         currentValue: totalTarget - totalrealised,
         name: "Empty",
+        percentage: ((totalTarget - totalrealised) / totalTarget) * 100,
       ));
     }
 
-    for (Realisation realisation in topBarRealisations) {
+    //percentages to fractions (0–1)
+    List<double> rawPercents = topBarRealisations.map((r) {
+      if (r.percentage == null || r.percentage == 0) return 0.0;
+      return (r.percentage! > 100 ? 100 : r.percentage!) / 100;
+    }).toList();
+
+    // Normalize so the sum = 1.0
+    double total = rawPercents.fold(0.0, (a, b) => a + b);
+    List<double> normalizedPercents =
+        rawPercents.map((p) => total == 0 ? 0.0 : p / total).toList();
+
+    // Build segments
+    for (int i = 0; i < topBarRealisations.length; i++) {
+      final realisation = topBarRealisations[i];
       final style = realisationCategoryStyles[realisation.name]!;
 
-      double percent = realisation.currentValue / totalTarget;
-      percent = percent.clamp(0.0, 1.0);
-
-      print("${realisation.name}: $percent");
-
       segments.add(SegmentLinearIndicator(
-        percent: percent,
+        percent: normalizedPercents[i],
         color: style.categoryColor,
       ));
     }
@@ -58,9 +147,58 @@ class RealisationPercentIndicator extends StatelessWidget {
     );
   }
 
+  // Widget buildMultiPercentIndicator() {
+  //   List<Realisation> topBarRealisations = List.from(realisations);
+  //   List<SegmentLinearIndicator> segments = [];
+
+  //   // Add empty space if realised < target
+  //   if (totalrealised < totalTarget) {
+  //     topBarRealisations.add(
+  //       Realisation(
+  //         target: totalTarget - totalrealised,
+  //         currentValue: totalTarget - totalrealised,
+  //         name: "Empty",
+  //         percentage: ((totalTarget - totalrealised) / totalTarget) * 100,
+  //       ),
+  //     );
+  //   }
+
+  //   // Calculate the sum of percentages (in case they don’t add up to 100)
+  //   double totalPercentage = topBarRealisations.fold(
+  //     0,
+  //     (sum, r) => sum + (r.percentage ?? 0),
+  //   );
+
+  //   for (Realisation realisation in topBarRealisations) {
+  //     final style = realisationCategoryStyles[realisation.name]!;
+
+  //     // Normalize each percentage so that the sum = 1
+  //     final double percent = totalPercentage == 0
+  //         ? 0
+  //         : ((realisation.percentage ?? 0) / totalPercentage).clamp(0.0, 1.0);
+
+  //     print("${realisation.name}: $percent");
+
+  //     segments.add(SegmentLinearIndicator(
+  //       percent: percent,
+  //       color: style.categoryColor,
+  //     ));
+  //   }
+
+  //   return MultiSegmentLinearIndicator(
+  //     animation: true,
+  //     lineHeight: 10,
+  //     padding: EdgeInsets.zero,
+  //     segments: segments,
+  //     width: double.infinity,
+  //   );
+  // }
+
   Widget buildSinglePercentIndicator(Realisation realisation) {
     final style = realisationCategoryStyles[realisation.name]!;
-    final double percent = realisation.currentValue / realisation.target;
+    //final double percent = realisation.currentValue / realisation.target;
+    final double percent =
+        realisation.percentage == 0 ? 0 : realisation.percentage! / 100;
     final RealisationCategoryStyle emptyStyle =
         realisationCategoryStyles["Empty"]!;
 
@@ -160,7 +298,7 @@ class RealisationPercentIndicator extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  "${r.currentValue.toInt()} / ${r.target.toInt()}",
+                  "${r.percentage} / 100",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 12,
                       ),
@@ -175,7 +313,9 @@ class RealisationPercentIndicator extends StatelessWidget {
 
   Widget buildEvaluationStarsRow(BuildContext context, Realisation evaluation) {
     final style = realisationCategoryStyles[evaluation.name]!;
-    final double stars = (evaluation.currentValue * 5) / evaluation.target;
+    final double stars = evaluation.currentValue == 0
+        ? 0
+        : (evaluation.currentValue * 5) / evaluation.target;
 
     Color starColor = textColor ?? Colors.orange;
 
