@@ -60,14 +60,14 @@ class DioErrorHandler extends Interceptor {
   Future<bool> attemptToRefreshToken(String refreshToken) async {
     // try to refresh token
     try {
-      final response = await Dio().post(
-        Config.refreshTokenUrl,
-        data: {Config.refreshTokenKey: refreshToken},
-      );
+      final response = await Dio().post(Config.refreshTokenUrl,
+          //data: {Config.refreshTokenKey: refreshToken},
+          queryParameters: Config.refreshTokenParams);
 
       if (response.statusCode == 200) {
         String newToken = response.data[Config.tokenKey];
         Api.getInstance().setToken(token: newToken);
+        Config.refreshTokenParams["refresh_token"] = newToken;
         return true;
       } else {
         return false;

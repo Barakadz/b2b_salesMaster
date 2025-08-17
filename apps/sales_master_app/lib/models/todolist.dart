@@ -34,7 +34,7 @@ class Task {
         id: json["id"],
         title: json["title"],
         description: json["description"],
-        //location: json["location"],
+        location: json["location"],
         executionDate: json["execution_date"].toString().substring(0, 10),
         executionTime: json["execution_date"].toString().substring(11, 19),
         reminderDate: json["reminder_date"].toString().substring(0, 10),

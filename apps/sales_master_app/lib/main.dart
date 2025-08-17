@@ -33,7 +33,7 @@ void main() async {
 
   //api services config
   Config.configure(
-    enableRefreshToken: false,
+    enableRefreshToken: true,
   );
   Api.getInstance(baseUrl: authController.getBaseUrl());
 

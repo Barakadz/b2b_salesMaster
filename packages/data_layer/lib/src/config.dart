@@ -9,6 +9,14 @@ class Config {
   static bool enableRefreshToken = true;
   static Function? onAuthFail;
 
+  static Map<String, dynamic> refreshTokenParams = {
+    "refresh_token": "",
+    "grant_type": "mobile",
+    "client_secret": "client_secret",
+    "client_id": "client_id",
+    "scope": "openid",
+  };
+
   static void configure(
       {String? tokenKey,
       String? refreshTokenKey,

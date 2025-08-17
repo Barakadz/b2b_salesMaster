@@ -100,6 +100,7 @@ class AuthController extends GetxController {
       if (tokens.refreshToken != null) {
         await Api.getInstance()
             .setRefreshToken(refreshToken: tokens.refreshToken!);
+        Config.refreshTokenParams["refresh_token"] = tokens.refreshToken;
       }
       AppStorage().setMsisdn(AuthService().formatMsisdn(msisdn.value!));
       Api.getInstance().setBaseUrl(
