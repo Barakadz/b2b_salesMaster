@@ -43,10 +43,10 @@ class TodolistService {
     return null;
   }
 
-  Future<bool> switchStatus(int id) async {
+  Future<bool> switchStatus(int id, bool done) async {
     try {
-      final response =
-          await Api.getInstance().post("todolist/$id/update-status");
+      final response = await Api.getInstance()
+          .post("todolist/$id/update-status", data: {"done": done});
       if (response?.data["success"] == true) {
         return true;
       }
@@ -121,7 +121,7 @@ class TodolistService {
         "date_reminder": reminderDateTime
       };
       final response =
-          await Api.getInstance().put("todolist/$id/update", data: body);
+          await Api.getInstance().post("todolist/$id/update", data: body);
       return response != null;
     } catch (e) {
       print("Error in updateTask: $e");

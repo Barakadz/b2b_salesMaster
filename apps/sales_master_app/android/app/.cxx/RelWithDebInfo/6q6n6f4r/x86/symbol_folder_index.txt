@@ -1,0 +1,1 @@
+/home/ranuser/Documents/code/djezzy/djezzy_repos/apps/sales_master_app/build/app/intermediates/cxx/RelWithDebInfo/6q6n6f4r/obj/x86

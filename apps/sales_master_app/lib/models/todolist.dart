@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+import 'package:sales_master_app/extensions/string_extension.dart';
+
 class Task {
   int id;
   String title;
@@ -28,24 +31,59 @@ class Task {
       this.description,
       required this.priority});
 
+  // factory Task.fromJson(Map<String, dynamic> json) {
+  //   final assignedValue = json['assigned_by_user'];
+  //   return Task(
+  //       id: json["id"],
+  //       title: json["title"],
+  //       description: json["description"],
+  //       location: json["location"],
+  //       executionDate: json["execution_date"].toString().substring(0, 10),
+  //       executionTime: json["execution_date"].toString().substring(11, 19),
+  //       reminderDate: json["reminder_date"].toString().substring(0, 10),
+  //       reminderDateTime: json["reminder_date"].toString().substring(11, 19),
+  //       done: json["done"],
+  //       selfAssigned: assignedValue is String,
+  //       assignedBy: assignedValue is String
+  //           ? json["assigned_by_user"]
+  //           : "${json["assigned_by_user"]["lastName"]} ${json["assigned_by_user"]["firstName"]}",
+  //       priority: json["priority"].toString().toTitleCase);
+  // }
+
   factory Task.fromJson(Map<String, dynamic> json) {
     final assignedValue = json['assigned_by_user'];
+
+    final executionDateTime = json["execution_date"]?.toString();
+    final reminderDateTime = json["reminder_date"]?.toString();
+
     return Task(
-        id: json["id"],
-        title: json["title"],
-        description: json["description"],
-        location: json["location"],
-        executionDate: json["execution_date"].toString().substring(0, 10),
-        executionTime: json["execution_date"].toString().substring(11, 19),
-        reminderDate: json["reminder_date"].toString().substring(0, 10),
-        reminderDateTime: json["reminder_date"].toString().substring(11, 19),
-        done: json["done"],
-        selfAssigned: assignedValue is String,
-        assignedBy: assignedValue is String
-            ? json["assigned_by_user"]
-            : "${json["assigned_by_user"]["lastName"]} ${json["assigned_by_user"]["firstName"]}",
-        priority: json["priority"]);
+      id: json["id"],
+      title: json["title"],
+      description: json["description"],
+      location: json["location"],
+      executionDate: executionDateTime != null && executionDateTime.length >= 10
+          ? executionDateTime.substring(0, 10)
+          : "",
+      executionTime: executionDateTime != null && executionDateTime.length >= 19
+          ? executionDateTime.substring(11, 19)
+          : "",
+      reminderDate: reminderDateTime != null && reminderDateTime.length >= 10
+          ? reminderDateTime.substring(0, 10)
+          : null,
+      reminderDateTime:
+          reminderDateTime != null && reminderDateTime.length >= 19
+              ? reminderDateTime.substring(11, 19)
+              : null,
+      done: json["done"] ?? false,
+      selfAssigned: assignedValue is String,
+      assignedBy: assignedValue is String
+          ? assignedValue
+          : "${assignedValue?["lastName"] ?? ""} ${assignedValue?["firstName"] ?? ""}"
+              .trim(),
+      priority: json["priority"]?.toString().toTitleCase ?? "",
+    );
   }
+
   Task copyWith({bool? done}) {
     return Task(
       id: id,
@@ -63,29 +101,6 @@ class Task {
     );
   }
 }
-
-// class PaginatedTodoList {
-//   final int count;
-//   final String? next;
-//   final String? previous;
-//   final List<Task> tasks;
-
-//   PaginatedTodoList({
-//     required this.count,
-//     this.next,
-//     this.previous,
-//     required this.tasks,
-//   });
-
-//   factory PaginatedTodoList.fromJson(Map<String, dynamic> json) {
-//     return PaginatedTodoList(
-//         count: json["count"],
-//         next: json["next"],
-//         previous: json["previous"],
-//         tasks:
-//             (json["data"] as List).map((item) => Task.fromJson(item)).toList());
-//   }
-// }
 
 class PaginatedTodoList {
   final int currentPage;

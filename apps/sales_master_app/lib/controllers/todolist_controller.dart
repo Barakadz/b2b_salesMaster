@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/controllers/currentuser_controller.dart';
 import 'package:sales_master_app/models/todolist.dart';
-import 'package:sales_master_app/models/user.dart';
 import 'package:sales_master_app/services/todolist_service.dart';
 import 'package:sales_master_app/services/utilities.dart';
 
@@ -23,7 +22,7 @@ class TodolistController extends GetxController {
 
   Rx<bool> creatingTask = false.obs;
   Rx<String> selectedTaskFilter = "all".obs;
-  RxList<String> taskFilter = ["all", "mine", "others"].obs;
+  RxList<String> taskFilter = ["all", "mine", "other"].obs;
 
   Rx<String> priority = "Low".obs;
   final List<String> priorities = ['Low', 'Medium', 'High'];
@@ -147,8 +146,10 @@ class TodolistController extends GetxController {
       try {
         DateTime parsedDate = DateTime.parse(task.executionDate!);
         taskDateController.text = formatDate(parsedDate); // e.g., "2025-07-07"
-        tasktimeController.text =
-            formatTime(timeFromDateTime(parsedDate)); // e.g., "15:30"
+        // tasktimeController.text =
+        //     formatTime(timeFromDateTime(parsedDate)); // e.g., "15:30"
+
+        tasktimeController.text = task.executionTime;
       } catch (e) {
         taskDateController.text = formatDate(DateTime.now());
         tasktimeController.text = '';
@@ -162,8 +163,9 @@ class TodolistController extends GetxController {
       try {
         DateTime parsedReminder = DateTime.parse(task.reminderDate!);
         taskReminderDateController.text = formatDate(parsedReminder);
-        taskReminderTimeController.text =
-            formatTime(timeFromDateTime(parsedReminder));
+        // taskReminderTimeController.text =
+        //     formatTime(timeFromDateTime(parsedReminder));
+        taskReminderTimeController.text = task.reminderDateTime!;
       } catch (e) {
         taskReminderDateController.text =
             formatDate(DateTime.now().add(Duration(days: 7)));
@@ -211,9 +213,9 @@ class TodolistController extends GetxController {
 
   void switchTaskType(String name) {
     if (name != selectedTaskFilter.value) {
+      selectedTaskFilter.value = name;
       loadTasks();
     }
-    selectedTaskFilter.value = name;
   }
 
   String? validateTaskTitle(String? title) {
@@ -228,7 +230,8 @@ class TodolistController extends GetxController {
     final updatedTask = initialTask.copyWith(done: !initialTask.done);
     todolist[index] = updatedTask;
 
-    bool apiResponse = await TodolistService().switchStatus(initialTask.id);
+    bool apiResponse =
+        await TodolistService().switchStatus(initialTask.id, updatedTask.done);
     if (!apiResponse) {
       todolist[index] = initialTask;
       todolist.refresh();
@@ -308,7 +311,7 @@ class TodolistController extends GetxController {
     errorLoadingTodolist.value = false;
     PaginatedTodoList? allTasks = await TodolistService().getTasks(
         createdBy: selectedTaskFilter.value,
-        query: todolistTitleController.text);
+        query: todolistSearchController.text);
     if (allTasks != null) {
       todolist.assignAll(allTasks.tasks);
       todolist.refresh();
@@ -322,7 +325,9 @@ class TodolistController extends GetxController {
     loadingArchiveTodolist.value = true;
     errorLoadingArchiveTodolist.value = false;
     PaginatedTodoList? allTasks = await TodolistService().getTasks(
-        createdBy: "all", query: todolistArchiveSearchController.text);
+        createdBy: "all",
+        query: todolistArchiveSearchController.text,
+        done: true);
     if (allTasks != null) {
       archiveTodolist.assignAll(allTasks.tasks);
       archiveTodolist.refresh();
@@ -411,14 +416,15 @@ class TodolistController extends GetxController {
     bool res = await TodolistService().createTask(
         title: todolistTitleController.text,
         description: taskDescriptionController.text,
+        location: todolistLocationController.text,
         executionDateTime:
-            "${taskDateController.text} ${tasktimeController.text}:00",
+            "${taskDateController.text} ${tasktimeController.text}",
         done: false,
         assignedToId: userController.currentUser.value?.id ?? 0,
         reminderDateTime: taskReminderDateController.isBlank == true ||
                 taskReminderTimeController.isBlank == true
             ? null
-            : "${taskReminderDateController.text} ${taskReminderTimeController.text}:00",
+            : "${taskReminderDateController.text} ${taskReminderTimeController.text}",
         priority: priority.value);
     creatingTask.value = false;
     if (res == true) {

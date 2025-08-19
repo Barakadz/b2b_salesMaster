@@ -1,0 +1,2 @@
+/home/ranuser/Documents/code/djezzy/djezzy_repos/apps/sales_master_app/android/app/.cxx/RelWithDebInfo/6q6n6f4r/x86/CMakeFiles/edit_cache.dir
+/home/ranuser/Documents/code/djezzy/djezzy_repos/apps/sales_master_app/android/app/.cxx/RelWithDebInfo/6q6n6f4r/x86/CMakeFiles/rebuild_cache.dir

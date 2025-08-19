@@ -15,6 +15,41 @@ class AuthService {
 
   /// 1) Request OTP (POST /oauth2/registration?scope=smsotp&client_id=...&msisdn=...)
   /// Body: { "consent-agreement":[{"marketing-notifications":false}], "is-consent":true }
+
+  Future<void> logout() async {
+    try {
+      final api = Api.getInstance();
+      // Use the auth host for this call (Api prepends baseUrl + '/' + url)
+      api.setBaseUrl(_authHost);
+
+      print(AppStorage().getMsisdn());
+      final String msisdn = formatMsisdn(AppStorage().getMsisdn()!);
+
+      final response = await api.post(
+        'oauth2/logout',
+        data: {
+          'client_id': _clientId,
+          'client_secret': _clientSecret,
+          'token_type_hint': "access_token",
+          'token': AppStorage().getToken(),
+        },
+        options: Options(
+          // must be JSON for this endpoint
+          contentType: Headers.jsonContentType,
+          headers: {
+            'User-Agent': _userAgent,
+            // If backend truly requires a specific cookie, add it here:
+            // 'Cookie': 'TS01920435=...'
+          },
+        ),
+      );
+
+      // Success sample you showed: { status: 200, ... }
+    } catch (e) {
+      print('Error sending OTP: $e');
+    }
+  }
+
   Future<bool> requestOtp(String msisdnRaw) async {
     try {
       final api = Api.getInstance();
@@ -91,6 +126,7 @@ class AuthService {
       if (response != null &&
           response.data != null &&
           response.data['access_token'] != null) {
+        Config.refreshTokenUrl = "${_authHost}/aouth2/token";
         return AuthTokens.fromJson(response.data);
       }
       return null;

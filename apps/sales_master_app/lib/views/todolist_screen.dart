@@ -243,11 +243,26 @@ class TodolistScreen extends StatelessWidget {
                                     padding:
                                         const EdgeInsets.only(top: paddingXs),
                                     child: WheelTimePicker(
-                                      initialTime: TimeOfDay.now(),
+                                      initialTime: todolistController
+                                                      .editingTask
+                                                      .value
+                                                      ?.executionTime !=
+                                                  null &&
+                                              todolistController
+                                                  .editingTask
+                                                  .value!
+                                                  .executionTime!
+                                                  .isNotEmpty
+                                          ? todolistController.timeFromDateTime(
+                                              DateTime.parse(
+                                                  "${todolistController.taskDateController.text} "
+                                                  "${todolistController.editingTask.value!.executionTime}"),
+                                            )
+                                          : TimeOfDay.now(),
                                       onChanged: (newtime) {
                                         todolistController
                                                 .tasktimeController.text =
-                                            "${newtime.hour.toString().padLeft(2, '0')}:${newtime.minute.toString().padLeft(2, '0')}";
+                                            "${newtime.hour.toString().padLeft(2, '0')}:${newtime.minute.toString().padLeft(2, '0')}:00";
                                       },
                                     ),
                                   )
@@ -423,12 +438,27 @@ class TodolistScreen extends StatelessWidget {
                                     padding:
                                         const EdgeInsets.only(top: paddingXs),
                                     child: WheelTimePicker(
-                                      initialTime: TimeOfDay.now(),
+                                      initialTime: todolistController
+                                                      .editingTask
+                                                      .value
+                                                      ?.reminderDateTime !=
+                                                  null &&
+                                              todolistController
+                                                  .editingTask
+                                                  .value!
+                                                  .reminderDateTime!
+                                                  .isNotEmpty
+                                          ? todolistController.timeFromDateTime(
+                                              DateTime.parse(
+                                                  "${todolistController.taskDateController.text} "
+                                                  "${todolistController.editingTask.value!.executionTime}"),
+                                            )
+                                          : TimeOfDay.now(),
                                       onChanged: (newtime) {
                                         todolistController
                                                 .taskReminderTimeController
                                                 .text =
-                                            "${newtime.hour.toString().padLeft(2, '0')}:${newtime.minute.toString().padLeft(2, '0')}";
+                                            "${newtime.hour.toString().padLeft(2, '0')}:${newtime.minute.toString().padLeft(2, '0')}:00";
                                       },
                                     ),
                                   )
@@ -527,7 +557,7 @@ class TodolistScreen extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: paddingXs),
                                     child: Text(
-                                      item,
+                                      item.tr,
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
@@ -609,7 +639,7 @@ class TodolistScreen extends StatelessWidget {
               child: Padding(
             padding: const EdgeInsets.symmetric(vertical: paddingM),
             child: RefreshIndicator(
-              onRefresh: () => todolistController.loadFakeTodolist(),
+              onRefresh: () => todolistController.loadTasks(),
               child: Obx(() {
                 return todolistController.loadingTodolist.value == true
                     ? Center(child: LoadingIndicator())

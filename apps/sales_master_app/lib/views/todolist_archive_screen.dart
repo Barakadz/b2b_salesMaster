@@ -18,7 +18,7 @@ class TodolistArchiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TodolistController todolistController = Get.find();
-    todolistController.loadFakeArchiveTodolist();
+    todolistController.loadArchiveTask();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
       body: SafeArea(
