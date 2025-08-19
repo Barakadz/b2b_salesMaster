@@ -38,6 +38,8 @@ class TodolistController extends GetxController {
   Rx<bool> showReminderDatePicker = false.obs;
   Rx<bool> showReminderTimePicker = false.obs;
 
+  bool taskDone = false;
+
   final GlobalKey<FormState> taskFormKey = GlobalKey<FormState>();
 
   CurrentuserController userController = Get.put(CurrentuserController());
@@ -140,6 +142,7 @@ class TodolistController extends GetxController {
     todolistTitleController.text = task.title;
     taskDescriptionController.text = task.description ?? '';
     todolistLocationController.text = task.location ?? '';
+    taskDone = task.done;
 
     // Handle task date & time
     if (task.executionDate != null && task.executionDate!.isNotEmpty) {
@@ -445,9 +448,10 @@ class TodolistController extends GetxController {
         id: editingTask.value!.id,
         title: todolistTitleController.text,
         description: taskDescriptionController.text,
+        location: todolistLocationController.text,
         executionDateTime:
             "${taskDateController.text} ${tasktimeController.text}",
-        done: false,
+        done: taskDone,
         assignedToId: userController.currentUser.value?.id ?? 0,
         reminderDateTime: taskReminderDateController.isBlank == true ||
                 taskReminderTimeController.isBlank == true

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:data_layer/data_layer.dart'; // gives you Api, AppStorage, Config if needed
+import 'package:data_layer/data_layer.dart';
+import 'package:sales_master_app/config/routes.dart'; // gives you Api, AppStorage, Config if needed
 
 class AuthService {
   // Auth host (without the trailing slash)

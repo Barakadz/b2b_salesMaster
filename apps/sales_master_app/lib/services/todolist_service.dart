@@ -26,7 +26,7 @@ class TodolistService {
       queryParams['search'] = query.trim();
     }
     if (done == true) {
-      queryParams["done"] = done;
+      queryParams["status"] = "done";
     }
     queryParams["per_page"] = 100;
 
@@ -116,7 +116,7 @@ class TodolistService {
         "priority": priority.toLowerCase(),
         "date_execution": executionDateTime,
         "assigned_to": assignedToId,
-        "done": false,
+        "done": done,
         "location": location,
         "date_reminder": reminderDateTime
       };

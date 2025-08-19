@@ -23,7 +23,9 @@ class DocumentService {
 
       if (response != null && response.data["success"] == true) {
         final data = response.data["data"];
-        return CatalogueFile.fromJson(data["offre"]);
+        return data["offre"] != null
+            ? CatalogueFile.fromJson(data["offre"])
+            : null;
       }
       return null;
     } catch (e) {
@@ -38,7 +40,10 @@ class DocumentService {
 
       if (response != null && response.data["success"] == true) {
         final data = response.data["data"];
-        return CatalogueFile.fromJson(data["benchmark"]);
+
+        return data["benchmark"] != null
+            ? CatalogueFile.fromJson(data["benchmark"])
+            : null;
       }
       return null;
     } catch (e) {

@@ -21,7 +21,7 @@ class CatalogueScreen extends StatelessWidget {
     CatalogueController catalogueController = Get.put(CatalogueController());
     List<Widget> views = [
       OffersView(),
-      ServiceView(),
+      // ServiceView(),
       RoamingView(),
       InternationalTarifView()
     ];
@@ -104,7 +104,7 @@ class CatalogueScreen extends StatelessWidget {
                           //svgPath: tab.svgPath,
                           svgPath: tab.svgPath,
                           clicked:
-                              catalogueController.mainTabdsIndex == tab.index,
+                              catalogueController.mainTabdIndex == tab.index,
                         );
                       }),
                     );
@@ -118,7 +118,7 @@ class CatalogueScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: paddingL, vertical: paddingS),
               child: SingleChildScrollView(child: Obx(() {
-                return views[catalogueController.mainTabdsIndex.value];
+                return views[catalogueController.mainTabdIndex.value];
               })),
             ),
           ),

@@ -8,7 +8,7 @@ import 'package:sales_master_app/services/catalogue_service.dart';
 import 'package:sales_master_app/services/countries_service.dart';
 
 class CatalogueController extends GetxController {
-  Rx<int> mainTabdsIndex = 0.obs;
+  Rx<int> mainTabdIndex = 0.obs;
   Rx<int> offersSubTabIndex = 0.obs;
   Rx<int> roamingTabIndex = 0.obs;
   TextEditingController searchBarTextController = TextEditingController();
@@ -97,13 +97,11 @@ class CatalogueController extends GetxController {
   }
 
   void switchMainTab(int index) {
-    mainTabdsIndex.value = index;
+    mainTabdIndex.value = index;
     clickedFileIndex.value = null;
     if (index == 0) {
       offersSubTabIndex.value = 0;
       loadOffers();
-    } else if (index == 1) {
-      loadService();
     }
   }
 

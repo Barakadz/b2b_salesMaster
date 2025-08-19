@@ -129,7 +129,7 @@ class CatalogueScreenBackup extends StatelessWidget {
                           //svgPath: tab.svgPath,
                           svgPath: tab.svgPath,
                           clicked:
-                              catalogueController.mainTabdsIndex == tab.index,
+                              catalogueController.mainTabsIndex == tab.index,
                         );
                       }),
                     );
@@ -156,7 +156,7 @@ class CatalogueScreenBackup extends StatelessWidget {
                       ?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Obx(() {
-                  return catalogueController.mainTabdsIndex.value == 0
+                  return catalogueController.mainTabsIndex.value == 0
                       ? IntrinsicWidth(
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton2<String>(
@@ -217,7 +217,7 @@ class CatalogueScreenBackup extends StatelessWidget {
                             ),
                           ),
                         )
-                      : catalogueController.mainTabdsIndex == 2
+                      : catalogueController.mainTabsIndex == 2
                           ? IntrinsicWidth(
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton2<String>(
@@ -287,7 +287,7 @@ class CatalogueScreenBackup extends StatelessWidget {
             ),
           ),
           Obx(() {
-            return catalogueController.mainTabdsIndex.value == 0
+            return catalogueController.mainTabsIndex.value == 0
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: paddingM, horizontal: paddingL),
@@ -345,7 +345,7 @@ class CatalogueScreenBackup extends StatelessWidget {
                     ? Center(child: LoadingIndicator())
                     : catalogueController.files.length == 0
                         ? EmptyWidget()
-                        : catalogueController.mainTabdsIndex.value == 2 &&
+                        : catalogueController.mainTabsIndex.value == 2 &&
                                 catalogueController.selectedCountry.value !=
                                     null
                             ? SingleChildScrollView(

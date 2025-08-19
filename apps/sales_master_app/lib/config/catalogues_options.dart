@@ -35,18 +35,18 @@ List<CatalogueOffer> services = [
         //     name: "Algerie telecom",
         //     svgPath: "assets/algerie_telecom.png"),
       ]),
+  // CatalogueOffer(
+  //     index: 1,
+  //     name: "Services",
+  //     subServices: [],
+  //     svgPath: "assets/services.svg"),
   CatalogueOffer(
       index: 1,
-      name: "Services",
-      subServices: [],
-      svgPath: "assets/services.svg"),
-  CatalogueOffer(
-      index: 2,
       name: "Roaming",
       subServices: [],
       svgPath: "assets/roaming.svg"),
   CatalogueOffer(
-      index: 3,
+      index: 2,
       name: "International",
       subServices: [],
       svgPath: "assets/international.svg"),
