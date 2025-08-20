@@ -188,9 +188,12 @@ class TodolistController extends GetxController {
   void onReady() {
     super.onReady();
 
-    // Set time texts now that context is available
-    tasktimeController.text = formatTime(nowTime);
-    taskReminderTimeController.text = formatTime(defaultReminderTime);
+    // Always force :00 seconds
+    tasktimeController.text =
+        "${nowTime.hour.toString().padLeft(2, '0')}:${nowTime.minute.toString().padLeft(2, '0')}:00";
+
+    taskReminderTimeController.text =
+        "${defaultReminderTime.hour.toString().padLeft(2, '0')}:${defaultReminderTime.minute.toString().padLeft(2, '0')}:00";
   }
 
   @override

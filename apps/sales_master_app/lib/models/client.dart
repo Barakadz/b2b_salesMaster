@@ -1,70 +1,35 @@
-class Client {
+class ClientListItem {
   int id;
-  String companyName;
-  String telecomManager;
-  int openBills;
-  int msisdnCount;
-  double annualRevenue;
-  double totalUnpaid;
-  double globalDueAj;
-  double lastBill;
-  String msisdn;
-  DateTime? expirationDate;
+  String name;
   bool isTopClient;
-  bool active;
-  int offers;
-  String reconduction;
-  String? mom;
+  bool isActive;
+  String msisdnCount;
 
-  Client(
+  ClientListItem(
       {required this.id,
-      required this.companyName,
-      required this.telecomManager,
-      required this.openBills,
+      required this.name,
+      required this.isTopClient,
       required this.msisdnCount,
-      required this.annualRevenue,
-      required this.totalUnpaid,
-      required this.lastBill,
-      required this.msisdn,
-      required this.expirationDate,
-      required this.active,
-      required this.offers,
-      required this.globalDueAj,
-      required this.reconduction,
-      this.mom,
-      required this.isTopClient});
+      required this.isActive});
 
-  factory Client.fromJson(Map<String, dynamic> json) {
-    return Client(
+  factory ClientListItem.fromJson(Map<String, dynamic> json) {
+    return ClientListItem(
         id: json["id"],
-        companyName: json["raison_social"],
-        telecomManager: json["telecom_manager"],
-        openBills: json["facture_ouverte"],
-        msisdnCount: json["nombre_de_lignes"],
-        annualRevenue: json["revenu annuel"],
-        totalUnpaid: json["montant_impayes"],
-        lastBill: json["derniere_facture"],
-        msisdn: json["msisdn"],
-        isTopClient: json["topClient"],
-        active: json["active"],
-        globalDueAj: json["due_aj"],
-        offers: json["offers"],
-        mom: json["mom"],
-        reconduction: json["reconduction"],
-        expirationDate: json["topClient"] == true
-            ? DateTime.now().add(Duration(days: 30))
-            : null);
+        name: json["client"],
+        msisdnCount: json["nombre_ligne"],
+        isTopClient: json["top1000"] == true,
+        isActive: json["status"] == "active");
   }
 }
 
-class PaginatedClient {
-  final List<Client> clients;
+class PaginatedClientListItem {
+  final List<ClientListItem> clients;
   final int currentPage;
   final int lastPage;
   final int perPage;
   final int total;
 
-  PaginatedClient({
+  PaginatedClientListItem({
     required this.clients,
     required this.currentPage,
     required this.lastPage,
@@ -72,15 +37,110 @@ class PaginatedClient {
     required this.total,
   });
 
-  factory PaginatedClient.fromJson(Map<String, dynamic> json) {
-    return PaginatedClient(
-      clients: (json["data"] as List)
-          .map((clientJson) => Client.fromJson(clientJson))
+  factory PaginatedClientListItem.fromJson(Map<String, dynamic> json) {
+    final data = json["data"];
+    final meta = data["meta"];
+
+    return PaginatedClientListItem(
+      clients: (data["data"] as List)
+          .map((clientJson) => ClientListItem.fromJson(clientJson))
           .toList(),
-      currentPage: json["current_page"],
-      lastPage: json["last_page"],
-      perPage: json["per_page"],
-      total: json["total"],
+      currentPage: meta["current_page"],
+      lastPage: meta["last_page"],
+      perPage: meta["per_page"],
+      total: meta["total"],
+    );
+  }
+}
+
+class ClientDetails {
+  final int id;
+  final String raisonSociale;
+  final String? createdAt;
+  final String? updatedAt;
+  final String payerId;
+  final String payerName;
+  final String payerSize;
+  final String payerActivationDate;
+  final String payerStatus;
+  final String payerCategory;
+  final String payerCollectorId;
+  final String region;
+  final dynamic mainPackageFee;
+  final dynamic monthlyFee;
+  final dynamic speedFee;
+  final dynamic dispatcherLicenseFee;
+  final dynamic dispatcherServiceFee;
+  final dynamic pptServiceFee;
+  final dynamic monthlyFeeGlobal;
+  final String? expiryDateTop1000;
+  final int saleId;
+  final String status;
+  final int nombreLigne;
+  final int nombreOffre;
+  final int monthlyRevenu;
+  final dynamic tm;
+  final dynamic bill;
+
+  ClientDetails({
+    required this.id,
+    required this.raisonSociale,
+    this.createdAt,
+    this.updatedAt,
+    required this.payerId,
+    required this.payerName,
+    required this.payerSize,
+    required this.payerActivationDate,
+    required this.payerStatus,
+    required this.payerCategory,
+    required this.payerCollectorId,
+    required this.region,
+    this.mainPackageFee,
+    this.monthlyFee,
+    this.speedFee,
+    this.dispatcherLicenseFee,
+    this.dispatcherServiceFee,
+    this.pptServiceFee,
+    this.monthlyFeeGlobal,
+    this.expiryDateTop1000,
+    required this.saleId,
+    required this.status,
+    required this.nombreLigne,
+    required this.nombreOffre,
+    required this.monthlyRevenu,
+    this.tm,
+    this.bill,
+  });
+
+  factory ClientDetails.fromJson(Map<String, dynamic> json) {
+    return ClientDetails(
+      id: json['id'],
+      raisonSociale: json['raison_sociale'] ?? "",
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      payerId: json['payer_id'] ?? "",
+      payerName: json['payer_name'] ?? "",
+      payerSize: json['payer_size'] ?? "",
+      payerActivationDate: json['payer_activation_date'] ?? "",
+      payerStatus: json['payer_status'] ?? "",
+      payerCategory: json['payer_category'] ?? "",
+      payerCollectorId: json['payer_collector_id'] ?? "",
+      region: json['region'] ?? "",
+      mainPackageFee: json['main_package_fee'],
+      monthlyFee: json['monthly_fee'],
+      speedFee: json['speed_fee'],
+      dispatcherLicenseFee: json['dispatcher_license_fee'],
+      dispatcherServiceFee: json['dispatcher_service_fee'],
+      pptServiceFee: json['ppt_service_fee'],
+      monthlyFeeGlobal: json['monthly_fee_global'],
+      expiryDateTop1000: json['expiry_date_top1000'],
+      saleId: json['sale_id'],
+      status: json['status'] ?? "",
+      nombreLigne: json['nombre_ligne'] ?? 0,
+      nombreOffre: json['nombre_offre'] ?? 0,
+      monthlyRevenu: json['monthly_revenu'] ?? 0,
+      tm: json['tm'],
+      bill: json['bill'],
     );
   }
 }

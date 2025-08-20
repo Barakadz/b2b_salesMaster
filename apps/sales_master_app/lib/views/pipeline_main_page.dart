@@ -27,7 +27,7 @@ class PipelineMainPage extends StatelessWidget {
         Text("could not load pipeline"),
         PrimaryButton(
             onTap: () {
-              pipelineController.fetchFakePipeline();
+              pipelineController.fetchPipeLine();
             },
             text: "Try again")
       ],

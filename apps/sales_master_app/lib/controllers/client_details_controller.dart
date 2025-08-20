@@ -16,32 +16,32 @@ class ClientDetailsController extends GetxController {
   TextEditingController lastBillTextController = TextEditingController();
   TextEditingController momTextController = TextEditingController();
 
-  final Client client;
+  final ClientListItem client;
 
   ClientDetailsController({required this.client});
 
   @override
   void onInit() {
     super.onInit();
-    telecomTextController = TextEditingController(text: client.telecomManager);
-    raisonSocialeTextController =
-        TextEditingController(text: client.companyName);
-    nombreLignesTextController =
-        TextEditingController(text: client.msisdnCount.toString());
-    offersTextController =
-        TextEditingController(text: client.offers.toString());
-    reconductionTextController =
-        TextEditingController(text: client.reconduction);
-    expirationDateTextController =
-        TextEditingController(text: client.expirationDate?.toString());
-    revenuAnnuelDateTextController =
-        TextEditingController(text: client.annualRevenue.toString());
-    openBillsTextController =
-        TextEditingController(text: client.openBills.toString());
-    dueTextController =
-        TextEditingController(text: client.globalDueAj.toString());
-    lastBillTextController =
-        TextEditingController(text: client.lastBill.toString());
-    momTextController = TextEditingController(text: client.mom);
+    // telecomTextController = TextEditingController(text: client.telecomManager);
+    // raisonSocialeTextController =
+    //     TextEditingController(text: client.companyName);
+    // nombreLignesTextController =
+    //     TextEditingController(text: client.msisdnCount.toString());
+    // offersTextController =
+    //     TextEditingController(text: client.offers.toString());
+    // reconductionTextController =
+    //     TextEditingController(text: client.reconduction);
+    // expirationDateTextController =
+    //     TextEditingController(text: client.expirationDate?.toString());
+    // revenuAnnuelDateTextController =
+    //     TextEditingController(text: client.annualRevenue.toString());
+    // openBillsTextController =
+    //     TextEditingController(text: client.openBills.toString());
+    // dueTextController =
+    //     TextEditingController(text: client.globalDueAj.toString());
+    // lastBillTextController =
+    //     TextEditingController(text: client.lastBill.toString());
+    // momTextController = TextEditingController(text: client.mom);
   }
 }

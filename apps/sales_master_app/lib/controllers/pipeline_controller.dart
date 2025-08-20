@@ -74,6 +74,7 @@ class PipelineController extends GetxController {
   }
 
   void fetchPipeLine() async {
+    print("fetching pipeline");
     loadingPipeline.value = true;
     errorLoadingPipeline.value = false;
 

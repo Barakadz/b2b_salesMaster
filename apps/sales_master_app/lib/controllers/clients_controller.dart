@@ -10,15 +10,15 @@ import 'package:sales_master_app/services/clients_service.dart';
 
 class ClientsController extends GetxController {
   Rx<bool> loadingClients = false.obs;
-  RxList<Client> clients = <Client>[].obs;
+  RxList<ClientListItem> clients = <ClientListItem>[].obs;
 
   Rx<bool> loadingBadDebts = false.obs;
   RxList<BadDebt> badDebts = <BadDebt>[].obs;
 
   Rx<bool> onClientsView = true.obs;
 
-  Rx<Client?> selectedClient = null.obs;
-  Rx<Client?> selectedBadDebt = null.obs;
+  Rx<ClientListItem?> selectedClient = null.obs;
+  Rx<ClientListItem?> selectedBadDebt = null.obs;
 
   TextEditingController telecomManagerTextController = TextEditingController();
   final RxString _searchQuery = ''.obs;
@@ -63,7 +63,7 @@ class ClientsController extends GetxController {
   Future<void> getClients() async {
     loadingClients.value = true;
 
-    final PaginatedClient? result = await ClientService().getAllClients(
+    final PaginatedClientListItem? result = await ClientService().getAllClients(
         searchQuery: _searchQuery.value.isNotEmpty ? _searchQuery.value : null);
 
     if (result != null) {
@@ -161,8 +161,8 @@ class ClientsController extends GetxController {
     loadingBadDebts.value = false;
   }
 
-  void setClient(Client client) {
-    Get.put(ClientDetailsController(client: client));
+  void setClient(ClientListItem client) {
+    // Get.put(ClientDetailsController(client: client));
   }
 
   void setBadDebt(BadDebt client) {

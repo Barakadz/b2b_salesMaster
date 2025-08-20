@@ -24,6 +24,7 @@ class PipelineService {
     DateTime? startDate,
     DateTime? endDate,
   }) async {
+    print("fetching pipeline from service");
     try {
       final now = DateTime.now();
       final DateTime end = endDate ?? now;

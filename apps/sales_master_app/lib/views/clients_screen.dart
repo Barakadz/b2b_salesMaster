@@ -213,11 +213,11 @@ class ClientsScreen extends StatelessWidget {
                                     },
                                     child: ClientCard(
                                         name: clientsController
-                                            .clients[index].companyName,
+                                            .clients[index].name,
                                         msisdn: clientsController
-                                            .clients[index].msisdn,
+                                            .clients[index].msisdnCount,
                                         isActive: clientsController
-                                            .clients[index].active),
+                                            .clients[index].isActive),
                                   ),
                                 );
                               })

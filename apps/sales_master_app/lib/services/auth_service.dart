@@ -128,6 +128,10 @@ class AuthService {
           response.data != null &&
           response.data['access_token'] != null) {
         Config.refreshTokenUrl = "${_authHost}/aouth2/token";
+        Config.refreshTokenParams["client_id"] = _clientId;
+        Config.refreshTokenParams["client_secret"] = _clientSecret;
+        Config.refreshTokenParams["refresh_token"] =
+            response.data["refresh_token"];
         return AuthTokens.fromJson(response.data);
       }
       return null;
