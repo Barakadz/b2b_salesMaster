@@ -51,5 +51,8 @@ Map<String, dynamic> notificationAssets = {
 
 Map<bool, dynamic> clientActiveColors = {
   true: {"textColor": Color(0xff53DAA0), "bgColor": Color(0x2652DF96)},
-  false: {"textColor": Color(0XffEF2B48), "bgColor": Color(0X1AEF2B481A)}
+  false: {
+    "textColor": Color(0XFFEF2B48),
+    "bgColor": Color(0XFFEF2B48).withValues(alpha: 0.1)
+  }
 };

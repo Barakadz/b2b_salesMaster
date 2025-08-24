@@ -34,8 +34,9 @@ void main() async {
 
   //api services config
   Config.configure(
-    enableRefreshToken: true,
-  );
+      enableRefreshToken: true,
+      tokenKey: "access_token",
+      refreshTokenKey: "refresh_token");
   Api.getInstance(baseUrl: authController.getBaseUrl());
 
   runApp(const MyApp());

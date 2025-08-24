@@ -32,7 +32,6 @@ class ClientService {
     }
   }
 
-  /// Fetch one client by ID (full details)
   Future<ClientDetails?> getClientById(int id) async {
     try {
       final response = await Api.getInstance().get("client/$id");
@@ -47,6 +46,47 @@ class ClientService {
     } catch (e, stacktrace) {
       print("Exception while fetching client details: $e\n$stacktrace");
       return null;
+    }
+  }
+
+  Future<bool> updateTm(int clientId, String email) async {
+    try {
+      final body = {"email": email};
+
+      final response = await Api.getInstance()
+          .post("client/$clientId/update-tm", data: body);
+
+      if (response != null && response.data?["success"] == true) {
+        return true;
+      }
+
+      print("Failed to update TM: response was null or unsuccessful");
+      return false;
+    } catch (e, stacktrace) {
+      print("Exception while updating TM: $e\n$stacktrace");
+      return false;
+    }
+  }
+
+  Future<bool> addMom(int clientId, String mom) async {
+    try {
+      final body = {
+        "mom": mom,
+        "visit_date": DateTime.now().toString().substring(0, 19),
+      };
+
+      final response =
+          await Api.getInstance().post("client/$clientId/add-mom", data: body);
+
+      if (response != null && response.data?["success"] == true) {
+        return true;
+      }
+
+      print("Failed to add MOM: response was null or unsuccessful");
+      return false;
+    } catch (e, stacktrace) {
+      print("Exception while adding MOM: $e\n$stacktrace");
+      return false;
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:core_utility/core_utility.dart';
 import 'package:data_layer/data_layer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,9 @@ class AuthController extends GetxController {
 
   final AuthService _authService = AuthService();
 
+  Rx<bool> requestingOtp = false.obs;
+  Rx<bool> verifyingOtp = false.obs;
+
   @override
   void onInit() {
     isLoged.value = AppStorage().getToken() != null;
@@ -29,19 +33,6 @@ class AuthController extends GetxController {
 
   final Rx<CountdownController> otpTimerController =
       CountdownController(autoStart: true).obs;
-
-  // String? validateMsisdn(String? value) {
-  //   if (value == null || value.isEmpty) {
-  //     return "username_required";
-  //   }
-  //   if (value.length < 10) {
-  //     return "number must be 10 charachers long";
-  //   }
-  //   if (value.substring(0, 2) != "07") {
-  //     return "not valid djezzy number";
-  //   }
-  //   return null;
-  // }
 
   String? validateMsisdn(String? value) {
     if (value == null || value.isEmpty) {
@@ -68,40 +59,36 @@ class AuthController extends GetxController {
     return getMsisdn() == null ? baseUrl : "$baseUrl/${getMsisdn()}";
   }
 
-  // bool sendOtp() {
-  //   if (msisdnFormKey.currentState!.validate() != true) {
-  //     return false;
-  //   }
-  //   msisdn.value = msisdnController.text;
-  //   print(msisdn.value);
-  //   return true;
-  // }
-
   Future<bool> sendOtp() async {
+    requestingOtp.value = true;
     if (msisdnFormKey.currentState?.validate() != true) return false;
 
     msisdn.value = msisdnController.text;
     final success = await _authService.requestOtp(msisdn.value!);
+    requestingOtp.value = false;
 
     if (!success) {
-      Get.snackbar("Error", "Failed to send OTP");
+      SnackbarService.showCustomMessage(
+          message:
+              "this phone number is not known by djezzy, please contact the admin",
+          title: "Unknown number");
+      return false;
     }
     return success;
   }
 
   Future<bool> login(String otp) async {
-    final tokens = await _authService.verifyOtp(
+    verifyingOtp.value = true;
+    final AuthTokens? tokens = await _authService.verifyOtp(
       msisdnRaw: msisdn.value!,
       otp: otp,
     );
+    verifyingOtp.value = false;
 
     if (tokens != null) {
-      await Api.getInstance().setToken(token: tokens.accessToken);
-      if (tokens.refreshToken != null) {
-        await Api.getInstance()
-            .setRefreshToken(refreshToken: tokens.refreshToken!);
-        Config.refreshTokenParams["refresh_token"] = tokens.refreshToken;
-      }
+      Api.getInstance().setToken(token: tokens.accessToken);
+      Api.getInstance().setRefreshToken(refreshToken: tokens.refreshToken);
+
       AppStorage().setMsisdn(AuthService().formatMsisdn(msisdn.value!));
       Api.getInstance().setBaseUrl(
         _authService.userScopedBaseUrl(msisdn.value!),
@@ -113,9 +100,16 @@ class AuthController extends GetxController {
       Api.getInstance().setBaseUrl(testBaseUrl);
       return true;
     }
+    SnackbarService.showCustomMessage(
+        message: "please make sure the otp is correct", title: "Auth error");
 
-    Get.snackbar("Error", "Invalid OTP");
     return false;
+  }
+
+  Future<void> logout() async {
+    _authService.logout();
+    AppStorage().clearAll();
+    isLoged.value = false;
   }
 
   //bool login() {

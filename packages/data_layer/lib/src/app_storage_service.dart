@@ -49,6 +49,9 @@ class AppStorage {
   }
 
   String? getRefreshToken() {
+    final val = _sharedPrefs.getString(Config.refreshTokenKey);
+    print(
+        "Loading refreshToken under key: ${Config.refreshTokenKey}, got: $val");
     return _sharedPrefs.getString(Config.refreshTokenKey);
   }
 
@@ -57,6 +60,8 @@ class AppStorage {
   }
 
   Future<bool> setRefreshToken(String refreshToken) async {
+    print(
+        "Saving refreshToken under key: ${Config.refreshTokenKey}, value: $refreshToken");
     return await _sharedPrefs.setString(Config.refreshTokenKey, refreshToken);
   }
 

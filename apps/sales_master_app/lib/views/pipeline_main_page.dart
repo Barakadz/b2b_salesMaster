@@ -63,7 +63,11 @@ class PipelineMainPage extends StatelessWidget {
                       Obx(() {
                         return PipelineContainer(
                           loading: pipelineController.loadingPipeline.value,
-                          errorWidget: Container(),
+                          errorWidget: CustomErrorWidget(
+                            onTap: () {
+                              pipelineController.fetchPipeLine();
+                            },
+                          ),
                           error: pipelineController.errorLoadingPipeline.value,
                           globalValue:
                               pipelineController.myPipeLine.value?.performance,

@@ -116,15 +116,18 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: paddingXxxxxl,
               ),
-              PrimaryButton(
-                onTap: () async {
-                  bool res = await authController.sendOtp();
-                  if (res == true) {
-                    context.push(AppRoutes.otpValidation.path);
-                  }
-                },
-                text: AppLocalizations.of(context)!.next,
-              )
+              Obx(() {
+                return PrimaryButton(
+                  loading: authController.requestingOtp.value,
+                  onTap: () async {
+                    bool res = await authController.sendOtp();
+                    if (res == true) {
+                      context.push(AppRoutes.otpValidation.path);
+                    }
+                  },
+                  text: AppLocalizations.of(context)!.next,
+                );
+              })
             ],
           ),
         ),

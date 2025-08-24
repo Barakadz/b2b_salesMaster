@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:data_layer/data_layer.dart';
-import 'package:sales_master_app/config/routes.dart'; // gives you Api, AppStorage, Config if needed
 
 class AuthService {
   // Auth host (without the trailing slash)
@@ -127,11 +126,11 @@ class AuthService {
       if (response != null &&
           response.data != null &&
           response.data['access_token'] != null) {
-        Config.refreshTokenUrl = "${_authHost}/aouth2/token";
-        Config.refreshTokenParams["client_id"] = _clientId;
-        Config.refreshTokenParams["client_secret"] = _clientSecret;
-        Config.refreshTokenParams["refresh_token"] =
+        Config.refreshTokenUrl = "$_authHost/aouth2/token";
+        Config.refreshTokenBody["refresh_token"] =
             response.data["refresh_token"];
+        Config.client_secret = _clientSecret;
+        Config.client_id = _clientId;
         return AuthTokens.fromJson(response.data);
       }
       return null;
@@ -160,14 +159,14 @@ class AuthService {
 /// Simple tokens model for convenience
 class AuthTokens {
   final String accessToken;
-  final String? refreshToken;
+  final String refreshToken;
   final String? tokenType;
   final int? expiresIn;
   final String? idToken;
 
   AuthTokens({
     required this.accessToken,
-    this.refreshToken,
+    required this.refreshToken,
     this.tokenType,
     this.expiresIn,
     this.idToken,
@@ -175,7 +174,7 @@ class AuthTokens {
 
   factory AuthTokens.fromJson(Map<String, dynamic> json) => AuthTokens(
         accessToken: json['access_token'] as String,
-        refreshToken: json['refresh_token'] as String?,
+        refreshToken: json['refresh_token'] as String,
         tokenType: json['token_type'] as String?,
         expiresIn: json['expires_in'] is int ? json['expires_in'] : null,
         idToken: json['id_token'] as String?,

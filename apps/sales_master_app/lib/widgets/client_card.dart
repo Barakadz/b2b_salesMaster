@@ -31,33 +31,38 @@ class ClientCard extends StatelessWidget {
             //   Icons.work_outlined,
             //   size: 48,
             // ),
-            SvgPicture.asset("assets/client.svg"),
+            SvgPicture.asset(
+              "assets/client.svg",
+              height: 40,
+            ),
             SizedBox(
               width: paddingXs,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall
-                      ?.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-                Text(msisdn,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontSize: 14,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurfaceVariant
-                              .withValues(alpha: 0.5),
-                        ))
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    overflow: TextOverflow.ellipsis,
+                    name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  Text(msisdn,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 14,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant
+                                .withValues(alpha: 0.5),
+                          ))
+                ],
+              ),
             ),
-            Spacer(),
             MyChip(
                 text: isActive ? "Active" : "Deconnecté",
                 bgColor: clientActiveColors[isActive]["bgColor"],

@@ -5,7 +5,9 @@ import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/controllers/baddebt_details_controller.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
 import 'package:sales_master_app/widgets/debt_tile.dart';
+import 'package:sales_master_app/widgets/error_widget.dart';
 import 'package:sales_master_app/widgets/info_container.dart';
+import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/my_chip.dart';
 import 'package:sales_master_app/widgets/note.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
@@ -30,199 +32,251 @@ class BadDebtDetails extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PageDetail(title: AppLocalizations.of(context)!.my_baddebt),
+          PageDetail(
+            title: AppLocalizations.of(context)!.my_baddebt,
+            goBack: true,
+          ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 26, vertical: 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.gestion_portefeuille,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(fontSize: 16),
-                      ),
-                      SizedBox(
-                        height: formSectionTopPadding,
-                      ),
-                      CustomTextFormField(
-                        prifixIcon: Icon(
-                          Icons.search_outlined,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurfaceVariant
-                              .withValues(alpha: 0.15),
-                        ),
-                        hintText: AppLocalizations.of(context)!.raison_sociale,
-                        filled: true,
-                        login: false,
-                      ),
-                      SizedBox(
-                        height: formSectionTopPadding,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.generale_informations,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withValues(alpha: 0.5),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        height: formSectionBottomPadding,
-                      ),
-                      InfoContainer(
-                        label: AppLocalizations.of(context)!.raison_sociale,
-                        content: baddebtDetailsController.baddebt.companyName,
-                        status: MyChip(
-                            text: AppLocalizations.of(context)!.call,
-                            bgColor: clientActiveColors[true]["bgColor"],
-                            textColor: clientActiveColors[true]["textColor"]),
-                      ),
-                      SizedBox(
-                        height: textfieldsPadding,
-                      ),
-                      InfoContainer(
-                        label: AppLocalizations.of(context)!.number,
-                        content:
-                            "+213 ${baddebtDetailsController.baddebt.msisdnCount}",
-                        icon: Icon(
-                          Icons.phone_sharp,
-                          size: 20,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurfaceVariant
-                              .withValues(alpha: 0.15),
-                        ),
-                      ),
-                      SizedBox(
-                        height: formSectionTopPadding,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.bills_data,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withValues(alpha: 0.5),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        height: formSectionBottomPadding,
-                      ),
-                      InfoContainer(
-                        label: AppLocalizations.of(context)!.nombre_lignes,
-                        content:
-                            "${baddebtDetailsController.baddebt.msisdnCount} ${AppLocalizations.of(context)!.lignes}",
-                      ),
-                      SizedBox(
-                        height: formSectionTopPadding,
-                      ),
-                      InfoContainer(
-                        label: AppLocalizations.of(context)!.open_bills,
-                        content:
-                            "${baddebtDetailsController.baddebt.openBills}",
-                      ),
-                      SizedBox(
-                        height: formSectionTopPadding,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.montant_financier,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withValues(alpha: 0.5),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        height: formSectionBottomPadding,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
-                              color: Theme.of(context)
-                                  .dividerColor
-                                  .withValues(alpha: 0.5)),
-                          color: Theme.of(context)
-                              .dividerColor
-                              .withValues(alpha: 0.07),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: paddingXxs,
-                            children: [
-                              DebtTile(
-                                prefix: SvgPicture.asset(
-                                  "assets/payment_icon.svg",
-                                  height: 14,
-                                  width: 14,
-                                ),
-                                label: AppLocalizations.of(context)!.last_bill,
-                                content: baddebtDetailsController
-                                    .baddebt.lastBill
-                                    .toString(),
-                              ),
-                              DebtTile(
-                                label: AppLocalizations.of(context)!.global_due,
-                                content: baddebtDetailsController
-                                    .baddebt.globalDue
-                                    .toString(),
-                              ),
-                              DebtTile(
-                                prefix: Icon(
-                                  Icons.circle,
-                                  color: Colors.orange,
-                                  size: 14,
-                                ),
-                                label:
-                                    AppLocalizations.of(context)!.gloabl_due_aj,
-                                content: baddebtDetailsController
-                                    .baddebt.globalDueAJ
-                                    .toString(),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: paddingXxxl,
-                      ),
-                      Note(
-                          info:
-                              AppLocalizations.of(context)!.contacted_warning),
-                      SizedBox(
-                        height: paddingS,
-                      ),
-                      Container(
-                          width: double.infinity,
-                          child: PrimaryButton(
-                            onTap: () {
-                              baddebtDetailsController.callNumber(
-                                  baddebtDetailsController.baddebt.phoneNumber);
-                            },
-                            text: AppLocalizations.of(context)!.call,
-                            height: 45,
-                          ))
-                    ],
-                  )),
-            ),
+            child: Obx(() {
+              return baddebtDetailsController.loadingDetails.value == true
+                  ? Center(child: LoadingIndicator())
+                  : baddebtDetailsController.errorLoadingDetails.value == true
+                      ? CustomErrorWidget(
+                          onTap: () {
+                            baddebtDetailsController.getClientDetails();
+                          },
+                        )
+                      : SingleChildScrollView(
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 26, vertical: 10),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .gestion_portefeuille,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(fontSize: 16),
+                                  ),
+                                  // SizedBox(
+                                  //   height: formSectionTopPadding,
+                                  // ),
+                                  // CustomTextFormField(
+                                  //   prifixIcon: Icon(
+                                  //     Icons.search_outlined,
+                                  //     color: Theme.of(context)
+                                  //         .colorScheme
+                                  //         .onSurfaceVariant
+                                  //         .withValues(alpha: 0.15),
+                                  //   ),
+                                  //   hintText: AppLocalizations.of(context)!
+                                  //       .raison_sociale,
+                                  //   filled: true,
+                                  //   login: false,
+                                  // ),
+                                  SizedBox(
+                                    height: formSectionTopPadding,
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .generale_informations,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant
+                                                .withValues(alpha: 0.5),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: formSectionBottomPadding,
+                                  ),
+                                  InfoContainer(
+                                    label: AppLocalizations.of(context)!
+                                        .raison_sociale,
+                                    content: baddebtDetailsController
+                                        .clientDetails.value!.raisonSociale,
+                                    status: MyChip(
+                                        text:
+                                            AppLocalizations.of(context)!.call,
+                                        bgColor: clientActiveColors[true]
+                                            ["bgColor"],
+                                        textColor: clientActiveColors[true]
+                                            ["textColor"]),
+                                  ),
+                                  // SizedBox(
+                                  //   height: textfieldsPadding,
+                                  // ),
+                                  // InfoContainer(
+                                  //   label: AppLocalizations.of(context)!.number,
+                                  //   content:
+                                  //       "+213 ${baddebtDetailsController.baddebt.msisdnCount}",
+                                  //   icon: Icon(
+                                  //     Icons.phone_sharp,
+                                  //     size: 20,
+                                  //     color: Theme.of(context)
+                                  //         .colorScheme
+                                  //         .onSurfaceVariant
+                                  //         .withValues(alpha: 0.15),
+                                  //   ),
+                                  // ),
+                                  SizedBox(
+                                    height: formSectionTopPadding,
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context)!.bills_data,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant
+                                                .withValues(alpha: 0.5),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: formSectionBottomPadding,
+                                  ),
+                                  InfoContainer(
+                                    label: AppLocalizations.of(context)!
+                                        .nombre_lignes,
+                                    content:
+                                        "${baddebtDetailsController.baddebt.msisdnCount} ${AppLocalizations.of(context)!.lignes}",
+                                  ),
+                                  SizedBox(
+                                    height: formSectionTopPadding,
+                                  ),
+                                  InfoContainer(
+                                    label: AppLocalizations.of(context)!
+                                        .open_bills,
+                                    content:
+                                        "${baddebtDetailsController.clientDetails.value?.bill?.countUnpaidBills ?? "undefined"}",
+                                  ),
+                                  SizedBox(
+                                    height: formSectionTopPadding,
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .montant_financier,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant
+                                                .withValues(alpha: 0.5),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                  ),
+                                  SizedBox(
+                                    height: formSectionBottomPadding,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .dividerColor
+                                              .withValues(alpha: 0.5)),
+                                      color: Theme.of(context)
+                                          .dividerColor
+                                          .withValues(alpha: 0.07),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0, horizontal: 10),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        spacing: paddingXxs,
+                                        children: [
+                                          DebtTile(
+                                            prefix: SvgPicture.asset(
+                                              "assets/payment_icon.svg",
+                                              height: 14,
+                                              width: 14,
+                                            ),
+                                            label: AppLocalizations.of(context)!
+                                                .last_bill,
+                                            content: baddebtDetailsController
+                                                    .clientDetails
+                                                    .value!
+                                                    .bill
+                                                    ?.lastBillAmount
+                                                    .toString() ??
+                                                "undefined",
+                                          ),
+                                          DebtTile(
+                                            label: AppLocalizations.of(context)!
+                                                .global_due,
+                                            content: baddebtDetailsController
+                                                    .clientDetails
+                                                    .value!
+                                                    .bill
+                                                    ?.unpaidAmount
+                                                    .toString() ??
+                                                "undefined",
+                                          ),
+                                          DebtTile(
+                                            prefix: Icon(
+                                              Icons.circle,
+                                              color: Colors.orange,
+                                              size: 14,
+                                            ),
+                                            label: AppLocalizations.of(context)!
+                                                .gloabl_due_aj,
+                                            content: baddebtDetailsController
+                                                    .clientDetails
+                                                    .value!
+                                                    .bill
+                                                    ?.unpaidAmount
+                                                    .toString() ??
+                                                "undefined",
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: paddingXxxl,
+                                  ),
+                                  Note(
+                                      info: AppLocalizations.of(context)!
+                                          .contacted_warning),
+                                  SizedBox(
+                                    height: paddingS,
+                                  ),
+                                  Container(
+                                      width: double.infinity,
+                                      child: PrimaryButton(
+                                        onTap: () {
+                                          baddebtDetailsController.callNumber(
+                                              baddebtDetailsController
+                                                  .baddebt.msisdnCount
+                                                  .toString());
+                                        },
+                                        text:
+                                            AppLocalizations.of(context)!.call,
+                                        height: 45,
+                                      ))
+                                ],
+                              )),
+                        );
+            }),
           ),
         ],
       )),

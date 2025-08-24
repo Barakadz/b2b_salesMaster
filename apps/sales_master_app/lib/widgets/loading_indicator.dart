@@ -6,12 +6,14 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 15,
-      width: 15,
-      child: CircularProgressIndicator(
-        color: color ?? Theme.of(context).colorScheme.primary,
-        strokeWidth: 2,
+    return Center(
+      child: SizedBox(
+        height: 15,
+        width: 15,
+        child: CircularProgressIndicator(
+          color: color ?? Theme.of(context).colorScheme.primary,
+          strokeWidth: 2,
+        ),
       ),
     );
   }

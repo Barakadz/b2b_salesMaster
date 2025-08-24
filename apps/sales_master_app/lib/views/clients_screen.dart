@@ -10,6 +10,9 @@ import 'package:sales_master_app/controllers/clients_controller.dart';
 import 'package:sales_master_app/widgets/client_card.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
+import 'package:sales_master_app/widgets/empty_widget.dart';
+import 'package:sales_master_app/widgets/error_widget.dart';
+import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -36,7 +39,7 @@ class ClientsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(paddingXl),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
@@ -184,6 +187,7 @@ class ClientsScreen extends StatelessWidget {
                         .search_msisdn_raison_sociale,
                     prifixIcon: Icon(Icons.search_outlined),
                     filled: true,
+                    controller: clientsController.telecomManagerTextController,
                     fillColor: Theme.of(context).colorScheme.primaryContainer,
                   ),
                   SizedBox(
@@ -192,67 +196,124 @@ class ClientsScreen extends StatelessWidget {
                   Expanded(
                     child: Obx(() {
                       return clientsController.onClientsView.value == true
-                          ? ListView.builder(
-                              itemCount: clientsController.clients.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.only(bottom: paddingXs),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      final tag = clientsController
-                                          .clients[index].id
-                                          .toString();
-                                      Get.put(
-                                          ClientDetailsController(
-                                              client: clientsController
-                                                  .clients[index]),
-                                          tag: tag);
-                                      context.push(AppRoutes.clientDetails.path,
-                                          extra: tag);
-                                    },
-                                    child: ClientCard(
-                                        name: clientsController
-                                            .clients[index].name,
-                                        msisdn: clientsController
-                                            .clients[index].msisdnCount,
-                                        isActive: clientsController
-                                            .clients[index].isActive),
-                                  ),
-                                );
-                              })
-                          : ListView.builder(
-                              itemCount: clientsController.badDebts.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.only(bottom: paddingXs),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      final tag = clientsController
-                                          .badDebts[index].id
-                                          .toString();
+                          ? clientsController.loadingClients.value == true
+                              ? LoadingIndicator()
+                              : clientsController.errorLoadingClients.value ==
+                                      true
+                                  ? Center(child: CustomErrorWidget(
+                                      onTap: () {
+                                        clientsController.getClients();
+                                      },
+                                    ))
+                                  : clientsController.clients.isEmpty
+                                      ? EmptyWidget()
+                                      : RefreshIndicator(
+                                          onRefresh: () =>
+                                              clientsController.getClients(),
+                                          child: ListView.builder(
+                                              itemCount: clientsController
+                                                  .clients.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: paddingXs),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      final tag =
+                                                          clientsController
+                                                              .clients[index].id
+                                                              .toString();
+                                                      Get.put(
+                                                          ClientDetailsController(
+                                                              client:
+                                                                  clientsController
+                                                                          .clients[
+                                                                      index]),
+                                                          tag: tag);
+                                                      context.push(
+                                                          AppRoutes
+                                                              .clientDetails
+                                                              .path,
+                                                          extra: tag);
+                                                    },
+                                                    child: ClientCard(
+                                                        name: clientsController
+                                                            .clients[index]
+                                                            .name,
+                                                        msisdn:
+                                                            "${clientsController.clients[index].msisdnCount}",
+                                                        isActive:
+                                                            clientsController
+                                                                .clients[index]
+                                                                .isActive),
+                                                  ),
+                                                );
+                                              }),
+                                        )
+                          : clientsController.loadingBadDebts.value == true
+                              ? LoadingIndicator()
+                              : clientsController.errorLoadingBadDebts.value ==
+                                      true
+                                  ? Center(child: CustomErrorWidget(
+                                      onTap: () {
+                                        clientsController.loadBadDebts();
+                                      },
+                                    ))
+                                  : clientsController.badDebts.isEmpty
+                                      ? EmptyWidget()
+                                      : RefreshIndicator(
+                                          onRefresh: () =>
+                                              clientsController.loadBadDebts(),
+                                          child: ListView.builder(
+                                              itemCount: clientsController
+                                                  .badDebts.length,
+                                              itemBuilder: (context, index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: paddingXs),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      final tag =
+                                                          clientsController
+                                                              .badDebts[index]
+                                                              .id
+                                                              .toString();
 
-                                      Get.put(
-                                          BaddebtDetailsController(
-                                              baddebt: clientsController
-                                                  .badDebts[index]),
-                                          tag: tag);
+                                                      Get.put(
+                                                          BaddebtDetailsController(
+                                                              baddebt:
+                                                                  clientsController
+                                                                          .badDebts[
+                                                                      index]),
+                                                          tag: tag);
 
-                                      context.push(
-                                          AppRoutes.badDebtDetails.path,
-                                          extra: tag);
-                                    },
-                                    child: ClientCard(
-                                        name: clientsController
-                                            .badDebts[index].companyName,
-                                        msisdn: clientsController
-                                            .badDebts[index].phoneNumber,
-                                        isActive: clientsController
-                                            .badDebts[index].isActive),
-                                  ),
-                                );
-                              });
+                                                      context.push(
+                                                          AppRoutes
+                                                              .badDebtDetails
+                                                              .path,
+                                                          extra: tag);
+                                                    },
+                                                    child: ClientCard(
+                                                        name: clientsController
+                                                            .badDebts[index]
+                                                            .name,
+                                                        msisdn:
+                                                            clientsController
+                                                                .badDebts[index]
+                                                                .msisdnCount
+                                                                .toString(),
+                                                        isActive:
+                                                            clientsController
+                                                                .badDebts[index]
+                                                                .isActive),
+                                                  ),
+                                                );
+                                              }),
+                                        );
                     }),
                   )
                 ],

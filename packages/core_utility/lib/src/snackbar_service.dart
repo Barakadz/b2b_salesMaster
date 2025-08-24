@@ -33,7 +33,11 @@ class SnackbarService {
         message: message,
         isDismissible: isDismissible,
         duration: duration,
-        icon: decorationWidget,
+        icon: decorationWidget ??
+            Icon(
+              Icons.info_sharp,
+              color: Colors.yellow,
+            ),
       ),
     );
   }

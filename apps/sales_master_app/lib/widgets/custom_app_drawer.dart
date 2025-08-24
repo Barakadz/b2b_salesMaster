@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
+import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/auth_controller.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
 import 'package:sales_master_app/controllers/translation_controller.dart';
 import 'package:sales_master_app/services/auth_service.dart';
@@ -135,7 +138,8 @@ class CustomAppDrawer extends StatelessWidget {
               PrimaryButton(
                 onTap: () {
                   Navigator.of(context).pop();
-                  AuthService().logout();
+                  Get.put(AuthController()).logout();
+                  context.go(AppRoutes.login.path);
                 },
                 height: 40,
                 text: "Log out",

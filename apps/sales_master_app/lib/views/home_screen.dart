@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/currentuser_controller.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
 import 'package:sales_master_app/controllers/outlook_controller.dart';
 import 'package:sales_master_app/controllers/pipeline_controller.dart';
 import 'package:sales_master_app/controllers/realisations_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
+import 'package:sales_master_app/services/date_formatter_service.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/outlook_relainder_card.dart';
@@ -66,6 +68,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateService = DateFormatterService();
+    final now = DateTime.now();
     RealisationsController realisationsController =
         Get.put(RealisationsController());
     PipelineController pipelineController = Get.put(PipelineController());
@@ -129,18 +133,24 @@ class HomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Obx(() {
+                              CurrentuserController userController =
+                                  Get.put(CurrentuserController());
+                              String? userName =
+                                  userController.currentUser.value?.firstName;
+                              return Text(
+                                "Morning, ${userName ?? ''}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary),
+                              );
+                            }),
                             Text(
-                              "Morning, Bilal",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary),
-                            ),
-                            Text(
-                              "Tuesday 13th, Aug",
+                              dateService.format(now, locale: 'en'),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall

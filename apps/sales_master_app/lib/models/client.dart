@@ -3,7 +3,7 @@ class ClientListItem {
   String name;
   bool isTopClient;
   bool isActive;
-  String msisdnCount;
+  int msisdnCount;
 
   ClientListItem(
       {required this.id,
@@ -78,39 +78,40 @@ class ClientDetails {
   final String status;
   final int nombreLigne;
   final int nombreOffre;
-  final int monthlyRevenu;
+  final double monthlyRevenu;
   final dynamic tm;
-  final dynamic bill;
+  final Bill? bill;
+  final String? mom;
 
-  ClientDetails({
-    required this.id,
-    required this.raisonSociale,
-    this.createdAt,
-    this.updatedAt,
-    required this.payerId,
-    required this.payerName,
-    required this.payerSize,
-    required this.payerActivationDate,
-    required this.payerStatus,
-    required this.payerCategory,
-    required this.payerCollectorId,
-    required this.region,
-    this.mainPackageFee,
-    this.monthlyFee,
-    this.speedFee,
-    this.dispatcherLicenseFee,
-    this.dispatcherServiceFee,
-    this.pptServiceFee,
-    this.monthlyFeeGlobal,
-    this.expiryDateTop1000,
-    required this.saleId,
-    required this.status,
-    required this.nombreLigne,
-    required this.nombreOffre,
-    required this.monthlyRevenu,
-    this.tm,
-    this.bill,
-  });
+  ClientDetails(
+      {required this.id,
+      required this.raisonSociale,
+      this.createdAt,
+      this.updatedAt,
+      required this.payerId,
+      required this.payerName,
+      required this.payerSize,
+      required this.payerActivationDate,
+      required this.payerStatus,
+      required this.payerCategory,
+      required this.payerCollectorId,
+      required this.region,
+      this.mainPackageFee,
+      this.monthlyFee,
+      this.speedFee,
+      this.dispatcherLicenseFee,
+      this.dispatcherServiceFee,
+      this.pptServiceFee,
+      this.monthlyFeeGlobal,
+      this.expiryDateTop1000,
+      required this.saleId,
+      required this.status,
+      required this.nombreLigne,
+      required this.nombreOffre,
+      required this.monthlyRevenu,
+      this.tm,
+      this.bill,
+      this.mom});
 
   factory ClientDetails.fromJson(Map<String, dynamic> json) {
     return ClientDetails(
@@ -138,9 +139,36 @@ class ClientDetails {
       status: json['status'] ?? "",
       nombreLigne: json['nombre_ligne'] ?? 0,
       nombreOffre: json['nombre_offre'] ?? 0,
-      monthlyRevenu: json['monthly_revenu'] ?? 0,
+      monthlyRevenu: double.tryParse(json["monthly_revenue"].toString()) ?? 0.0,
       tm: json['tm'],
-      bill: json['bill'],
+      mom: json["last_visit"] != null ? json["last_visit"]["text"] : null,
+      bill: json["bill"] != null ? Bill.fromJson(json["bill"]) : null,
+    );
+  }
+}
+
+class Bill {
+  final double countUnpaidBills;
+  final double countPayedBills;
+  final double unpaidAmount;
+  final double lastBillAmount;
+  final String? lastBillDate;
+
+  Bill({
+    required this.countUnpaidBills,
+    required this.countPayedBills,
+    required this.unpaidAmount,
+    required this.lastBillAmount,
+    this.lastBillDate,
+  });
+
+  factory Bill.fromJson(Map<String, dynamic> json) {
+    return Bill(
+      countUnpaidBills: (json["count-unpaid-bills"] ?? 0).toDouble(),
+      countPayedBills: (json["count-payed-bills"] ?? 0).toDouble(),
+      unpaidAmount: (json["unpaid-amount"] ?? 0).toDouble(),
+      lastBillAmount: (json["last-bill-amount"] ?? 0).toDouble(),
+      lastBillDate: json["last-bill-date"],
     );
   }
 }

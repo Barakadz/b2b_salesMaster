@@ -116,24 +116,27 @@ class OtpScreen extends StatelessWidget {
                       ),
                 ),
                 SizedBox(height: paddingXxxxxl),
-                PrimaryButton(
-                  onTap: () async {
-                    // Build OTP string
-                    String otp = otpControllers.map((c) => c.text).join();
+                Obx(() {
+                  return PrimaryButton(
+                    loading: authController.verifyingOtp.value,
+                    onTap: () async {
+                      // Build OTP string
+                      String otp = otpControllers.map((c) => c.text).join();
 
-                    // Call login with OTP
-                    bool res = await authController.login(otp);
+                      // Call login with OTP
+                      bool res = await authController.login(otp);
 
-                    // Set token and push notifications
-                    if (res == true) {
-                      PushNotificationService.init(context);
-                      context.push(AppRoutes.home.path);
-                    }
+                      // Set token and push notifications
+                      if (res == true) {
+                        PushNotificationService.init(context);
+                        context.push(AppRoutes.home.path);
+                      }
 
-                    // Navigate to home
-                  },
-                  text: AppLocalizations.of(context)!.next,
-                ),
+                      // Navigate to home
+                    },
+                    text: AppLocalizations.of(context)!.next,
+                  );
+                }),
               ],
             ),
           ),

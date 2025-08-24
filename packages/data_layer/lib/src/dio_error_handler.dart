@@ -7,13 +7,16 @@ class DioErrorHandler extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
       if (Config.enableRefreshToken == false) {
+        print("refresh token not enabled");
         clearTokenAndRedirect();
         return handler.next(err);
       }
-      String? refreshToken = AppStorage().getRefreshToken();
+      String? refreshToken = await AppStorage().getRefreshToken();
 
       if (refreshToken == null) {
-        AppStorage().removeData("token");
+        print("refresh token null");
+        print(Config.refreshTokenKey);
+        AppStorage().removeData(Config.tokenKey);
         Config.onAuthFail?.call();
         return handler.next(err);
       }
@@ -60,14 +63,20 @@ class DioErrorHandler extends Interceptor {
   Future<bool> attemptToRefreshToken(String refreshToken) async {
     // try to refresh token
     try {
-      final response = await Dio().post(Config.refreshTokenUrl,
-          //data: {Config.refreshTokenKey: refreshToken},
-          queryParameters: Config.refreshTokenParams);
+      final response = await Dio().post(
+        Config.refreshTokenUrl,
+        data: Config.refreshTokenBody,
+        options: Options(
+          headers: Config.refreshTokenHeaders,
+        ),
+      );
 
       if (response.statusCode == 200) {
         String newToken = response.data[Config.tokenKey];
+        String refresh_token = response.data[Config.refreshTokenKey];
         Api.getInstance().setToken(token: newToken);
-        Config.refreshTokenParams["refresh_token"] = newToken;
+        Api.getInstance().setRefreshToken(refreshToken: refresh_token);
+        Config.refreshTokenBody["refresh_token"] = refresh_token;
         return true;
       } else {
         return false;
