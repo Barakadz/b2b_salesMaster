@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/constants.dart';
-import 'package:sales_master_app/widgets/primary_button.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final VoidCallback? onTap;
@@ -16,43 +16,56 @@ class CustomErrorWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(Icons.error, size: 40, color: Theme.of(context).iconTheme.color),
+          SvgPicture.asset(
+            "assets/error_icon.svg",
+            height: 30,
+            width: 30,
+          ),
           SizedBox(
             height: paddingS,
           ),
           Text(
-            "Error".tr,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurfaceVariant
-                    .withValues(alpha: 0.5)),
+            "Ouups. Error Detected!".tr,
+            style:
+                Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 16),
           ),
           SizedBox(
             height: paddingXxs,
           ),
           Text(
-            "could not load data".tr,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontSize: 13,
+            "Please check your internet connection and try again".tr,
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
                 color: Theme.of(context)
                     .colorScheme
                     .onSurfaceVariant
-                    .withValues(alpha: 0.5)),
+                    .withValues(alpha: 0.25)),
           ),
           SizedBox(
-            height: paddingS,
+            height: paddingM,
           ),
           GestureDetector(
             onTap: onTap,
-            child: Text(
-              "reload".tr,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(color: Theme.of(context).colorScheme.primary),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: paddingS,
+              children: [
+                SvgPicture.asset(
+                  "assets/refresh.svg",
+                  width: 16,
+                  height: 16,
+                ),
+                Text(
+                  "Refresh".tr,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                ),
+              ],
             ),
           )
         ],
