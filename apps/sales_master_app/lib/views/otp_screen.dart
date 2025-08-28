@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:otp_autofill/otp_autofill.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sales_master_app/config/routes.dart';
@@ -13,12 +14,67 @@ import 'package:sales_master_app/widgets/otp_form.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-class OtpScreen extends StatelessWidget {
+class OtpScreen extends StatefulWidget {
   OtpScreen({super.key});
 
+  @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
   // Generate the controllers in the screen, not inside OtpInput
+  late OTPTextEditController otpListener;
+  late OTPInteractor _otpInteractor;
+  AuthController authController = Get.find();
+
   final List<TextEditingController> otpControllers =
       List.generate(6, (_) => TextEditingController());
+
+  @override
+  void initState() {
+    super.initState();
+    _otpInteractor = OTPInteractor();
+
+    otpListener = OTPTextEditController(
+      otpInteractor: _otpInteractor,
+      codeLength: 6,
+      onCodeReceive: (code) async {
+        debugPrint("Auto received OTP: $code");
+
+        // Fill each TextEditingController with the corresponding character
+        for (int i = 0; i < code.length && i < otpControllers.length; i++) {
+          otpControllers[i].text = code[i];
+        }
+        bool res = await authController.login(code);
+
+        if (res == true) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              context.push(AppRoutes.home.path);
+            }
+          });
+        }
+      },
+    )..startListenUserConsent(
+        (code) {
+          final exp = RegExp(r'(\d{6})');
+          return exp.stringMatch(code ?? '') ?? '';
+        },
+        strategies: [
+          // SampleStrategy(),
+        ],
+      );
+  }
+
+  @override
+  void dispose() {
+    otpListener.stopListen();
+    otpListener.dispose();
+    for (final c in otpControllers) {
+      c.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +83,6 @@ class OtpScreen extends StatelessWidget {
             (paddingBetweenOtp * 4) -
             (paddingXl * 2)) /
         6;
-    AuthController authController = Get.find();
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -126,13 +181,9 @@ class OtpScreen extends StatelessWidget {
                       // Call login with OTP
                       bool res = await authController.login(otp);
 
-                      // Set token and push notifications
                       if (res == true) {
-                        PushNotificationService.init(context);
                         context.push(AppRoutes.home.path);
                       }
-
-                      // Navigate to home
                     },
                     text: AppLocalizations.of(context)!.next,
                   );

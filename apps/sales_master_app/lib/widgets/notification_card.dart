@@ -23,7 +23,8 @@ class NotificationCard extends StatelessWidget {
           children: [
             // pic / icon
             SvgPicture.asset(
-              notificationAssets[notification.type],
+              //notificationAssets[notification.type],
+              'assets/alert_notification.svg',
               height: 39,
               width: 39,
             ),
@@ -51,7 +52,7 @@ class NotificationCard extends StatelessWidget {
                             ?.copyWith(fontSize: 14),
                       ),
                       Text(
-                        notification.date.toString().substring(0, 9),
+                        notification.createdAt.toString().substring(0, 9),
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
@@ -64,7 +65,7 @@ class NotificationCard extends StatelessWidget {
                   ),
                   // description
                   Text(
-                    notification.content,
+                    notification.message,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .textTheme

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
+import 'package:sales_master_app/services/push_notification_service.dart';
 import 'package:sales_master_app/themes/dark_theme.dart';
 import 'package:sales_master_app/themes/light_theme.dart';
 import 'package:toastification/toastification.dart';
@@ -18,9 +19,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //push notification
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await setupNotificationChannel();
+  await initializeLocalNotifications();
+  await PushNotificationService.init();
 
   // translation
   RepoLocalizations.setLocale(Locale("en"));

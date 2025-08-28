@@ -417,9 +417,9 @@ class ClientDetailsScreen extends StatelessWidget {
                                         .clientDetails.value?.monthlyRevenu
                                         .toString(),
                                     hintText: AppLocalizations.of(context)!
-                                        .revenu_annuel,
+                                        .revenus_mensuels,
                                     labelText: AppLocalizations.of(context)!
-                                        .revenu_annuel,
+                                        .revenus_mensuels,
                                   ),
                                   SizedBox(
                                     height: textfieldsPadding,

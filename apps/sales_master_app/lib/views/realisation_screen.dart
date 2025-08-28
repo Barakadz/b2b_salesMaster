@@ -6,7 +6,6 @@ import 'package:sales_master_app/controllers/realisations_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/realisation_chart_container.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
-import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/realisation_overview_container.dart';
 

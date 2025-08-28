@@ -2,6 +2,7 @@ import 'package:core_utility/core_utility.dart';
 import 'package:data_layer/data_layer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:otp_autofill/otp_autofill.dart';
 import 'package:sales_master_app/services/auth_service.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
@@ -11,6 +12,8 @@ class AuthController extends GetxController {
   final GlobalKey<FormState> msisdnFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> otpFormKey = GlobalKey<FormState>();
   Rx<String?> msisdn = Rx<String?>(null);
+
+  late OTPTextEditController controller;
 
   bool prod = false;
   late String baseUrl;
@@ -107,19 +110,18 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout() async {
-    _authService.logout();
+    await _authService.logout();
     AppStorage().clearAll();
     isLoged.value = false;
   }
+}
 
-  //bool login() {
-  //  //validate otp then if correct
-  //  isLoged.value = true;
-  //  AppStorage().setMsisdn(msisdn.value!);
-  //  Api.getInstance().setBaseUrl(getBaseUrl());
-  //  Get.put(CurrentuserController());
-  //  print("baseurl");
-  //  print(getBaseUrl());
-  //  return true;
-  //}
+class SampleStrategy extends OTPStrategy {
+  @override
+  Future<String> listenForCode() {
+    return Future.delayed(
+      const Duration(seconds: 4),
+      () => 'Verification Code : 828439.',
+    );
+  }
 }

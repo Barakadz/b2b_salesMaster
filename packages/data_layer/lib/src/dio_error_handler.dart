@@ -13,17 +13,19 @@ class DioErrorHandler extends Interceptor {
       }
       String? refreshToken = await AppStorage().getRefreshToken();
 
-      if (refreshToken == null) {
-        print("refresh token null");
-        print(Config.refreshTokenKey);
-        AppStorage().removeData(Config.tokenKey);
-        Config.onAuthFail?.call();
-        return handler.next(err);
-      }
+      // if (refreshToken == null) {
+      //   print("refresh token null");
+      //   print(Config.refreshTokenKey);
+      //   AppStorage().removeData(Config.tokenKey);
+      //   Config.onAuthFail?.call();
+      //   return handler.next(err);
+      // }
 
-      bool refreshed = await attemptToRefreshToken(refreshToken);
+      bool refreshed = await attemptToRefreshToken(refreshToken!);
 
       if (refreshed) {
+        print("token refreshed");
+        print("sending request again with new token");
         // retry original Request with new token
         final requestOptions = err.requestOptions;
         requestOptions.headers["Authorization"] =
@@ -39,11 +41,11 @@ class DioErrorHandler extends Interceptor {
               queryParameters: requestOptions.queryParameters);
           return handler.resolve(response);
         } catch (e) {
-          clearTokenAndRedirect();
+          //clearTokenAndRedirect();
           return handler.next(err);
         }
       } else {
-        clearTokenAndRedirect();
+        //clearTokenAndRedirect();
         return handler.next(err);
       }
     }
@@ -77,8 +79,10 @@ class DioErrorHandler extends Interceptor {
         Api.getInstance().setToken(token: newToken);
         Api.getInstance().setRefreshToken(refreshToken: refresh_token);
         Config.refreshTokenBody["refresh_token"] = refresh_token;
+        print("got new credentials : $newToken, $refresh_token");
         return true;
       } else {
+        print("could not refresh token");
         return false;
       }
     } catch (e) {

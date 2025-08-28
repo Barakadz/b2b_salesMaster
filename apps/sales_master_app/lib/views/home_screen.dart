@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/auth_controller.dart';
 import 'package:sales_master_app/controllers/currentuser_controller.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
 import 'package:sales_master_app/controllers/outlook_controller.dart';
@@ -12,6 +13,7 @@ import 'package:sales_master_app/controllers/realisations_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/services/date_formatter_service.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
+import 'package:sales_master_app/widgets/error_widget.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/outlook_relainder_card.dart';
 import 'package:sales_master_app/widgets/realisation_overview_container.dart';
@@ -74,7 +76,6 @@ class HomeScreen extends StatelessWidget {
         Get.put(RealisationsController());
     PipelineController pipelineController = Get.put(PipelineController());
     OutlookController outlookController = Get.put(OutlookController());
-    realisationsController.loadRealisation();
     return Scaffold(
       drawer: CustomAppDrawer(),
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
@@ -236,24 +237,39 @@ class HomeScreen extends StatelessWidget {
                                       realisationsController.getTotalTarget(),
                                   loading: realisationsController
                                       .loadingRealisations.value,
-                                  disabled: false);
+                                  disabled: realisationsController
+                                          .totalRealisations.value ==
+                                      null);
                             }),
                             Obx(() {
-                              return SecondPipelineContainer(
-                                  globalValue: pipelineController
-                                      .myPipeLine.value?.performance,
-                                  selectedStatusIndex: pipelineController
-                                      .selectedPipelineStatusIndex.value,
-                                  loading: false,
-                                  error: pipelineController
-                                      .errorLoadingPipeline.value,
-                                  errorWidget: Container(),
-                                  pipelinePerformance:
-                                      pipelineController.myPipeLine.value ??
-                                          pipelineController
-                                              .emptyPipelinePerformance,
-                                  onStatusSelected:
-                                      pipelineController.switchStatusInedx);
+                              return pipelineController.loadingPipeline.value ==
+                                      true
+                                  ? SizedBox(
+                                      height: 250,
+                                      width: double.infinity,
+                                      child: Center(child: LoadingIndicator()))
+                                  : pipelineController
+                                              .errorLoadingPipeline.value ==
+                                          true
+                                      ? CustomErrorWidget()
+                                      : SecondPipelineContainer(
+                                          globalValue: pipelineController
+                                              .myPipeLine.value?.performance,
+                                          selectedStatusIndex: pipelineController
+                                              .selectedPipelineStatusIndex
+                                              .value,
+                                          loading: false,
+                                          error:
+                                              pipelineController
+                                                  .errorLoadingPipeline.value,
+                                          errorWidget: Container(),
+                                          pipelinePerformance:
+                                              pipelineController
+                                                      .myPipeLine.value ??
+                                                  pipelineController
+                                                      .emptyPipelinePerformance,
+                                          onStatusSelected: pipelineController
+                                              .switchStatusInedx);
                             }),
                             Obx(() {
                               return Row(
@@ -285,24 +301,30 @@ class HomeScreen extends StatelessWidget {
                                       height: 250,
                                       width: double.infinity,
                                       child: Center(child: LoadingIndicator()))
-                                  : Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      spacing: paddingS,
-                                      children: List.generate(
-                                          outlookController.reminders.length,
-                                          (index) {
-                                        return OutlookRemainderCard(
-                                          reminder: outlookController
-                                              .reminders[index],
-                                          index: index + 1,
-                                          count: outlookController
-                                              .reminders.length,
-                                        );
-                                      }).toList());
+                                  : outlookController.outlookError.value == true
+                                      ? CustomErrorWidget(
+                                          onTap: () {
+                                            outlookController.fetchReminders();
+                                          },
+                                        )
+                                      : Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: paddingS,
+                                          children: List.generate(
+                                              outlookController
+                                                  .reminders.length, (index) {
+                                            return OutlookRemainderCard(
+                                              reminder: outlookController
+                                                  .reminders[index],
+                                              index: index + 1,
+                                              count: outlookController
+                                                  .reminders.length,
+                                            );
+                                          }).toList());
                             })
                           ],
                         ),
