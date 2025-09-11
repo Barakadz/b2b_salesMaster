@@ -104,6 +104,18 @@ class RealisationsController extends GetxController {
         totalRealisations.value = result;
       } else {
         errorLoadingRealisation.value = true;
+        totalRealisations.value = TotalRealisation(
+            increase: 0,
+            realisations: [
+              Realisation(target: 100, currentValue: 0, name: "GA"),
+              Realisation(target: 100, currentValue: 0, name: "Net Adds"),
+              Realisation(target: 100, currentValue: 0, name: "Solutions"),
+              Realisation(target: 100, currentValue: 0, name: "New Compte"),
+              Realisation(target: 100, currentValue: 0, name: "Evaluation"),
+            ],
+            trimester: "Q1",
+            year: year,
+            assignedTo: 0);
       }
     } catch (e) {
       errorLoadingRealisation.value = true;
