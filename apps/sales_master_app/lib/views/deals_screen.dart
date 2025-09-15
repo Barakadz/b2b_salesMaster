@@ -66,8 +66,7 @@ class DealsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "All deals",
+                Text("All deals".tr,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium
@@ -90,8 +89,7 @@ class DealsScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: paddingXs),
-                            child: Text(
-                              'type',
+                            child: Text('type'.tr,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ),

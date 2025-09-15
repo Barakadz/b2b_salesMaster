@@ -47,8 +47,7 @@ class ClientsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        "mon_portfeuille".tr,
+                      Text("mon_portfeuille".tr.tr,
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall

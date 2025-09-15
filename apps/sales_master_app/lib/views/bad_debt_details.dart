@@ -131,8 +131,7 @@ class BadDebtDetails extends StatelessWidget {
                                   SizedBox(
                                     height: formSectionTopPadding,
                                   ),
-                                  Text(
-                                    "bills_data".tr,
+                                  Text("bills_data".tr.tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall

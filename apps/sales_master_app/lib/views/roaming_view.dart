@@ -59,8 +59,7 @@ class RoamingView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              "Nos Offres",
+            Text("Nos Offres".tr,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall
@@ -75,8 +74,7 @@ class RoamingView extends StatelessWidget {
                     child: Padding(
                       padding:
                           const EdgeInsets.symmetric(horizontal: paddingXs),
-                      child: Text(
-                        'country',
+                      child: Text('country'.tr,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),

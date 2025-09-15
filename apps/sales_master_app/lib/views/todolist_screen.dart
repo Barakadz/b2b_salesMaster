@@ -159,8 +159,7 @@ class TodolistScreen extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      Text(
-                        "DATE",
+                      Text("DATE".tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context)
@@ -329,8 +328,7 @@ class TodolistScreen extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      Text(
-                        "ADDRESS",
+                      Text("ADDRESS".tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context)
@@ -358,8 +356,7 @@ class TodolistScreen extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      Text(
-                        "RAPPEL",
+                      Text("RAPPEL".tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context)
@@ -526,8 +523,7 @@ class TodolistScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "My To do list ",
+                Text("My To do list".tr,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall
@@ -544,8 +540,7 @@ class TodolistScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: paddingXs),
-                            child: Text(
-                              'type',
+                            child: Text('type'.tr,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ),

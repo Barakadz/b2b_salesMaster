@@ -24,7 +24,7 @@ class PipelineMainPage extends StatelessWidget {
   Widget errorWidget() {
     return Column(
       children: [
-        Text("could not load pipeline"),
+        Text("could not load pipeline".tr),
         PrimaryButton(
             onTap: () {
               pipelineController.fetchPipeLine();
@@ -84,8 +84,7 @@ class PipelineMainPage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Derniers Deals",
+                          Text("Derniers Deals".tr,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
@@ -95,7 +94,7 @@ class PipelineMainPage extends StatelessWidget {
                             onTap: () {
                               context.push(AppRoutes.dealsScreen.path);
                             },
-                            child: Text("All deals",
+                            child: Text("All deals".tr,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
@@ -130,7 +129,7 @@ class PipelineMainPage extends StatelessWidget {
                                   //         CrossAxisAlignment.center,
                                   //     mainAxisSize: MainAxisSize.min,
                                   //     children: [
-                                  //       Text("failed to load deals"),
+                                  //       Text("failed to load deals".tr),
                                   //       PrimaryButton(
                                   //           onTap: () {
                                   //             dealsController.loadDeals();

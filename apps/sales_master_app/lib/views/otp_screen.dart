@@ -108,8 +108,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         size: Theme.of(context).iconTheme.size,
                       ),
                     ),
-                    Text(
-                      "login_page_hint".tr,
+                    Text("login_page_hint".tr.tr,
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                     Icon(
@@ -126,8 +125,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   width: 74,
                 ),
                 SizedBox(height: paddingXm),
-                Text(
-                  "otp_title".tr,
+                Text("otp_title".tr.tr,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 SizedBox(height: paddingXxs),
@@ -158,12 +156,10 @@ class _OtpScreenState extends State<OtpScreen> {
                   );
                 }),
                 SizedBox(height: paddingM),
-                Text(
-                  "receiving_issue".tr,
+                Text("receiving_issue".tr.tr,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Text(
-                  "resend_code".tr,
+                Text("resend_code".tr.tr,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

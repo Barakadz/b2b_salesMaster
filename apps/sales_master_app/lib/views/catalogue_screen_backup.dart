@@ -76,8 +76,7 @@ class CatalogueScreenBackup extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: paddingL, vertical: paddingXs),
-              child: Text(
-                "Mon Catalogue",
+              child: Text("Mon Catalogue".tr,
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall
@@ -148,8 +147,7 @@ class CatalogueScreenBackup extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "Nos Offres",
+                Text("Nos Offres".tr,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall
@@ -167,8 +165,7 @@ class CatalogueScreenBackup extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: paddingXs),
-                                  child: Text(
-                                    'category',
+                                  child: Text('category'.tr,
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
@@ -228,8 +225,7 @@ class CatalogueScreenBackup extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: paddingXs),
-                                      child: Text(
-                                        'country',
+                                      child: Text('country'.tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall,

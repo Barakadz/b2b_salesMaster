@@ -82,7 +82,7 @@ class DealsDetailsScreen extends StatelessWidget {
                   SizedBox(
                     height: paddingS,
                   ),
-                  Text("INFORMATIONS GÉNÉRALES"),
+                  Text("INFORMATIONS GÉNÉRALES".tr),
                   SizedBox(
                     height: paddingXs,
                   ),
@@ -120,8 +120,7 @@ class DealsDetailsScreen extends StatelessWidget {
                             // SizedBox(
                             //   width: paddingXs,
                             // ),
-                            Text(
-                              "Raison Sociale*",
+                            Text("Raison Sociale*".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall
@@ -175,8 +174,7 @@ class DealsDetailsScreen extends StatelessWidget {
                             SizedBox(
                               width: paddingXxs,
                             ),
-                            Text(
-                              "Interlocuteur",
+                            Text("Interlocuteur".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall
@@ -230,8 +228,7 @@ class DealsDetailsScreen extends StatelessWidget {
                             SizedBox(
                               width: paddingXxs,
                             ),
-                            Text(
-                              "Numero*",
+                            Text("Numero*".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall
@@ -278,8 +275,7 @@ class DealsDetailsScreen extends StatelessWidget {
                                 SizedBox(
                                   width: paddingXxs,
                                 ),
-                                Text(
-                                  "Date de visite",
+                                Text("Date de visite".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
@@ -341,8 +337,7 @@ class DealsDetailsScreen extends StatelessWidget {
                                 SizedBox(
                                   width: paddingXxs,
                                 ),
-                                Text(
-                                  "Date prochaine visite",
+                                Text("Date prochaine visite".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
@@ -391,8 +386,7 @@ class DealsDetailsScreen extends StatelessWidget {
                         return DropdownButtonHideUnderline(
                           child: DropdownButton2<String>(
                             isExpanded: true,
-                            hint: Text(
-                              'status',
+                            hint: Text('status'.tr,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             items: dealDetailsController.dealsStatus

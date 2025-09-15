@@ -35,8 +35,7 @@ class ProcessAndForms extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: paddingL),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                "Nos Procedures / Formulaires",
+              child: Text("Nos Procedures / Formulaires".tr,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ),

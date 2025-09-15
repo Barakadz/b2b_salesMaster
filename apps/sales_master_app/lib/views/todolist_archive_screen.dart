@@ -42,8 +42,7 @@ class TodolistArchiveScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "My To do list ",
+                Text("My To do list".tr,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall

@@ -1,0 +1,49 @@
+ADDRESS
+All deals
+DATE
+Date de visite
+Date prochaine visite
+Derniers Deals
+INFORMATIONS GÉNÉRALES
+Interlocuteur
+Mon Catalogue
+My To do list
+Nos Offres
+Nos Procedures / Formulaires
+Numero*
+Ouups. Error Detected!
+Please check your internet connection and try again
+RAPPEL
+Raison Sociale*
+Refresh
+and
+badDebt
+bills_data
+by_clicking
+call
+clients
+code_sent
+could not load pipeline
+failed to load deals
+lignes
+login_description
+login_hint
+login_page_hint
+login_titler
+mom
+mon_portfeuille
+my_baddebt
+new_notifications
+next
+notifications_page_title
+number
+offres
+older
+otp_title
+privacy_policy
+prodil_client
+read_notifications
+receiving_issue
+resend_code
+terms_of_service
+today

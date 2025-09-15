@@ -61,8 +61,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     height: formSectionTopPadding,
                                   ),
-                                  Text(
-                                    "prodil_client".tr,
+                                  Text("prodil_client".tr.tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall

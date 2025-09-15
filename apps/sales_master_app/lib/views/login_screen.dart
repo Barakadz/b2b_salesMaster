@@ -31,8 +31,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: paddingXmm,
               ),
-              Text(
-                "login_page_hint".tr,
+              Text("login_page_hint".tr.tr,
                 style: Theme.of(context).textTheme.displayMedium,
               ),
               SizedBox(
@@ -46,13 +45,12 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: paddingXm,
               ),
-              Text("login_titler".tr,
+              Text("login_titler".tr.tr,
                   style: Theme.of(context).textTheme.headlineSmall),
               SizedBox(
                 height: paddingXxs,
               ),
-              Text(
-                "login_description".tr,
+              Text("login_description".tr.tr,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(
