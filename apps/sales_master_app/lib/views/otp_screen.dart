@@ -109,7 +109,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context)!.login_page_hint,
+                      "login_page_hint".tr,
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                     Icon(
@@ -127,12 +127,12 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
                 SizedBox(height: paddingXm),
                 Text(
-                  AppLocalizations.of(context)!.otp_title,
+                  "otp_title".tr,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 SizedBox(height: paddingXxs),
                 Text(
-                  "${AppLocalizations.of(context)!.code_sent} ${authController.msisdn}",
+                  "${"code_sent".tr} ${authController.msisdn}",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 SizedBox(height: paddingM),
@@ -159,11 +159,11 @@ class _OtpScreenState extends State<OtpScreen> {
                 }),
                 SizedBox(height: paddingM),
                 Text(
-                  AppLocalizations.of(context)!.receiving_issue,
+                  "receiving_issue".tr,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.resend_code,
+                  "resend_code".tr,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -185,7 +185,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         context.push(AppRoutes.home.path);
                       }
                     },
-                    text: AppLocalizations.of(context)!.next,
+                    text: "next".tr,
                   );
                 }),
               ],

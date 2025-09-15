@@ -33,7 +33,7 @@ class BadDebtDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PageDetail(
-            title: AppLocalizations.of(context)!.my_baddebt,
+            title: "my_baddebt".tr,
             goBack: true,
           ),
           Expanded(
@@ -106,7 +106,7 @@ class BadDebtDetails extends StatelessWidget {
                                         .clientDetails.value!.raisonSociale,
                                     status: MyChip(
                                         text:
-                                            AppLocalizations.of(context)!.call,
+                                            "call".tr,
                                         bgColor: clientActiveColors[true]
                                             ["bgColor"],
                                         textColor: clientActiveColors[true]
@@ -116,7 +116,7 @@ class BadDebtDetails extends StatelessWidget {
                                   //   height: textfieldsPadding,
                                   // ),
                                   // InfoContainer(
-                                  //   label: AppLocalizations.of(context)!.number,
+                                  //   label: "number".tr,
                                   //   content:
                                   //       "+213 ${baddebtDetailsController.baddebt.msisdnCount}",
                                   //   icon: Icon(
@@ -132,7 +132,7 @@ class BadDebtDetails extends StatelessWidget {
                                     height: formSectionTopPadding,
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!.bills_data,
+                                    "bills_data".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -151,7 +151,7 @@ class BadDebtDetails extends StatelessWidget {
                                     label: AppLocalizations.of(context)!
                                         .nombre_lignes,
                                     content:
-                                        "${baddebtDetailsController.baddebt.msisdnCount} ${AppLocalizations.of(context)!.lignes}",
+                                        "${baddebtDetailsController.baddebt.msisdnCount} ${"lignes".tr}",
                                   ),
                                   SizedBox(
                                     height: formSectionTopPadding,
@@ -270,7 +270,7 @@ class BadDebtDetails extends StatelessWidget {
                                                   .toString());
                                         },
                                         text:
-                                            AppLocalizations.of(context)!.call,
+                                            "call".tr,
                                         height: 45,
                                       ))
                                 ],

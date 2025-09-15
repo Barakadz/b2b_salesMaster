@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                 height: paddingXmm,
               ),
               Text(
-                AppLocalizations.of(context)!.login_page_hint,
+                "login_page_hint".tr,
                 style: Theme.of(context).textTheme.displayMedium,
               ),
               SizedBox(
@@ -46,13 +46,13 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: paddingXm,
               ),
-              Text(AppLocalizations.of(context)!.login_titler,
+              Text("login_titler".tr,
                   style: Theme.of(context).textTheme.headlineSmall),
               SizedBox(
                 height: paddingXxs,
               ),
               Text(
-                AppLocalizations.of(context)!.login_description,
+                "login_description".tr,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(
@@ -79,7 +79,7 @@ class LoginScreen extends StatelessWidget {
                   validator: (String? msisdn) {
                     return authController.validateMsisdn(msisdn);
                   },
-                  hintText: AppLocalizations.of(context)!.login_hint,
+                  hintText: "login_hint".tr,
                   filled: true,
                   textFormaters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.number,
@@ -96,18 +96,18 @@ class LoginScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.black, fontSize: 14),
                   children: [
                     TextSpan(
-                        text: AppLocalizations.of(context)!.by_clicking,
+                        text: "by_clicking".tr,
                         style: Theme.of(context).textTheme.labelSmall),
                     TextSpan(
-                      text: AppLocalizations.of(context)!.terms_of_service,
+                      text: "terms_of_service".tr,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     TextSpan(
-                      text: AppLocalizations.of(context)!.and,
+                      text: "and".tr,
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     TextSpan(
-                        text: AppLocalizations.of(context)!.privacy_policy,
+                        text: "privacy_policy".tr,
                         style: Theme.of(context).textTheme.bodySmall),
                   ],
                 ),
@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                       context.push(AppRoutes.otpValidation.path);
                     }
                   },
-                  text: AppLocalizations.of(context)!.next,
+                  text: "next".tr,
                 );
               })
             ],

@@ -51,7 +51,7 @@ class DealsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PageDetail(
-            //title: AppLocalizations.of(context)!.mon_portfeuille,
+            //title: "mon_portfeuille".tr,
             title: "Mon Pipeline",
             bgColor: Theme.of(context).colorScheme.outlineVariant,
             goBack: true,

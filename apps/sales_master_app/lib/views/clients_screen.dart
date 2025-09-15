@@ -30,7 +30,7 @@ class ClientsScreen extends StatelessWidget {
           child: Column(
         children: [
           PageDetail(
-            title: AppLocalizations.of(context)!.mon_portfeuille,
+            title: "mon_portfeuille".tr,
             bgColor: Theme.of(context).colorScheme.outlineVariant,
             baseviewpage: false,
           ),
@@ -48,7 +48,7 @@ class ClientsScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.mon_portfeuille,
+                        "mon_portfeuille".tr,
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall
@@ -64,8 +64,8 @@ class ClientsScreen extends StatelessWidget {
                                     horizontal: paddingXs),
                                 child: Text(
                                   clientsController.onClientsView.value
-                                      ? AppLocalizations.of(context)!.clients
-                                      : AppLocalizations.of(context)!.badDebt,
+                                      ? "clients".tr
+                                      : "badDebt".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
@@ -77,8 +77,8 @@ class ClientsScreen extends StatelessWidget {
                               ),
                               selectedItemBuilder: (context) {
                                 return [
-                                  AppLocalizations.of(context)!.clients,
-                                  AppLocalizations.of(context)!.badDebt,
+                                  "clients".tr,
+                                  "badDebt".tr,
                                 ].map((view) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -101,8 +101,8 @@ class ClientsScreen extends StatelessWidget {
                                 }).toList();
                               },
                               items: [
-                                AppLocalizations.of(context)!.clients,
-                                AppLocalizations.of(context)!.badDebt,
+                                "clients".tr,
+                                "badDebt".tr,
                               ].map((String view) {
                                 return DropdownMenuItem<String>(
                                   value: view,
@@ -118,15 +118,15 @@ class ClientsScreen extends StatelessWidget {
                                 );
                               }).toList(),
                               value: clientsController.onClientsView.value
-                                  ? AppLocalizations.of(context)!.clients
-                                  : AppLocalizations.of(context)!.badDebt,
+                                  ? "clients".tr
+                                  : "badDebt".tr,
                               onChanged: (String? value) {
                                 // if (value != null) {
                                 //   clientsController.onClientsView.toggle();
                                 // }
                                 if (value != null) {
                                   if (value ==
-                                      AppLocalizations.of(context)!.clients) {
+                                      "clients".tr) {
                                     clientsController.onClientsView.value =
                                         true;
                                     clientsController.getClients();

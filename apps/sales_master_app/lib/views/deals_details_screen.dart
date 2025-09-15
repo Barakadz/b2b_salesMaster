@@ -447,7 +447,7 @@ class DealsDetailsScreen extends StatelessWidget {
                   CustomTextFormField(
                     radius: 7,
                     controller: dealDetailsController.mom,
-                    hintText: AppLocalizations.of(context)!.mom,
+                    hintText: "mom".tr,
                     maxLines: 5,
                   ),
                   SizedBox(

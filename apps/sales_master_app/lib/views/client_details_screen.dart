@@ -29,7 +29,7 @@ class ClientDetailsScreen extends StatelessWidget {
         child: Column(
           children: [
             PageDetail(
-              title: AppLocalizations.of(context)!.mon_portfeuille,
+              title: "mon_portfeuille".tr,
               goBack: true,
             ),
             Expanded(
@@ -62,7 +62,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                     height: formSectionTopPadding,
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!.prodil_client,
+                                    "prodil_client".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -349,9 +349,9 @@ class ClientDetailsScreen extends StatelessWidget {
                                         .clientDetails.value?.nombreOffre
                                         .toString(),
                                     hintText:
-                                        AppLocalizations.of(context)!.offres,
+                                        "offres".tr,
                                     labelText:
-                                        AppLocalizations.of(context)!.offres,
+                                        "offres".tr,
                                   ),
                                   SizedBox(
                                     height: textfieldsPadding,
@@ -503,9 +503,9 @@ class ClientDetailsScreen extends StatelessWidget {
 
                                     controller: clientDetailsController
                                         .momTextController,
-                                    hintText: AppLocalizations.of(context)!.mom,
+                                    hintText: "mom".tr,
                                     // labelText:
-                                    //     AppLocalizations.of(context)!.mom,
+                                    //     "mom".tr,
                                     maxLines: 5,
                                   ),
                                   SizedBox(

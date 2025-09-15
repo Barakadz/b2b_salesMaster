@@ -47,7 +47,7 @@ class NotificationScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.notifications_page_title,
+                    "notifications_page_title".tr,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   GestureDetector(
@@ -76,14 +76,14 @@ class NotificationScreen extends StatelessWidget {
                     notificationController.setTabIndex(0);
                   }, child: Obx(() {
                     return NotificationTab(
-                        title: AppLocalizations.of(context)!.new_notifications,
+                        title: "new_notifications".tr,
                         clicked: notificationController.tabIndex.value == 0);
                   })),
                   GestureDetector(onTap: () {
                     notificationController.setTabIndex(2);
                   }, child: Obx(() {
                     return NotificationTab(
-                        title: AppLocalizations.of(context)!.read_notifications,
+                        title: "read_notifications".tr,
                         clicked: notificationController.tabIndex.value == 2);
                   }))
                 ],
@@ -135,7 +135,7 @@ class NotificationScreen extends StatelessWidget {
                                 //   return Padding(
                                 //     padding: const EdgeInsets.only(bottom: paddingS),
                                 //     child: Text(
-                                //       AppLocalizations.of(context)!.today,
+                                //       "today".tr,
                                 //       style: Theme.of(context)
                                 //           .textTheme
                                 //           .titleSmall
@@ -159,7 +159,7 @@ class NotificationScreen extends StatelessWidget {
                                 //     child: Padding(
                                 //       padding: const EdgeInsets.only(bottom: paddingS),
                                 //       child: Text(
-                                //         AppLocalizations.of(context)!.older,
+                                //         "older".tr,
                                 //         style: Theme.of(context)
                                 //             .textTheme
                                 //             .titleSmall

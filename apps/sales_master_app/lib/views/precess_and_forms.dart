@@ -24,7 +24,7 @@ class ProcessAndForms extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PageDetail(
-            //title: AppLocalizations.of(context)!.mon_portfeuille,
+            //title: "mon_portfeuille".tr,
             title: "Process & Formulaires",
             bgColor: Theme.of(context).colorScheme.outlineVariant,
           ),

@@ -64,7 +64,7 @@ class CatalogueScreenBackup extends StatelessWidget {
         children: [
           PageDetail(
             baseviewpage: false,
-            //title: AppLocalizations.of(context)!.mon_portfeuille,
+            //title: "mon_portfeuille".tr,
             title: "Catalogues d’offres",
             bgColor: Theme.of(context).colorScheme.outlineVariant,
           ),
