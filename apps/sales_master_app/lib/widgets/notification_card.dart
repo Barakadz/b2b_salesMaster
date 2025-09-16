@@ -42,14 +42,17 @@ class NotificationCard extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        notification.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(fontSize: 14),
+                      Flexible(
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          notification.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(fontSize: 14),
+                        ),
                       ),
                       Text(
                         notification.createdAt.toString().substring(0, 9),
