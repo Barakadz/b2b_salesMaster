@@ -159,7 +159,8 @@ class TodolistScreen extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      Text("DATE".tr,
+                      Text(
+                        "DATE".tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context)
@@ -328,7 +329,8 @@ class TodolistScreen extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      Text("ADDRESS".tr,
+                      Text(
+                        "ADDRESS".tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context)
@@ -356,7 +358,8 @@ class TodolistScreen extends StatelessWidget {
                       SizedBox(
                         height: paddingS,
                       ),
-                      Text("RAPPEL".tr,
+                      Text(
+                        "RAPPEL".tr,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
                             color: Theme.of(context)
@@ -523,7 +526,8 @@ class TodolistScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("My To do list".tr,
+                Text(
+                  "My To do list".tr,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall
@@ -540,7 +544,8 @@ class TodolistScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: paddingXs),
-                            child: Text('type'.tr,
+                            child: Text(
+                              'type'.tr,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ),
@@ -647,8 +652,21 @@ class TodolistScreen extends StatelessWidget {
                         : todolistController.todolist.isEmpty == true
                             ? Center(child: EmptyWidget())
                             : ListView.builder(
-                                itemCount: todolistController.todolist.length,
+                                controller: todolistController.scrollController,
+                                // itemCount: todolistController.todolist.length,
+                                itemCount: todolistController.todolist.length +
+                                    (todolistController.isLoadingMore.value
+                                        ? 1
+                                        : 0),
                                 itemBuilder: (context, index) {
+                                  if (index ==
+                                      todolistController.todolist.length) {
+                                    // show loader at the end
+                                    return const Padding(
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Center(child: LoadingIndicator()),
+                                    );
+                                  }
                                   return Dismissible(
                                     confirmDismiss: (direction) async => true,
                                     key: UniqueKey(),

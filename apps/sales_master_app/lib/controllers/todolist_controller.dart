@@ -16,6 +16,9 @@ class TodolistController extends GetxController {
   Rx<bool> errorLoadingTodolist = false.obs;
   RxList<Task> todolist = <Task>[].obs;
 
+  Rx<bool> isLoadingMore = false.obs;
+  Rx<bool> hasMoreTasks = true.obs;
+
   Rx<bool> editMode = false.obs;
 
   final Rxn<Task> editingTask = Rxn<Task>();
@@ -37,6 +40,10 @@ class TodolistController extends GetxController {
   Rx<bool> showTasTimePicker = false.obs;
   Rx<bool> showReminderDatePicker = false.obs;
   Rx<bool> showReminderTimePicker = false.obs;
+
+  final ScrollController scrollController = ScrollController();
+
+  Rx<int> page = 1.obs;
 
   bool taskDone = false;
 
@@ -76,6 +83,15 @@ class TodolistController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    // Attach listener
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        // near bottom, fetch next page
+        loadTasks(loadMore: true);
+      }
+    });
 
     taskDateController = TextEditingController(text: formatDate(now));
     taskReminderDateController =
@@ -210,6 +226,8 @@ class TodolistController extends GetxController {
     _tasksDebounce?.cancel();
     _archiveTsksDebounce?.cancel();
 
+    scrollController.dispose();
+
     super.onClose();
   }
 
@@ -312,19 +330,60 @@ class TodolistController extends GetxController {
     return null;
   }
 
-  Future<void> loadTasks() async {
-    loadingTodolist.value = true;
-    errorLoadingTodolist.value = false;
+  // Future<void> loadTasks({bool loadMore = false}) async {
+  //   loadingTodolist.value = true;
+  //   errorLoadingTodolist.value = false;
+  //   PaginatedTodoList? allTasks = await TodolistService().getTasks(
+  //       createdBy: selectedTaskFilter.value,
+  //       query: todolistSearchController.text);
+  //   if (allTasks != null) {
+  //     todolist.assignAll(allTasks.tasks);
+  //     todolist.refresh();
+  //   } else {
+  //     errorLoadingTodolist.value = true;
+  //   }
+  //   loadingTodolist.value = false;
+  // }
+
+  Future<void> loadTasks({bool loadMore = false}) async {
+    if (loadMore) {
+      if (isLoadingMore.value || !hasMoreTasks.value) return;
+
+      isLoadingMore.value = true;
+      page.value += 1; // move to next page
+    } else {
+      loadingTodolist.value = true;
+      errorLoadingTodolist.value = false;
+      page.value = 1; // reset page
+      hasMoreTasks.value = true;
+    }
+
     PaginatedTodoList? allTasks = await TodolistService().getTasks(
-        createdBy: selectedTaskFilter.value,
-        query: todolistSearchController.text);
+      createdBy: selectedTaskFilter.value,
+      query: todolistSearchController.text,
+      page: page.value,
+    );
+
     if (allTasks != null) {
-      todolist.assignAll(allTasks.tasks);
+      if (loadMore) {
+        if (allTasks.tasks.isEmpty) {
+          hasMoreTasks.value = false;
+        } else {
+          todolist.addAll(allTasks.tasks);
+        }
+      } else {
+        todolist.assignAll(allTasks.tasks);
+      }
       todolist.refresh();
     } else {
       errorLoadingTodolist.value = true;
     }
-    loadingTodolist.value = false;
+
+    if (loadMore) {
+      isLoadingMore.value = false;
+    } else {
+      loadingTodolist.value = false;
+    }
   }
 
   Future<void> loadArchiveTask() async {

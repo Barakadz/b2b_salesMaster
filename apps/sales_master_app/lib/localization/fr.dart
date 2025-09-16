@@ -49,5 +49,10 @@ Map<String, String> frenchDict = {
   "resend_code": "Renvoyer le code",
   "terms_of_service": " Conditions d’utilisation ",
   "today": "Aujourd’hui",
-  "Log out": "se deconnecter"
+  "Log out": "se deconnecter",
+  "There is currently no data in this section":
+      "Il n’y a actuellement aucune donnée dans cette section",
+  "You have no reminders fors this time period":
+      "Vous n’avez aucun rappel pour cette période",
+  "No reminders": "Aucun rappel"
 };

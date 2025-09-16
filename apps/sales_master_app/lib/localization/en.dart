@@ -49,5 +49,10 @@ Map<String, String> englishDict = {
   "resend_code": "Resend code",
   "terms_of_service": " Terms of service ",
   "today": "Today",
-  "Log out": "Log out"
+  "Log out": "Log out",
+  "There is currently no data in this section":
+      "There is currently no data in this section",
+  "You have no reminders fors this time period":
+      "You have no reminders fors this time period",
+  "No reminders": "No reminders"
 };

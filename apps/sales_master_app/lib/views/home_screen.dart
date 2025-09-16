@@ -13,6 +13,7 @@ import 'package:sales_master_app/controllers/realisations_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/services/date_formatter_service.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
+import 'package:sales_master_app/widgets/empty_widget.dart';
 import 'package:sales_master_app/widgets/error_widget.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/outlook_relainder_card.dart';
@@ -307,24 +308,32 @@ class HomeScreen extends StatelessWidget {
                                             outlookController.fetchReminders();
                                           },
                                         )
-                                      : Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          spacing: paddingS,
-                                          children: List.generate(
-                                              outlookController
-                                                  .reminders.length, (index) {
-                                            return OutlookRemainderCard(
-                                              reminder: outlookController
-                                                  .reminders[index],
-                                              index: index + 1,
-                                              count: outlookController
-                                                  .reminders.length,
-                                            );
-                                          }).toList());
+                                      : outlookController.reminders.isEmpty
+                                          ? Center(
+                                              child: EmptyWidget(
+                                                title: "No reminders",
+                                                description:
+                                                    "You have no reminders fors this time period",
+                                              ),
+                                            )
+                                          : Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              spacing: paddingS,
+                                              children: List.generate(
+                                                  outlookController.reminders
+                                                      .length, (index) {
+                                                return OutlookRemainderCard(
+                                                  reminder: outlookController
+                                                      .reminders[index],
+                                                  index: index + 1,
+                                                  count: outlookController
+                                                      .reminders.length,
+                                                );
+                                              }).toList());
                             })
                           ],
                         ),

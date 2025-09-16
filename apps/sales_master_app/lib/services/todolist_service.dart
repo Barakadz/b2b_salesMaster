@@ -15,7 +15,7 @@ class TodolistService {
   }
 
   Future<PaginatedTodoList?> getTasks(
-      {String? createdBy, String? query, bool? done}) async {
+      {String? createdBy, String? query, bool? done, int? page}) async {
     final Map<String, dynamic> queryParams = {};
 
     if (createdBy != null && createdBy.trim().isNotEmpty) {
@@ -28,7 +28,8 @@ class TodolistService {
     if (done == true) {
       queryParams["status"] = "done";
     }
-    queryParams["per_page"] = 100;
+    queryParams["per_page"] = 20;
+    queryParams["page"] = page ?? 1;
 
     final response = await Api.getInstance()
         .get("todolist/assigned-to", queryParameters: queryParams);

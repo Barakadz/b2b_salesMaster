@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:sales_master_app/config/constants.dart';
 
 class EmptyWidget extends StatelessWidget {
@@ -28,7 +29,7 @@ class EmptyWidget extends StatelessWidget {
               height: paddingS,
             ),
             Text(
-              title ?? "No Data",
+              title ?? "No Data".tr,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w600,
@@ -42,7 +43,7 @@ class EmptyWidget extends StatelessWidget {
               height: paddingXxs,
             ),
             Text(
-              description ?? "There is currently no data in this section",
+              description ?? "There is currently no data in this section".tr,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontSize: 13,
