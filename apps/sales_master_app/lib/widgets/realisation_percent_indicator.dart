@@ -380,7 +380,7 @@ class RealisationPercentIndicator extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                "$totalrealised DA",
+                "${totalrealised.toStringAsFixed(1)} DA",
                 style: Theme.of(context).textTheme.titleSmall,
               )
             ]),

@@ -33,7 +33,8 @@ class RealisationOverviewContainer extends StatelessWidget {
                   text: 'Bravo! ',
                   style: Theme.of(context).textTheme.titleSmall),
               TextSpan(
-                  text: 'you completed $performance% of your total target',
+                  text:
+                      'you completed ${performance.toStringAsFixed(2)}% of your total target',
                   style: Theme.of(context).textTheme.bodySmall),
             ]),
           )

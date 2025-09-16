@@ -82,7 +82,7 @@ class PipelineContainer extends StatelessWidget {
                           width: paddingXs,
                         ),
                         Text(
-                          "Your Performance is $globalValue%\n${raise == true ? "better" : "worst"} compared to last month",
+                          "Your Performance is ${globalValue?.toStringAsFixed(1)}%\n${raise == true ? "better" : "worst"} compared to last month",
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
                                     fontSize: 14,

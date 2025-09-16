@@ -102,6 +102,8 @@ class CatalogueController extends GetxController {
     if (index == 0) {
       offersSubTabIndex.value = 0;
       loadOffers();
+    } else if (index == 1 && countries.isEmpty) {
+      loadCountries();
     }
   }
 
