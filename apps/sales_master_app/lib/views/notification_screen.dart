@@ -46,7 +46,7 @@ class NotificationScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text("notifications_page_title".tr.tr,
+                  Text("notifications_page_title".tr,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   GestureDetector(

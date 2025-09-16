@@ -2,6 +2,7 @@ import 'package:country_flags/country_flags.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +10,9 @@ import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/auth_controller.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
+import 'package:sales_master_app/controllers/language_controller.dart';
 import 'package:sales_master_app/controllers/translation_controller.dart';
+import 'package:sales_master_app/models/language_model.dart';
 import 'package:sales_master_app/services/auth_service.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 
@@ -17,8 +20,7 @@ class CustomAppDrawer extends StatelessWidget {
   final void Function(DrawerItemKey)? onItemSelected;
   final CustomDrawerController drawerController =
       Get.find<CustomDrawerController>();
-  final TranslationController translationController =
-      Get.put(TranslationController());
+  final LanguageController languageController = Get.find();
 
   final Map<DrawerItemKey, (String, String)> drawerItems = {
     DrawerItemKey.home: (homeAsset, "Home"),
@@ -44,76 +46,80 @@ class CustomAppDrawer extends StatelessWidget {
                 children: [
                   Center(
                     child: IntrinsicWidth(
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          isExpanded: true,
-                          hint: Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: paddingXs),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: paddingXs),
-                              child: Text(
-                                'language',
-                                style: Theme.of(context).textTheme.bodySmall,
+                      child: Obx(() {
+                        return DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+                            hint: Padding(
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: paddingXs),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: paddingXs),
+                                child: Text(
+                                  'language',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
                               ),
                             ),
-                          ),
-                          items: translationController.languages
-                              .map((Language item) => DropdownMenuItem<String>(
-                                    value: item.name,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: paddingXs),
-                                      child: Row(
-                                        children: [
-                                          CountryFlag.fromCountryCode(
-                                            item.code,
-                                            shape: Rectangle(),
-                                            width: 26,
-                                            height: 18,
+                            items: languageController.languages
+                                .map(
+                                    (Language item) => DropdownMenuItem<String>(
+                                          value: item.name,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: paddingXs),
+                                            child: Row(
+                                              children: [
+                                                CountryFlag.fromCountryCode(
+                                                  item.code,
+                                                  shape: Rectangle(),
+                                                  width: 26,
+                                                  height: 18,
+                                                ),
+                                                SizedBox(
+                                                  width: paddingS,
+                                                ),
+                                                Text(
+                                                  item.name,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          SizedBox(
-                                            width: paddingS,
-                                          ),
-                                          Text(
-                                            item.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ))
-                              .toList(),
-                          value:
-                              translationController.selectedLanguage.value.name,
-                          onChanged: (String? name) {
-                            if (name != null) {
-                              translationController.setLanguage(name);
-                            }
-                          },
-                          buttonStyleData: ButtonStyleData(
-                            elevation: 0,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .outlineVariant,
-                                border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .tertiaryContainer)),
-                            padding: const EdgeInsets.only(left: 0, right: 8),
-                            height: 57,
-                            width: double.infinity,
+                                        ))
+                                .toList(),
+                            value:
+                                languageController.selectedLanguage.value.name,
+                            onChanged: (String? name) {
+                              print("name : $name");
+                              if (name != null) {
+                                languageController.setLanguage(name);
+                              }
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              elevation: 0,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .outlineVariant,
+                                  border: Border.all(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiaryContainer)),
+                              padding: const EdgeInsets.only(left: 0, right: 8),
+                              height: 57,
+                              width: double.infinity,
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 35,
+                              padding: EdgeInsets.zero,
+                            ),
                           ),
-                          menuItemStyleData: const MenuItemStyleData(
-                            height: 35,
-                            padding: EdgeInsets.zero,
-                          ),
-                        ),
-                      ),
+                        );
+                      }),
                     ),
                   ),
                 ],
@@ -137,12 +143,18 @@ class CustomAppDrawer extends StatelessWidget {
               const Spacer(),
               PrimaryButton(
                 onTap: () {
-                  Navigator.of(context).pop();
-                  Get.put(AuthController()).logout();
-                  context.go(AppRoutes.login.path);
+                  //Get.put(AuthController()).logout();
+                  //Navigator.of(context).pop();
+                  ////context.go(AppRoutes.login.path);
+                  //final rootcontext = AppRoutes.rootContext;
+                  //print("root context :$rootcontext");
+                  //AppRoutes.rootContext?.go(AppRoutes.login.path);
+                  ////GoRouter.of(AppRoutes.rootContext!).refresh();
+                  Get.find<AuthController>().logout();
+                  //Navigator.of(context).pop();
                 },
                 height: 40,
-                text: "Log out",
+                text: "Log out".tr,
                 prefixIcon: SvgPicture.asset(logoutAsset),
               )
             ],

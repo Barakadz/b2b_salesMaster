@@ -51,8 +51,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context)!
-                                        .gestion_portefeuille,
+                                    "gestion_portefeuille".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall
@@ -61,7 +60,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     height: formSectionTopPadding,
                                   ),
-                                  Text("prodil_client".tr.tr,
+                                  Text("prodil_client".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -78,8 +77,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                   ),
                                   CustomTextFormField(
                                     readOnly: true,
-                                    hintText: AppLocalizations.of(context)!
-                                        .raison_sociale,
+                                    hintText: "raison_sociale".tr,
                                     initialValue: clientDetailsController
                                         .clientDetails.value?.raisonSociale,
                                     filled: false,
@@ -91,8 +89,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                     readOnly: true,
                                     controller: clientDetailsController
                                         .telecomTextController,
-                                    hintText: AppLocalizations.of(context)!
-                                        .nom_telecom_manager,
+                                    hintText: "nom_telecom_manager".tr,
                                     filled: false,
                                     suffixIcon: GestureDetector(
                                       onTap: () {
@@ -130,9 +127,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                                           height: paddingS,
                                                         ),
                                                         Text(
-                                                          AppLocalizations.of(
-                                                                  context)!
-                                                              .modifier_telecom_manager,
+                                                          "modifier_telecom_manager".tr,
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
@@ -147,9 +142,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                                           height: paddingXxs,
                                                         ),
                                                         Text(
-                                                          AppLocalizations.of(
-                                                                  context)!
-                                                              .enter_email,
+                                                          "enter_email".tr,
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: Theme.of(
@@ -232,8 +225,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                                                             paddingXs,
                                                                       ),
                                                                       Text(
-                                                                        AppLocalizations.of(context)!
-                                                                            .mail,
+                                                                        "mail".tr,
                                                                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                                                             color:
                                                                                 Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.15),
@@ -251,9 +243,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                                           height: paddingXxs,
                                                         ),
                                                         Text(
-                                                          AppLocalizations.of(
-                                                                  context)!
-                                                              .edit_manager_hint,
+                                                          "edit_manager_hint".tr,
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
@@ -290,9 +280,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                                                   context.pop();
                                                                 }
                                                               },
-                                                              text: AppLocalizations
-                                                                      .of(context)!
-                                                                  .envoyer);
+                                                              text: "envoyer".tr);
                                                         })
                                                       ],
                                                     ),
@@ -313,8 +301,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                     height: formSectionTopPadding,
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!
-                                        .details_abonnement,
+                                    "details_abonnement".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -334,10 +321,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                     initialValue: clientDetailsController
                                         .clientDetails.value?.nombreLigne
                                         .toString(),
-                                    hintText: AppLocalizations.of(context)!
-                                        .nombre_lignes,
-                                    labelText: AppLocalizations.of(context)!
-                                        .nombre_lignes,
+                                    hintText: "nombre_lignes".tr,
+                                    labelText: "nombre_lignes".tr,
                                   ),
                                   SizedBox(
                                     height: textfieldsPadding,
@@ -372,15 +357,13 @@ class ClientDetailsScreen extends StatelessWidget {
                                       ? CustomTextFormField(
                                           readOnly: true,
                                           hintText:
-                                              AppLocalizations.of(context)!
-                                                  .expiration_date,
+                                              "expiration_date".tr,
                                           initialValue: clientDetailsController
                                               .clientDetails
                                               .value
                                               ?.expiryDateTop1000,
                                           labelText:
-                                              AppLocalizations.of(context)!
-                                                  .expiration_date,
+                                              "expiration_date".tr,
                                           filled: false,
                                           suffixIcon: Icon(
                                             Icons.calendar_today_outlined,
@@ -394,8 +377,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                     height: formSectionTopPadding,
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!
-                                        .etat_financier,
+                                    "etat_financier".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -415,10 +397,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                     initialValue: clientDetailsController
                                         .clientDetails.value?.monthlyRevenu
                                         .toString(),
-                                    hintText: AppLocalizations.of(context)!
-                                        .revenus_mensuels,
-                                    labelText: AppLocalizations.of(context)!
-                                        .revenus_mensuels,
+                                    hintText: "revenus_mensuels".tr,
+                                    labelText: "revenus_mensuels".tr,
                                   ),
                                   SizedBox(
                                     height: textfieldsPadding,
@@ -431,10 +411,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                         ?.bill
                                         ?.countUnpaidBills
                                         .toString(),
-                                    hintText: AppLocalizations.of(context)!
-                                        .open_bills,
-                                    labelText: AppLocalizations.of(context)!
-                                        .open_bills,
+                                    hintText: "open_bills".tr,
+                                    labelText: "open_bills".tr,
                                   ),
                                   SizedBox(
                                     height: textfieldsPadding,
@@ -454,10 +432,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                             ?.unpaidAmount
                                             .toString(),
                                         readOnly: true,
-                                        hintText: AppLocalizations.of(context)!
-                                            .global_due,
-                                        labelText: AppLocalizations.of(context)!
-                                            .open_bills,
+                                        hintText: "global_due".tr,
+                                        labelText: "open_bills".tr,
                                         suffixText: "DA",
                                         textFormaters: [
                                           FilteringTextInputFormatter.digitsOnly
@@ -482,11 +458,9 @@ class ClientDetailsScreen extends StatelessWidget {
                                           ],
                                           keyboardType: TextInputType.number,
                                           hintText:
-                                              AppLocalizations.of(context)!
-                                                  .last_bill,
+                                              "last_bill".tr,
                                           labelText:
-                                              AppLocalizations.of(context)!
-                                                  .last_bill,
+                                              "last_bill".tr,
                                           suffixText: "DA",
                                         ),
                                       )
@@ -521,8 +495,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                                       .addMom();
                                               context.pop();
                                             },
-                                            text: AppLocalizations.of(context)!
-                                                .save,
+                                            text: "save".tr,
                                             height: 45,
                                           )
                                         : SizedBox();

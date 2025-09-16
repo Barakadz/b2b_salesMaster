@@ -15,15 +15,17 @@ import 'package:sales_master_app/views/login_screen.dart';
 import 'package:sales_master_app/views/notification_screen.dart';
 import 'package:sales_master_app/views/otp_screen.dart';
 import 'package:sales_master_app/views/pipeline_main_page.dart';
-import 'package:sales_master_app/views/precess_and_forms.dart';
 //import 'package:sales_master_app/views/precess_and_forms.dart';
 import 'package:sales_master_app/views/realisation_screen.dart';
 import 'package:sales_master_app/views/todolist_archive_screen.dart';
 import 'package:sales_master_app/views/todolist_screen.dart';
 
+final appRoutes = AppRoutes();
+
 class AppRoutes {
   static final GlobalKey<NavigatorState> _rootNavigatorKey = Get.key;
 
+  static BuildContext? get rootContext => _rootNavigatorKey.currentContext;
   // Unique navigator keys for each branch
   static final _homeNavigatorKey = GlobalKey<NavigatorState>();
   static final _clientsNavigatorKey = GlobalKey<NavigatorState>();
@@ -54,20 +56,51 @@ class AppRoutes {
 
   final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
+    refreshListenable: Get.find<AuthController>().isLoggedNotifier,
     initialLocation: '/login',
-    redirect: (BuildContext context, GoRouterState state) {
+    // redirect: (BuildContext context, GoRouterState state) {
+    //   final authController = Get.find<AuthController>();
+    //   final isLoggedIn = authController.isLoged.value;
+
+    //   if (!isLoggedIn &&
+    //       state.matchedLocation != '/login' &&
+    //       state.matchedLocation != '/otpValidation') {
+    //     return '/login';
+    //   }
+
+    //   if (isLoggedIn &&
+    //       (state.matchedLocation == '/login' ||
+    //           state.matchedLocation == '/otpValidation')) {
+    //     return '/homepage';
+    //   }
+
+    //   return null;
+    // },
+    // redirect: (context, state) {
+    //   final auth = Get.find<AuthController>();
+    //   final isLogged = auth.isLogged;
+
+    //   final location = state.uri.toString(); // instead of state.subloc
+    //   final loggingIn = location == AppRoutes.login.path;
+
+    //   if (!isLogged && !loggingIn) return AppRoutes.login.path;
+    //   if (isLogged && loggingIn) return AppRoutes.home.path;
+    //   return null;
+    // },
+
+    redirect: (context, state) {
       final authController = Get.find<AuthController>();
       final isLoggedIn = authController.isLoged.value;
+      final location = state.matchedLocation;
 
-      if (!isLoggedIn &&
-          state.matchedLocation != '/login' &&
-          state.matchedLocation != '/otpValidation') {
+      // Public routes (no auth required)
+      final publicRoutes = ['/login', '/otpValidation'];
+
+      if (!isLoggedIn && !publicRoutes.contains(location)) {
         return '/login';
       }
 
-      if (isLoggedIn &&
-          (state.matchedLocation == '/login' ||
-              state.matchedLocation == '/otpValidation')) {
+      if (isLoggedIn && publicRoutes.contains(location)) {
         return '/homepage';
       }
 

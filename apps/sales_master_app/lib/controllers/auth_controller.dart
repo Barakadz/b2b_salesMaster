@@ -8,6 +8,7 @@ import 'package:timer_count_down/timer_controller.dart';
 
 class AuthController extends GetxController {
   Rx<bool> isLoged = false.obs;
+  late final ValueNotifier<bool> isLoggedNotifier;
   TextEditingController msisdnController = TextEditingController();
   final GlobalKey<FormState> msisdnFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> otpFormKey = GlobalKey<FormState>();
@@ -28,28 +29,35 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     isLoged.value = AppStorage().getToken() != null;
+    isLoggedNotifier = ValueNotifier(isLoged.value);
+    ever(isLoged, (value) {
+      isLoggedNotifier.value = value;
+    });
     baseUrl = prod == true
         ? "https://apim.djezzy.dz/prod/djezzy-api/b2b/master/api/v1"
         : "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1";
     super.onInit();
   }
 
+  bool get isLogged => isLoged.value;
+
   final Rx<CountdownController> otpTimerController =
       CountdownController(autoStart: true).obs;
 
   String? validateMsisdn(String? value) {
     if (value == null || value.isEmpty) {
-      return "username_required";
+      return "phone number required".tr;
     }
     final v = value.trim();
     if (v.startsWith('0')) {
-      if (v.length != 10) return "Number must be 10 digits long with leading 0";
+      if (v.length != 10)
+        return "Number must be 10 digits long with leading 0".tr;
     } else {
       if (v.length != 9)
-        return "Number must be 9 digits long without leading 0";
+        return "Number must be 9 digits long without leading 0".tr;
     }
     if (!v.startsWith('07') && !v.startsWith('7')) {
-      return "Not a valid Djezzy number";
+      return "Not a valid Djezzy number".tr;
     }
     return null;
   }
@@ -81,6 +89,10 @@ class AuthController extends GetxController {
   }
 
   Future<bool> login(String otp) async {
+    if (msisdnFormKey.currentState!.validate() != true) {
+      return false;
+    }
+
     verifyingOtp.value = true;
     final AuthTokens? tokens = await _authService.verifyOtp(
       msisdnRaw: msisdn.value!,
@@ -111,8 +123,8 @@ class AuthController extends GetxController {
 
   Future<void> logout() async {
     await _authService.logout();
-    AppStorage().clearAll();
     isLoged.value = false;
+    AppStorage().clearAll();
   }
 }
 

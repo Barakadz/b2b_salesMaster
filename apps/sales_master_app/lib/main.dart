@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
+import 'package:sales_master_app/controllers/language_controller.dart';
+import 'package:sales_master_app/localization/app_translation.dart';
 import 'package:sales_master_app/services/push_notification_service.dart';
 import 'package:sales_master_app/themes/dark_theme.dart';
 import 'package:sales_master_app/themes/light_theme.dart';
@@ -23,9 +25,6 @@ void main() async {
   await setupNotificationChannel();
   await initializeLocalNotifications();
   await PushNotificationService.init();
-
-  // translation
-  RepoLocalizations.setLocale(Locale("en"));
 
   //in app storage
   await AppStorage().init();
@@ -49,25 +48,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ToastificationWrapper(
-      child: MaterialApp.router(
-        title: 'Flutter Demo',
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        themeMode: ThemeMode.system,
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          AppLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'),
-          Locale('fr'),
-        ],
-        routerConfig: AppRoutes().router,
-      ),
+    final LanguageController languageController = Get.put(LanguageController());
+
+    return GetMaterialApp.router(
+      title: 'Flutter Demo',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
+      locale: languageController.appLocale.value,
+      fallbackLocale: const Locale('en'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('fr'),
+      ],
+      translations: AppTranslations(),
+      routeInformationParser: appRoutes.router.routeInformationParser,
+      routerDelegate: appRoutes.router.routerDelegate,
+      routeInformationProvider: appRoutes.router.routeInformationProvider,
     );
   }
 }

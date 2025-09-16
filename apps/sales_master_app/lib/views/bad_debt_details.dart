@@ -56,8 +56,7 @@ class BadDebtDetails extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context)!
-                                        .gestion_portefeuille,
+                                    "gestion_portefeuille".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall
@@ -83,8 +82,7 @@ class BadDebtDetails extends StatelessWidget {
                                     height: formSectionTopPadding,
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!
-                                        .generale_informations,
+                                    "generale_informations".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -100,13 +98,11 @@ class BadDebtDetails extends StatelessWidget {
                                     height: formSectionBottomPadding,
                                   ),
                                   InfoContainer(
-                                    label: AppLocalizations.of(context)!
-                                        .raison_sociale,
+                                    label: "raison_sociale".tr,
                                     content: baddebtDetailsController
                                         .clientDetails.value!.raisonSociale,
                                     status: MyChip(
-                                        text:
-                                            "call".tr,
+                                        text: "call".tr,
                                         bgColor: clientActiveColors[true]
                                             ["bgColor"],
                                         textColor: clientActiveColors[true]
@@ -131,7 +127,8 @@ class BadDebtDetails extends StatelessWidget {
                                   SizedBox(
                                     height: formSectionTopPadding,
                                   ),
-                                  Text("bills_data".tr.tr,
+                                  Text(
+                                    "bills_data".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -147,8 +144,7 @@ class BadDebtDetails extends StatelessWidget {
                                     height: formSectionBottomPadding,
                                   ),
                                   InfoContainer(
-                                    label: AppLocalizations.of(context)!
-                                        .nombre_lignes,
+                                    label: "nombre_lignes".tr,
                                     content:
                                         "${baddebtDetailsController.baddebt.msisdnCount} ${"lignes".tr}",
                                   ),
@@ -156,8 +152,7 @@ class BadDebtDetails extends StatelessWidget {
                                     height: formSectionTopPadding,
                                   ),
                                   InfoContainer(
-                                    label: AppLocalizations.of(context)!
-                                        .open_bills,
+                                    label: "open_bills".tr,
                                     content:
                                         "${baddebtDetailsController.clientDetails.value?.bill?.countUnpaidBills ?? "undefined"}",
                                   ),
@@ -165,8 +160,7 @@ class BadDebtDetails extends StatelessWidget {
                                     height: formSectionTopPadding,
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!
-                                        .montant_financier,
+                                    "montant_financier".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -209,8 +203,7 @@ class BadDebtDetails extends StatelessWidget {
                                               height: 14,
                                               width: 14,
                                             ),
-                                            label: AppLocalizations.of(context)!
-                                                .last_bill,
+                                            label: "last_bill".tr,
                                             content: baddebtDetailsController
                                                     .clientDetails
                                                     .value!
@@ -220,8 +213,7 @@ class BadDebtDetails extends StatelessWidget {
                                                 "undefined",
                                           ),
                                           DebtTile(
-                                            label: AppLocalizations.of(context)!
-                                                .global_due,
+                                            label: "global_due".tr,
                                             content: baddebtDetailsController
                                                     .clientDetails
                                                     .value!
@@ -236,8 +228,7 @@ class BadDebtDetails extends StatelessWidget {
                                               color: Colors.orange,
                                               size: 14,
                                             ),
-                                            label: AppLocalizations.of(context)!
-                                                .gloabl_due_aj,
+                                            label: "gloabl_due_aj".tr,
                                             content: baddebtDetailsController
                                                     .clientDetails
                                                     .value!
@@ -254,8 +245,7 @@ class BadDebtDetails extends StatelessWidget {
                                     height: paddingXxxl,
                                   ),
                                   Note(
-                                      info: AppLocalizations.of(context)!
-                                          .contacted_warning),
+                                      info: "contacted_warning".tr),
                                   SizedBox(
                                     height: paddingS,
                                   ),
@@ -268,8 +258,7 @@ class BadDebtDetails extends StatelessWidget {
                                                   .baddebt.msisdnCount
                                                   .toString());
                                         },
-                                        text:
-                                            "call".tr,
+                                        text: "call".tr,
                                         height: 45,
                                       ))
                                 ],

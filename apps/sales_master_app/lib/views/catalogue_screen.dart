@@ -48,7 +48,8 @@ class CatalogueScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: paddingL, vertical: paddingXs),
-              child: Text("Mon Catalogue".tr,
+              child: Text(
+                "Mon Catalogue".tr,
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall

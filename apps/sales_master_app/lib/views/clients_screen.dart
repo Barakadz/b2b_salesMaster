@@ -47,7 +47,7 @@ class ClientsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text("mon_portfeuille".tr.tr,
+                      Text("mon_portfeuille".tr,
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall
@@ -182,8 +182,7 @@ class ClientsScreen extends StatelessWidget {
                   ),
                   CustomTextFormField(
                     login: false,
-                    hintText: AppLocalizations.of(context)!
-                        .search_msisdn_raison_sociale,
+                    hintText: "search_msisdn_raison_sociale".tr,
                     prifixIcon: Icon(Icons.search_outlined),
                     filled: true,
                     controller: clientsController.telecomManagerTextController,
