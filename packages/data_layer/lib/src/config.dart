@@ -68,8 +68,8 @@ class Config {
     if (onAuthFail != null) Config.onAuthFail = onAuthFail;
     if (tokenPrefix != null) Config.tokenPrefix = tokenPrefix;
     if (msisdnKey != null) Config.msisdnKey = msisdnKey;
-    if (_clientId != null) Config._clientId = _clientId;
-    if (_clientSecret != null) Config._clientSecret = _clientSecret;
+    if (clientId != null) Config._clientId = _clientId;
+    if (clientSecret != null) Config._clientSecret = _clientSecret;
     if (responseMessageKey != null)
       Config.responseMessageKey = responseMessageKey;
   }

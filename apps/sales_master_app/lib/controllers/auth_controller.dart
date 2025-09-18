@@ -3,7 +3,9 @@ import 'package:data_layer/data_layer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:otp_autofill/otp_autofill.dart';
+import 'package:sales_master_app/config/app_config.dart';
 import 'package:sales_master_app/services/auth_service.dart';
+import 'package:sales_master_app/services/utilities.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
 class AuthController extends GetxController {
@@ -17,7 +19,7 @@ class AuthController extends GetxController {
   late OTPTextEditController controller;
 
   bool prod = false;
-  late String baseUrl;
+  String baseUrl = AppConfig.apiBaseUrl;
 
   String testPhoneNumber = '770901100';
 
@@ -30,12 +32,14 @@ class AuthController extends GetxController {
   void onInit() {
     isLoged.value = AppStorage().getToken() != null;
     isLoggedNotifier = ValueNotifier(isLoged.value);
+    msisdn.value = getMsisdn();
+    if (isLoged.value == true && msisdn.value != null) {
+      final testBaseUrl = "${baseUrl}/${formatMsisdn(msisdn.value!)}";
+      Api.getInstance().setBaseUrl(testBaseUrl);
+    }
     ever(isLoged, (value) {
       isLoggedNotifier.value = value;
     });
-    baseUrl = prod == true
-        ? "https://apim.djezzy.dz/prod/djezzy-api/b2b/master/api/v1"
-        : "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1";
     super.onInit();
   }
 
@@ -104,15 +108,17 @@ class AuthController extends GetxController {
       Api.getInstance().setToken(token: tokens.accessToken);
       Api.getInstance().setRefreshToken(refreshToken: tokens.refreshToken);
 
-      AppStorage().setMsisdn(AuthService().formatMsisdn(msisdn.value!));
+      AppStorage().setMsisdn(formatMsisdn(msisdn.value!));
       Api.getInstance().setBaseUrl(
-        _authService.userScopedBaseUrl(msisdn.value!),
+        userScopedBaseUrl(msisdn.value!),
       );
 
       isLoged.value = true;
-      final testBaseUrl =
-          "${baseUrl}/${AuthService().formatMsisdn(msisdn.value!)}";
+      final testBaseUrl = "${baseUrl}/${formatMsisdn(msisdn.value!)}";
       Api.getInstance().setBaseUrl(testBaseUrl);
+      Config.onAuthFail = () {
+        logout();
+      };
       return true;
     }
     SnackbarService.showCustomMessage(

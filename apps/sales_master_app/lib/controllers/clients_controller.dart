@@ -33,9 +33,22 @@ class ClientsController extends GetxController {
       _searchQuery.value = telecomManagerTextController.text;
     });
 
+    bool firstRun = true;
+
     debounce<String>(
       _searchQuery,
-      (String _) => onClientsView.value == true ? getClients() : loadBadDebts(),
+      // (String _) => onClientsView.value == true ? getClients() : loadBadDebts(),
+      (String query) {
+        if (firstRun) {
+          firstRun = false;
+          return; // ignore initial empty value
+        }
+        if (onClientsView.value) {
+          getClients();
+        } else {
+          loadBadDebts();
+        }
+      },
       time: const Duration(milliseconds: 700),
     );
 

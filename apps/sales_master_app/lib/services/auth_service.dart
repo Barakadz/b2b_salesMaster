@@ -2,29 +2,20 @@ import 'package:dio/dio.dart';
 import 'package:data_layer/data_layer.dart';
 import 'package:sales_master_app/config/app_config.dart';
 import 'package:sales_master_app/services/push_notification_service.dart';
+import 'package:sales_master_app/services/utilities.dart';
 
 class AuthService {
-  // Auth host (without the trailing slash)
-  static const String _authHost =
-      'https://apim.djezzy.dz/uat/djezzy-api/b2b/master';
+  static final String _authHost = AppConfig.authHost;
+  static final String _userAgent = AppConfig.userAgent;
 
-  // Djezzy app UA required by backend (from your curl)
-  static const String _userAgent = 'Djezzy/2.7.1';
-
-  // From your curl
-  static const String _clientId = 'FI7YFwXKfmRhjBHHBdCayk4KWH0a';
-  static const String _clientSecret = 'bOyjyqQX1mchZ_oBpdLWPqvlO_oa';
-
-  /// 1) Request OTP (POST /oauth2/registration?scope=smsotp&client_id=...&msisdn=...)
-  /// Body: { "consent-agreement":[{"marketing-notifications":false}], "is-consent":true }
+  static final String _clientId = AppConfig.clientId;
+  static final String _clientSecret = AppConfig.clientSecret;
 
   Future<void> logout() async {
     try {
       final api = Api.getInstance();
       // Use the auth host for this call (Api prepends baseUrl + '/' + url)
       api.setBaseUrl(_authHost);
-
-      print(AppStorage().getMsisdn());
       final String msisdn = formatMsisdn(AppStorage().getMsisdn()!);
 
       final response = await api.post(
@@ -97,8 +88,6 @@ class AuthService {
     }
   }
 
-  /// 2) Verify OTP (POST /oauth2/token) x-www-form-urlencoded
-  /// Fields: otp, mobileNumber, scope=openid, client_id, client_secret, grant_type=mobile
   Future<AuthTokens?> verifyOtp({
     required String msisdnRaw,
     required String otp,
@@ -148,21 +137,6 @@ class AuthService {
       print('Error verifying OTP: $e');
       return null;
     }
-  }
-
-  /// Helper to compute the **post-login base URL** your app needs:
-  /// https://.../api/v1/{213xxxxxxxxx}
-  String userScopedBaseUrl(String msisdnRaw) {
-    final msisdn = formatMsisdn(msisdnRaw);
-    return '$_authHost/api/v1/$msisdn';
-  }
-
-  /// Format msisdn: remove leading 0 if present, prepend 213
-  String formatMsisdn(String msisdn) {
-    final s = msisdn.trim();
-    if (s.startsWith('213')) return s;
-    final cleaned = s.startsWith('0') ? s.substring(1) : s;
-    return '213$cleaned';
   }
 }
 

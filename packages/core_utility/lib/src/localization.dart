@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 /// a class that provide simple and customizable localizations/multi_language support for known server_errors/dio_errors
 class RepoLocalizations {
-  static late Locale _locale;
-  static Map<String, Map<String,String>> _customMessages = {};
+  static Locale _locale = const Locale("en");
+  static Map<String, Map<String, String>> _customMessages = {};
 
   /// set locale/language for the app, this should be called on app start and every time the user change the language
   /// Example usage:
@@ -24,16 +24,17 @@ class RepoLocalizations {
       return _customMessages[_locale.languageCode]![key]!;
     }
 
-    final messages = _localizedMessages[_locale.languageCode] ?? _localizedMessages["en"]!;
+    final messages =
+        _localizedMessages[_locale.languageCode] ?? _localizedMessages["en"]!;
     return messages[key] ?? key;
   }
 
-  /// set custom error message translation 
+  /// set custom error message translation
   /// Example usage:
   /// ```dart
   /// RepoLocalizations.setCustomErrorMessage({"en":{"not_found":"Resource Not Found"}});
   /// ```
-  static void setCustomErrorMessage(Map<String,Map<String,String>> messages){
+  static void setCustomErrorMessage(Map<String, Map<String, String>> messages) {
     _customMessages = messages;
   }
 
@@ -62,4 +63,3 @@ class RepoLocalizations {
     },
   };
 }
-
