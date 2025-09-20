@@ -26,6 +26,7 @@ class CustomErrorWidget extends StatelessWidget {
           ),
           Text(
             "Ouups. Error Detected!".tr,
+            textAlign: TextAlign.center,
             style:
                 Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 16),
           ),
@@ -34,6 +35,7 @@ class CustomErrorWidget extends StatelessWidget {
           ),
           Text(
             "Please check your internet connection and try again".tr,
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,

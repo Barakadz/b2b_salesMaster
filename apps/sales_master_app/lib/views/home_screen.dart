@@ -209,9 +209,10 @@ class HomeScreen extends StatelessWidget {
                           spacing: paddingM,
                           children: [
                             Obx(() {
-                              return realisationsController
-                                          .totalRealisations.value !=
-                                      null
+                              return (realisationsController.totalRealisations
+                                              .value?.increase ??
+                                          0) >
+                                      0
                                   ? SalaryNote(
                                       prefixSvgPath: "assets/congrat_left.svg",
                                       suffixSvgPath: "assets/congrat_right.svg",
@@ -252,7 +253,11 @@ class HomeScreen extends StatelessWidget {
                                   : pipelineController
                                               .errorLoadingPipeline.value ==
                                           true
-                                      ? CustomErrorWidget()
+                                      ? CustomErrorWidget(
+                                          onTap: () {
+                                            pipelineController.fetchPipeLine();
+                                          },
+                                        )
                                       : SecondPipelineContainer(
                                           globalValue: pipelineController
                                               .myPipeLine.value?.performance,
