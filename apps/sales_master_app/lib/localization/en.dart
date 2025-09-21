@@ -54,5 +54,12 @@ Map<String, String> englishDict = {
       "There is currently no data in this section",
   "You have no reminders fors this time period":
       "You have no reminders fors this time period",
-  "No reminders": "No reminders"
+  "No reminders": "No reminders",
+  "Home": "Home",
+  "Clients": "Clients",
+  "Pipeline": "Pipeline",
+  "Todo": "Todo",
+  "Realisations Dashboard": "Realisations Dashboard",
+  "Offers": "Offers",
+  "No Data": "No Data",
 };

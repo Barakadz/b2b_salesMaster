@@ -54,5 +54,12 @@ Map<String, String> frenchDict = {
       "Il n’y a actuellement aucune donnée dans cette section",
   "You have no reminders fors this time period":
       "Vous n’avez aucun rappel pour cette période",
-  "No reminders": "Aucun rappel"
+  "No reminders": "Aucun rappel",
+  "Home": "Accueil",
+  "Clients": "Clients",
+  "Pipeline": "Pipeline",
+  "Todo": "Tâches",
+  "Realisations Dashboard": "Réalisations",
+  "Offers": "Offres",
+  "No Data": "Aucune donnée",
 };

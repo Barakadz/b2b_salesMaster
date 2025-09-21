@@ -5,15 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
-import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/auth_controller.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
 import 'package:sales_master_app/controllers/language_controller.dart';
-import 'package:sales_master_app/controllers/translation_controller.dart';
 import 'package:sales_master_app/models/language_model.dart';
-import 'package:sales_master_app/services/auth_service.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 
 class CustomAppDrawer extends StatelessWidget {
@@ -23,11 +19,11 @@ class CustomAppDrawer extends StatelessWidget {
   final LanguageController languageController = Get.find();
 
   final Map<DrawerItemKey, (String, String)> drawerItems = {
-    DrawerItemKey.home: (homeAsset, "Home"),
-    DrawerItemKey.dashboard: (dashboardAsset, "Dashboard Realisations"),
+    DrawerItemKey.home: (homeAsset, "Home".tr),
+    DrawerItemKey.dashboard: (dashboardAsset, "Realisations Dashboard".tr),
     //DrawerItemKey.clients: (clientsAsset, "Portefeuille client"),
     //DrawerItemKey.pipeline: (pipelineAsset, "Pipeline"),
-    DrawerItemKey.catalogue: (processAsset, "Catalogues des offres"),
+    DrawerItemKey.catalogue: (processAsset, "Offers".tr),
   };
   CustomAppDrawer({super.key, this.onItemSelected});
 
