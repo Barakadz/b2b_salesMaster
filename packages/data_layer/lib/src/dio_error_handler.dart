@@ -12,6 +12,11 @@ class DioErrorHandler extends Interceptor {
         return handler.next(err);
       }
       String? refreshToken = await AppStorage().getRefreshToken();
+      if (refreshToken == null) {
+        print("token null");
+        clearTokenAndRedirect();
+        return handler.next(err);
+      }
 
       // if (refreshToken == null) {
       //   print("refresh token null");
@@ -42,10 +47,12 @@ class DioErrorHandler extends Interceptor {
           return handler.resolve(response);
         } catch (e) {
           //clearTokenAndRedirect();
+          clearTokenAndRedirect();
           return handler.next(err);
         }
       } else {
         //clearTokenAndRedirect();
+        clearTokenAndRedirect();
         return handler.next(err);
       }
     }

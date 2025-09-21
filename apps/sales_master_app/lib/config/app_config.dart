@@ -8,7 +8,7 @@ class AppConfig {
   static const Map<Environment, Map<String, String>> _environmentConfig = {
     Environment.production: {
       'saleTopic': 'sale_prod',
-      'apiBaseUrl': 'https://apim.djezzy.dz/prod/djezzy-api/b2b/master/api/v1',
+      'apiBaseUrl': 'https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1',
       'authHost': 'https://apim.djezzy.dz/uat/djezzy-api/b2b/master',
       'userAgent': 'Djezzy/2.7.1',
       'clientId': 'FI7YFwXKfmRhjBHHBdCayk4KWH0a',
@@ -16,7 +16,7 @@ class AppConfig {
     },
     Environment.uat: {
       'saleTopic': 'sale_test',
-      'apiBaseUrl': 'https://apim.djezzy.dz/prod/djezzy-api/b2b/master/api/v1',
+      'apiBaseUrl': 'https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1',
       'authHost': 'https://apim.djezzy.dz/uat/djezzy-api/b2b/master',
       'userAgent': 'Djezzy/2.7.1',
       'clientId': 'FI7YFwXKfmRhjBHHBdCayk4KWH0a',

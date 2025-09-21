@@ -117,6 +117,7 @@ class AuthController extends GetxController {
       final testBaseUrl = "${baseUrl}/${formatMsisdn(msisdn.value!)}";
       Api.getInstance().setBaseUrl(testBaseUrl);
       Config.onAuthFail = () {
+        print("token expired");
         logout();
       };
       return true;
