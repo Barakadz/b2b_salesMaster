@@ -3,17 +3,19 @@ import 'package:data_layer/data_layer.dart';
 import 'package:dio/dio.dart';
 
 class DioErrorHandler extends Interceptor {
+  bool isRefreshing = false;
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
       if (Config.enableRefreshToken == false) {
-        print("refresh token not enabled");
+        print(
+            "refresh token not enabled clearing AppStorage and runing callback");
         clearTokenAndRedirect();
         return handler.next(err);
       }
       String? refreshToken = await AppStorage().getRefreshToken();
       if (refreshToken == null) {
-        print("token null");
+        print("token null clearing AppStorage and runing callback");
         clearTokenAndRedirect();
         return handler.next(err);
       }
@@ -45,13 +47,17 @@ class DioErrorHandler extends Interceptor {
               data: requestOptions.data,
               queryParameters: requestOptions.queryParameters);
           return handler.resolve(response);
-        } catch (e) {
+        } catch (e, trace) {
           //clearTokenAndRedirect();
+          print(
+              "error while re sending request with new token , trace : $trace");
+          print("cleanring AppStorage and rening callback");
           clearTokenAndRedirect();
           return handler.next(err);
         }
       } else {
         //clearTokenAndRedirect();
+        print("not refreshed , clearing AppStorage and redirectling");
         clearTokenAndRedirect();
         return handler.next(err);
       }
@@ -72,6 +78,7 @@ class DioErrorHandler extends Interceptor {
   Future<bool> attemptToRefreshToken(String refreshToken) async {
     // try to refresh token
     try {
+      print("sending refresh token request");
       final response = await Dio().post(
         Config.refreshTokenUrl,
         data: Config.refreshTokenBody,
@@ -81,6 +88,7 @@ class DioErrorHandler extends Interceptor {
       );
 
       if (response.statusCode == 200) {
+        print("got resposne status code 200, data : ${response.statusCode}");
         String newToken = response.data[Config.tokenKey];
         String refresh_token = response.data[Config.refreshTokenKey];
         Api.getInstance().setToken(token: newToken);
@@ -92,8 +100,9 @@ class DioErrorHandler extends Interceptor {
         print("could not refresh token");
         return false;
       }
-    } catch (e) {
+    } catch (e, trace) {
       //handle error
+      print(trace);
       return false;
     }
   }

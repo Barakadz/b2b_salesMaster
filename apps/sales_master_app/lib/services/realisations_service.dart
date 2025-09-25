@@ -3,7 +3,7 @@ import 'package:sales_master_app/models/realisation.dart';
 
 class RealisationService {
   Future<TotalRealisation?> fetchMyRealisations(String quarter) async {
-    String baseUrl = "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1";
+    // String baseUrl = "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/api/v1";
     //final testBaseUrl = "${baseUrl}/213770901100";
     //Api.getInstance().setBaseUrl(testBaseUrl);
 
@@ -11,8 +11,8 @@ class RealisationService {
     try {
       final response = await Api.getInstance()
           .get("realisation/my-realisation", queryParameters: queryParameter);
-      final testBaseUrl = "${baseUrl}/213784617787";
-      Api.getInstance().setBaseUrl(testBaseUrl);
+      //final testBaseUrl = "${baseUrl}/213784617787";
+      //Api.getInstance().setBaseUrl(testBaseUrl);
 
       if (response != null &&
           (response.data["success"] == true ||
