@@ -7,90 +7,107 @@ import 'package:sales_master_app/models/deal_status.dart';
 import 'package:sales_master_app/services/deals_service.dart';
 
 class DealsController extends GetxController {
-  Rx<bool> loadingDeals = false.obs;
-  Rx<bool> errorLoadingDeals = false.obs;
+ 
+  RxBool loadingDeals = false.obs;
+  RxBool errorLoadingDeals = false.obs;
+  RxBool isLoadingMore = false.obs;
 
-  // Full list of deals (never filtered)
-  Rx<PaginatedDeals?> allDeals = Rx<PaginatedDeals?>(null);
+   RxInt currentPage = 1.obs;
+  RxInt lastPage = 1.obs;
 
-  // Filtered list for the "All Deals" page
-  Rx<PaginatedDeals?> paginatedDeals = Rx<PaginatedDeals?>(null);
-
-  TextEditingController dealSearchController = TextEditingController();
+   RxList<Deal> deals = <Deal>[].obs;
+ 
+  TextEditingController searchController = TextEditingController();
+  RxString selectedDealFilter = statusStyles.keys.first.obs;
 
   RxList<String> dealsStatusFilters =
       statusStyles.keys.map((key) => key).toList().obs;
-
-  RxString selectedDealFilter = statusStyles.keys.first.obs;
-
-  List<DealStatus> dealsStatus = [
-    DealStatus(id: 0, name: "Prise de contact"),
-    DealStatus(id: 1, name: "Depot d'offre"),
-    DealStatus(id: 2, name: "En cours"),
-    DealStatus(id: 3, name: "Conclusion"),
-    DealStatus(id: 5, name: "On hold")
-  ];
-
-  Timer? _dealsDebounce;
+  Timer? _searchDebounce;
 
   @override
   void onInit() {
     super.onInit();
-    loadDeals();
-    dealSearchController.addListener(() {
-      if (_dealsDebounce?.isActive ?? false) _dealsDebounce?.cancel();
-      _dealsDebounce = Timer(const Duration(milliseconds: 700), () {
-        applyFilter();
-      });
+
+    loadDeals(reset: true);
+
+     searchController.addListener(() {
+      if (_searchDebounce?.isActive ?? false) _searchDebounce!.cancel();
+      _searchDebounce =
+          Timer(const Duration(milliseconds: 600), () => applyFilter());
     });
   }
 
-  Future<void> loadDeals() async {
+ 
+  Future<void> loadDeals({bool reset = false}) async {
+    if (reset) {
+      currentPage.value = 1;
+      deals.clear();
+    }
+
     loadingDeals.value = true;
     errorLoadingDeals.value = false;
 
-    final PaginatedDeals? allResult = await DealsService().getAllDeals(
-      '',
-      null,
-    );
+    try {
+      final statusValue = _mapFilterToStatus();
 
-    if (allResult != null) {
-      allDeals.value = allResult;
-    } else {
+      final PaginatedDeals? result = await DealsService().getAllDeals(
+        searchQuery: searchController.text,
+        status: statusValue,
+        page: currentPage.value,
+      );
+
+      if (result != null) {
+        lastPage.value = result.lastPage;
+
+         deals.addAll(result.deals);
+      } else {
+        errorLoadingDeals.value = true;
+      }
+    } catch (e) {
       errorLoadingDeals.value = true;
     }
 
-    await applyFilter();
-
     loadingDeals.value = false;
   }
+ 
+  Future<void> loadMoreDeals() async {
+    if (isLoadingMore.value) return;
+    if (currentPage.value >= lastPage.value) return;
 
-  /// Applies filter to allDeals and updates paginatedDeals
+    isLoadingMore.value = true;
+
+    currentPage.value += 1;
+
+    try {
+      final statusValue = _mapFilterToStatus();
+
+      final PaginatedDeals? result = await DealsService().getAllDeals(
+        searchQuery: searchController.text,
+        status: statusValue,
+        page: currentPage.value,
+      );
+
+      if (result != null) {
+        deals.addAll(result.deals);
+      }
+    } catch (_) {}
+
+    isLoadingMore.value = false;
+  }
+
+ 
   Future<void> applyFilter() async {
-    loadingDeals.value = true;
-    errorLoadingDeals.value = false;
-
-    final String? statusValue = selectedDealFilter.value != "empty"
-        ? statusStyles[selectedDealFilter.value]?.value
-        : null;
-
-    final PaginatedDeals? filteredResult = await DealsService().getAllDeals(
-      dealSearchController.text,
-      statusValue,
-    );
-
-    if (filteredResult != null) {
-      paginatedDeals.value = filteredResult;
-    } else {
-      errorLoadingDeals.value = true;
-    }
-
-    loadingDeals.value = false;
+    await loadDeals(reset: true);
   }
 
-  /// Sets the selected filter and applies it without touching allDeals
   void filterDeals(String filter) {
     selectedDealFilter.value = filter;
     applyFilter();
+  }
+ 
+  String? _mapFilterToStatus() {
+    return selectedDealFilter.value != "empty"
+        ? statusStyles[selectedDealFilter.value]?.value
+        : null;
   }
 }

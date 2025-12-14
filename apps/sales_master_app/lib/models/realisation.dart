@@ -25,6 +25,7 @@ class TotalRealisation {
   String trimester;
   String year;
   double increase;
+  double ? increaseResult;
   List<Realisation> realisations;
 
   TotalRealisation(
@@ -32,7 +33,10 @@ class TotalRealisation {
       required this.realisations,
       required this.trimester,
       required this.year,
-      required this.assignedTo});
+      required this.assignedTo,
+        this.increaseResult,
+   
+      });
 
   factory TotalRealisation.fromJson(Map<String, dynamic> json) {
     return TotalRealisation(
@@ -40,6 +44,7 @@ class TotalRealisation {
         year: json["year"],
         assignedTo: json["assigned_to"],
         increase: json["increase"],
+        increaseResult:json["increaseResult"],
         realisations: (json["realisations"] as List)
             .map((item) => Realisation.fromJson(item))
             .toList());
@@ -50,9 +55,13 @@ class TotalRealisation {
       increase:
           double.tryParse((json["pct_resultat_salaire"] ?? "0").toString()) ??
               0,
+       increaseResult:
+          double.tryParse((json["pct_resultat_final"] ?? "0").toString()) ??
+              0,
       assignedTo: json["assigned_to"],
       trimester: json["trimester"],
       year: json["year"],
+ 
       realisations: [
         Realisation(
           name: "GA",
@@ -90,7 +99,7 @@ class TotalRealisation {
           percentage:
               double.tryParse((json["pct_new_compte"] ?? "0").toString()) ?? 0,
         ),
-        Realisation(
+         Realisation(
           name: "Evaluation",
           target:
               double.tryParse((json["target_eval_qual"] ?? "0").toString()) ??

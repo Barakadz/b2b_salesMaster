@@ -24,6 +24,15 @@ class ClientsController extends GetxController {
 
   Timer? _debounceTimer;
 
+RxInt currentPageClients = 1.obs;
+RxInt lastPageClients = 1.obs;
+RxBool isLoadingMoreClients = false.obs;
+RxInt currentPageBadDebts = 1.obs;
+RxInt lastPageBadDebts = 1.obs;
+RxBool isLoadingMoreBadDebts = false.obs;
+
+
+
   @override
   void onInit() {
     super.onInit();
@@ -64,39 +73,77 @@ class ClientsController extends GetxController {
     }
   }
 
-  Future<void> getClients() async {
+  Future<void> getClients({bool isLoadMore = false}) async {
+  if (!isLoadMore) {
     loadingClients.value = true;
-    errorLoadingClients.value = false;
+    clients.clear();
+    currentPageClients.value = 1;
+  } else {
+    if (currentPageClients.value >= lastPageClients.value) return;
+    isLoadingMoreClients.value = true;
+    currentPageClients.value += 1;
+  }
 
-    final PaginatedClientListItem? result = await ClientService().getAllClients(
-        searchQuery: _searchQuery.value.isNotEmpty ? _searchQuery.value : null);
+  final PaginatedClientListItem? result = await ClientService().getAllClients(
+      searchQuery: _searchQuery.value.isNotEmpty ? _searchQuery.value : null,
+      page: currentPageClients.value); // <-- add page parameter in service
 
-    if (result != null) {
-      clients.assignAll(result.clients);
+  if (result != null) {
+    lastPageClients.value = result.lastPage;
+    if (isLoadMore) {
+      clients.addAll(result.clients);
     } else {
+      clients.assignAll(result.clients);
+    }
+    errorLoadingClients.value = false;
+  } else {
+    if (!isLoadMore) {
       errorLoadingClients.value = true;
       clients.clear();
     }
-
-    loadingClients.value = false;
   }
 
-  Future<void> loadBadDebts() async {
+  loadingClients.value = false;
+  isLoadingMoreClients.value = false;
+}
+
+
+  Future<void> loadBadDebts({bool isLoadMore = false}) async {
+  if (!isLoadMore) {
     loadingBadDebts.value = true;
-    errorLoadingBadDebts.value = false;
-
-    final PaginatedClientListItem? result = await ClientService().getAllClients(
-        searchQuery: _searchQuery.value.isNotEmpty ? _searchQuery.value : null,
-        status: "baddebt");
-
-    if (result != null) {
-      badDebts.assignAll(result.clients);
-    } else {
-      errorLoadingBadDebts.value = true;
-    }
-
-    loadingBadDebts.value = false;
+    badDebts.clear();
+    currentPageBadDebts.value = 1;
+  } else {
+    if (currentPageBadDebts.value >= lastPageBadDebts.value) return;
+    isLoadingMoreBadDebts.value = true;
+    currentPageBadDebts.value += 1;
   }
+
+  final PaginatedClientListItem? result = await ClientService().getAllClients(
+    searchQuery: _searchQuery.value.isNotEmpty ? _searchQuery.value : null,
+    status: "baddebt",
+    page: currentPageBadDebts.value, // pass page number
+  );
+
+  if (result != null) {
+    lastPageBadDebts.value = result.lastPage;
+    if (isLoadMore) {
+      badDebts.addAll(result.clients);
+    } else {
+      badDebts.assignAll(result.clients);
+    }
+    errorLoadingBadDebts.value = false;
+  } else {
+    if (!isLoadMore) {
+      errorLoadingBadDebts.value = true;
+      badDebts.clear();
+    }
+  }
+
+  loadingBadDebts.value = false;
+  isLoadingMoreBadDebts.value = false;
+}
+
 
   void setClient(ClientListItem client) {
     // Get.put(ClientDetailsController(client: client));

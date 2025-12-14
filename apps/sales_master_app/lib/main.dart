@@ -28,7 +28,7 @@ void main() async {
   // global controllers
   AuthController authController = Get.put(AuthController(), permanent: true);
   Get.put<CustomDrawerController>(CustomDrawerController());
-
+ 
   //api services config
   Config.configure(
       enableRefreshToken: true,
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
     final LanguageController languageController = Get.put(LanguageController());
 
     return GetMaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'B2B Sales Master',
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,

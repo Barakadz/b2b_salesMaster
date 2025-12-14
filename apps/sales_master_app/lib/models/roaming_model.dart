@@ -35,3 +35,36 @@ class TarifRoaming {
     );
   }
 }
+
+
+
+
+class TarifInternational {
+  String country;
+  String technology;
+  String prepaid;
+  String control;
+  String postpaid;
+
+
+  TarifInternational({
+    required this.country,
+    required this.technology,
+    required this.prepaid,
+    required this.control,
+    required this.postpaid,
+
+  });
+
+  factory TarifInternational.fromJson(Map<String, dynamic> json) {
+    return TarifInternational(
+      country: json["country"],
+      technology: json["technology"],
+      prepaid: json["prepaid"],
+      control: json["control"],
+      postpaid: json["postpaid"],
+
+   
+    );
+  }
+}

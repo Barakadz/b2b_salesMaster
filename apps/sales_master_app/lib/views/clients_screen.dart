@@ -14,8 +14,7 @@ import 'package:sales_master_app/widgets/empty_widget.dart';
 import 'package:sales_master_app/widgets/error_widget.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+ 
 class ClientsScreen extends StatelessWidget {
   const ClientsScreen({super.key});
   @override
@@ -208,48 +207,47 @@ class ClientsScreen extends StatelessWidget {
                                       : RefreshIndicator(
                                           onRefresh: () =>
                                               clientsController.getClients(),
-                                          child: ListView.builder(
-                                              itemCount: clientsController
-                                                  .clients.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: paddingXs),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      final tag =
-                                                          clientsController
-                                                              .clients[index].id
-                                                              .toString();
-                                                      Get.put(
-                                                          ClientDetailsController(
-                                                              client:
-                                                                  clientsController
-                                                                          .clients[
-                                                                      index]),
-                                                          tag: tag);
-                                                      context.push(
-                                                          AppRoutes
-                                                              .clientDetails
-                                                              .path,
-                                                          extra: tag);
-                                                    },
-                                                    child: ClientCard(
-                                                        name: clientsController
-                                                            .clients[index]
-                                                            .name,
-                                                        msisdn:
-                                                            "${clientsController.clients[index].msisdnCount}",
-                                                        isActive:
-                                                            clientsController
-                                                                .clients[index]
-                                                                .isActive),
-                                                  ),
-                                                );
-                                              }),
+                                          child: NotificationListener<ScrollNotification>(
+  onNotification: (ScrollNotification scrollInfo) {
+    if (!clientsController.isLoadingMoreClients.value &&
+        scrollInfo.metrics.pixels >=
+            scrollInfo.metrics.maxScrollExtent - 200) { // near bottom
+      clientsController.getClients(isLoadMore: true);
+    }
+    return false;
+  },
+  child: ListView.builder(
+    itemCount: clientsController.clients.length + 1, // +1 for loader
+    itemBuilder: (context, index) {
+      if (index < clientsController.clients.length) {
+        final client = clientsController.clients[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: paddingXs),
+          child: GestureDetector(
+            onTap: () {
+              final tag = client.id.toString();
+              Get.put(ClientDetailsController(client: client), tag: tag);
+              context.push(AppRoutes.clientDetails.path, extra: tag);
+            },
+            child: ClientCard(
+              name: client.name,
+              msisdn: "${client.msisdnCount}",
+              isActive: client.isActive,
+            ),
+          ),
+        );
+      } else {
+        return Obx(() => clientsController.isLoadingMoreClients.value
+            ? Padding(
+                padding: const EdgeInsets.all(paddingS),
+                child: Center(child: CircularProgressIndicator()),
+              )
+            : SizedBox());
+      }
+    },
+  ),
+)
+
                                         )
                           : clientsController.loadingBadDebts.value == true
                               ? LoadingIndicator()
@@ -265,52 +263,47 @@ class ClientsScreen extends StatelessWidget {
                                       : RefreshIndicator(
                                           onRefresh: () =>
                                               clientsController.loadBadDebts(),
-                                          child: ListView.builder(
-                                              itemCount: clientsController
-                                                  .badDebts.length,
-                                              itemBuilder: (context, index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: paddingXs),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      final tag =
-                                                          clientsController
-                                                              .badDebts[index]
-                                                              .id
-                                                              .toString();
+                                          child: NotificationListener<ScrollNotification>(
+  onNotification: (ScrollNotification scrollInfo) {
+    if (!clientsController.isLoadingMoreBadDebts.value &&
+        scrollInfo.metrics.pixels >=
+            scrollInfo.metrics.maxScrollExtent - 200) {
+      clientsController.loadBadDebts(isLoadMore: true);
+    }
+    return false;
+  },
+  child: ListView.builder(
+    itemCount: clientsController.badDebts.length + 1,
+    itemBuilder: (context, index) {
+      if (index < clientsController.badDebts.length) {
+        final badDebt = clientsController.badDebts[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: paddingXs),
+          child: GestureDetector(
+            onTap: () {
+              final tag = badDebt.id.toString();
+              Get.put(BaddebtDetailsController(baddebt: badDebt), tag: tag);
+              context.push(AppRoutes.badDebtDetails.path, extra: tag);
+            },
+            child: ClientCard(
+              name: badDebt.name,
+              msisdn: badDebt.msisdnCount.toString(),
+              isActive: badDebt.isActive,
+            ),
+          ),
+        );
+      } else {
+        return Obx(() => clientsController.isLoadingMoreBadDebts.value
+            ? Padding(
+                padding: const EdgeInsets.all(paddingS),
+                child: Center(child: CircularProgressIndicator()),
+              )
+            : SizedBox());
+      }
+    },
+  ),
+)
 
-                                                      Get.put(
-                                                          BaddebtDetailsController(
-                                                              baddebt:
-                                                                  clientsController
-                                                                          .badDebts[
-                                                                      index]),
-                                                          tag: tag);
-
-                                                      context.push(
-                                                          AppRoutes
-                                                              .badDebtDetails
-                                                              .path,
-                                                          extra: tag);
-                                                    },
-                                                    child: ClientCard(
-                                                        name: clientsController
-                                                            .badDebts[index]
-                                                            .name,
-                                                        msisdn:
-                                                            clientsController
-                                                                .badDebts[index]
-                                                                .msisdnCount
-                                                                .toString(),
-                                                        isActive:
-                                                            clientsController
-                                                                .badDebts[index]
-                                                                .isActive),
-                                                  ),
-                                                );
-                                              }),
                                         );
                     }),
                   )

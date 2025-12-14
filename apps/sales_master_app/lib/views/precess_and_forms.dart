@@ -25,7 +25,7 @@ class ProcessAndForms extends StatelessWidget {
         children: [
           PageDetail(
             //title: "mon_portfeuille".tr,
-            title: "Process & Formulaires",
+            title: "processFormulaires".tr,
             bgColor: Theme.of(context).colorScheme.outlineVariant,
           ),
           SizedBox(
@@ -49,7 +49,7 @@ class ProcessAndForms extends StatelessWidget {
               login: false,
               filled: true,
               fillColor: Theme.of(context).colorScheme.primaryContainer,
-              hintText: "Search by file name",
+              hintText: "searchFileName".tr,
               controller: controller.fileSearchController,
               prifixIcon: Icon(
                 Icons.search,
@@ -72,7 +72,7 @@ class ProcessAndForms extends StatelessWidget {
                         controller.switchTabIndex(0);
                       },
                       child: ProcessTab(
-                          tabName: "Procédures",
+                          tabName: "procedures".tr,
                           clicked: controller.selectedTab.value == 0,
                           svgPath: "assets/process.svg"),
                     );
@@ -88,7 +88,7 @@ class ProcessAndForms extends StatelessWidget {
                         controller.switchTabIndex(1);
                       },
                       child: ProcessTab(
-                          tabName: "Formulaires",
+                          tabName: "formulaires".tr,
                           clicked: controller.selectedTab.value == 1,
                           svgPath: "assets/form.svg"),
                     );
@@ -109,9 +109,9 @@ class ProcessAndForms extends StatelessWidget {
                         ? Center(child: LoadingIndicator())
                         : controller.processFiles.isEmpty
                             ? EmptyWidget(
-                                title: "Aucun fichier disponible",
+                                title: "acunFichier".tr,
                                 description:
-                                    "Il n’y a pas de fichier pour cette catégorie pour le moment.",
+                                    "acunFichierDesc".tr,
                               )
                             : ListView.builder(
                                 itemCount: controller.processFiles.length,
@@ -128,9 +128,9 @@ class ProcessAndForms extends StatelessWidget {
                         ? Center(child: LoadingIndicator())
                         : controller.formsFiles.isEmpty
                             ? EmptyWidget(
-                                title: "Aucun fichier disponible",
+                                title: "acunFichier".tr,
                                 description:
-                                    "Il n’y a pas de fichier pour cette catégorie pour le moment.",
+                                   "acunFichierDesc".tr,
                               )
                             : ListView.builder(
                                 itemCount: controller.formsFiles.length,

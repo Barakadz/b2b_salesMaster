@@ -40,14 +40,25 @@ List<CatalogueOffer> services = [
   //     name: "Services",
   //     subServices: [],
   //     svgPath: "assets/services.svg"),
-  CatalogueOffer(
+    CatalogueOffer(
       index: 1,
+      name: "Benchmark",
+      subServices: [],
+      svgPath: "assets/international.svg"),
+       
+  CatalogueOffer(
+       index: 2,
       name: "Roaming",
       subServices: [],
       svgPath: "assets/roaming.svg"),
   CatalogueOffer(
-      index: 2,
+      index: 3,
       name: "International",
       subServices: [],
       svgPath: "assets/international.svg"),
+
+      
 ];
+
+
+ 

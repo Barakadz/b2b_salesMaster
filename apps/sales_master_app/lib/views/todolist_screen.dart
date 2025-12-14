@@ -35,7 +35,18 @@ class TodolistScreen extends StatelessWidget {
             .textTheme
             .bodySmall
             ?.copyWith(color: Theme.of(context).colorScheme.primary),
-        selectedDate: DateTime.tryParse(dateController.text),
+        selectedDate: () {
+          final parsed = DateTime.tryParse(dateController.text);
+
+          final min = DateTime.now().subtract(const Duration(days: 365));
+          final max = DateTime.now().add(const Duration(days: 365));
+
+          if (parsed != null && parsed.isAfter(min) && parsed.isBefore(max)) {
+            return parsed;
+          } else {
+            return DateTime.now();
+          }
+        }(),
         daysOfTheWeekTextStyle: Theme.of(context)
             .textTheme
             .bodySmall
@@ -129,8 +140,8 @@ class TodolistScreen extends StatelessWidget {
                           ),
                           Text(
                               todolistController.editingTask.value != null
-                                  ? "Modifier La tache"
-                                  : "Ajouter une tache",
+                                  ? "editTask".tr
+                                  : "addTask".tr,
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -482,8 +493,8 @@ class TodolistScreen extends StatelessWidget {
                             }
                           },
                           text: todolistController.editingTask.value != null
-                              ? "Modifier tache"
-                              : "Ajouter Nouvelle",
+                              ? "editTask".tr
+                              : "addTask".tr,
                           loading: todolistController.creatingTask.value,
                           prefixIcon: SvgPicture.asset("assets/plus.svg"),
                         );
@@ -515,7 +526,7 @@ class TodolistScreen extends StatelessWidget {
             height: paddingS,
           ),
           PageDetail(
-            title: "To do list",
+            title: "toDoList".tr,
             baseviewpage: false,
           ),
           SizedBox(height: paddingXs),
@@ -557,7 +568,7 @@ class TodolistScreen extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: paddingXs),
                                     child: Text(
-                                      item.tr,
+                                 "${item[0].toUpperCase()}${item.substring(1)}".tr,
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
@@ -602,13 +613,12 @@ class TodolistScreen extends StatelessWidget {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.outlineVariant,
+
+    color: Colors.green.shade50,  
                         borderRadius: BorderRadius.circular(borderRadiusSmall),
+                        
                         border: Border.all(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .tertiaryContainer
-                                .withValues(alpha: 0.8))),
+                            color:Colors.green.shade200)),
                     child: Padding(
                       padding: const EdgeInsets.all(paddingXxs),
                       child: SvgPicture.asset(
@@ -628,7 +638,7 @@ class TodolistScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingL),
             child: CustomTextFormField(
-              hintText: 'Search by task name',
+              hintText: 'searchTaskName'.tr,
               controller: todolistController.todolistSearchController,
               fillColor: Theme.of(context).colorScheme.primaryContainer,
               filled: true,
@@ -720,7 +730,7 @@ class TodolistScreen extends StatelessWidget {
                 todolistController.resetFields();
                 openTaskBottomSheet(context, todolistController);
               },
-              text: "Ajouter Nouvelle",
+              text: "addNew".tr,
               prefixIcon: SvgPicture.asset("assets/plus.svg"),
             ),
           )

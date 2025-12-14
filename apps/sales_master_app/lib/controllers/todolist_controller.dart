@@ -6,6 +6,7 @@ import 'package:sales_master_app/controllers/currentuser_controller.dart';
 import 'package:sales_master_app/models/todolist.dart';
 import 'package:sales_master_app/services/todolist_service.dart';
 import 'package:sales_master_app/services/utilities.dart';
+import 'package:sales_master_app/widgets/snackbarWidget.dart';
 
 // Optional: In case Get.context isn't ready early on
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -494,7 +495,8 @@ class TodolistController extends GetxController {
     creatingTask.value = false;
     if (res == true) {
       loadTasks();
-    }
+      SnackBarHelper.showSuccess("Succès","La tâche a été ajoutée avec succès");
+     }
     return res;
   }
 
@@ -522,6 +524,7 @@ class TodolistController extends GetxController {
         priority: priority.value);
     creatingTask.value = false;
     if (res == true) {
+            SnackBarHelper.showSuccess("Succès","Modification de la tâche effectuée avec succès");
       loadTasks();
     }
     return res;

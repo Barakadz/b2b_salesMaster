@@ -15,7 +15,6 @@ import 'package:sales_master_app/views/login_screen.dart';
 import 'package:sales_master_app/views/notification_screen.dart';
 import 'package:sales_master_app/views/otp_screen.dart';
 import 'package:sales_master_app/views/pipeline_main_page.dart';
-//import 'package:sales_master_app/views/precess_and_forms.dart';
 import 'package:sales_master_app/views/realisation_screen.dart';
 import 'package:sales_master_app/views/todolist_archive_screen.dart';
 import 'package:sales_master_app/views/todolist_screen.dart';
@@ -26,6 +25,7 @@ class AppRoutes {
   static final GlobalKey<NavigatorState> _rootNavigatorKey = Get.key;
 
   static BuildContext? get rootContext => _rootNavigatorKey.currentContext;
+  
   // Unique navigator keys for each branch
   static final _homeNavigatorKey = GlobalKey<NavigatorState>();
   static final _clientsNavigatorKey = GlobalKey<NavigatorState>();
@@ -34,24 +34,18 @@ class AppRoutes {
 
   static const login = _Route(path: '/login', name: 'login');
   static const otpValidation = _Route(path: '/otpValidation', name: 'otp');
-  static const notification =
-      _Route(path: "/notifications", name: "notifications");
-  static const clientDetails =
-      _Route(path: '/clientDetails', name: 'clientDetails');
+  static const notification = _Route(path: "/notifications", name: "notifications");
+  static const clientDetails = _Route(path: '/clientDetails', name: 'clientDetails');
   static const myClients = _Route(path: '/myClients', name: 'myClients');
-  static const processAndForms =
-      _Route(path: '/processAndForms', name: 'processAndForms');
-  static const badDebtDetails =
-      _Route(path: '/badDebtDetails', name: "badDebtDetails");
+  static const processAndForms = _Route(path: '/processAndForms', name: 'processAndForms');
+  static const badDebtDetails = _Route(path: '/badDebtDetails', name: "badDebtDetails");
   static const pipeline = _Route(path: '/Pipeline', name: "pipeline");
   static const todolist = _Route(path: '/todolist', name: "todolist");
   static const dealsScreen = _Route(path: "/deals", name: "deals");
-  static const todolistArchive =
-      _Route(path: "/todolist_archive", name: "todolist_archive");
+  static const todolistArchive = _Route(path: "/todolist_archive", name: "todolist_archive");
   static const dealDetails = _Route(path: "/dealDetails", name: "dealDetails");
   static const catalogue = _Route(path: "/catalogue", name: "catalogue");
-  static const dashboardRealisations =
-      _Route(path: "/realisations", name: "realisations");
+  static const dashboardRealisations = _Route(path: "/realisations", name: "realisations");
   static const home = _Route(path: "/homepage", name: "home");
 
   final router = GoRouter(
@@ -77,6 +71,7 @@ class AppRoutes {
       return null;
     },
     routes: [
+      // Public routes (NO bottom navigation)
       GoRoute(
         name: AppRoutes.login.name,
         path: AppRoutes.login.path,
@@ -87,60 +82,14 @@ class AppRoutes {
         path: AppRoutes.otpValidation.path,
         builder: (context, state) => OtpScreen(),
       ),
-      GoRoute(
-        name: AppRoutes.notification.name,
-        path: AppRoutes.notification.path,
-        builder: (context, state) => const NotificationScreen(),
-      ),
-      GoRoute(
-        name: AppRoutes.dealsScreen.name,
-        path: AppRoutes.dealsScreen.path,
-        builder: (context, state) => const DealsScreen(),
-      ),
-      GoRoute(
-        name: AppRoutes.dashboardRealisations.name,
-        path: AppRoutes.dashboardRealisations.path,
-        builder: (context, state) => const RealisationScreen(),
-      ),
-      GoRoute(
-        name: AppRoutes.catalogue.name,
-        path: AppRoutes.catalogue.path,
-        builder: (context, state) => const CatalogueScreen(),
-      ),
-      GoRoute(
-        name: AppRoutes.dealDetails.name,
-        path: AppRoutes.dealDetails.path,
-        builder: (context, state) {
-          Deal? deal = state.extra as Deal?;
-          return DealsDetailsScreen(deal: deal);
-        },
-      ),
-      GoRoute(
-        name: AppRoutes.clientDetails.name,
-        path: AppRoutes.clientDetails.path,
-        builder: (context, state) {
-          String id = state.extra as String;
-          return ClientDetailsScreen(clientId: id);
-        },
-      ),
-      GoRoute(
-        name: AppRoutes.badDebtDetails.name,
-        path: AppRoutes.badDebtDetails.path,
-        builder: (context, state) {
-          String id = state.extra as String;
-          return BadDebtDetails(badDebtId: id);
-        },
-      ),
-      GoRoute(
-        name: AppRoutes.todolistArchive.name,
-        path: AppRoutes.todolistArchive.path,
-        builder: (context, state) => TodolistArchiveScreen(),
-      ),
+      
+      // StatefulShellRoute - ALL authenticated pages with bottom nav
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return BaseView(navigationShell: navigationShell);
         },
         branches: [
+          // HOME BRANCH
           StatefulShellBranch(
             navigatorKey: _homeNavigatorKey,
             routes: [
@@ -149,8 +98,39 @@ class AppRoutes {
                 path: AppRoutes.home.path,
                 builder: (context, state) => HomeScreen(),
               ),
+              // All these routes are SIBLINGS of home, not children
+              GoRoute(
+                name: AppRoutes.notification.name,
+                path: '/notifications',
+                builder: (context, state) => const NotificationScreen(),
+              ),
+              GoRoute(
+                name: AppRoutes.dealsScreen.name,
+                path: '/deals',
+                builder: (context, state) => const DealsScreen(),
+              ),
+              GoRoute(
+                name: AppRoutes.dealDetails.name,
+                path: '/dealDetails',
+                builder: (context, state) {
+                  Deal? deal = state.extra as Deal?;
+                  return DealsDetailsScreen(deal: deal);
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.dashboardRealisations.name,
+                path: '/realisations',
+                builder: (context, state) => const RealisationScreen(),
+              ),
+              GoRoute(
+                name: AppRoutes.catalogue.name,
+                path: '/catalogue',
+                builder: (context, state) => const CatalogueScreen(),
+              ),
             ],
           ),
+          
+          // CLIENTS BRANCH
           StatefulShellBranch(
             navigatorKey: _clientsNavigatorKey,
             routes: [
@@ -159,8 +139,27 @@ class AppRoutes {
                 path: AppRoutes.myClients.path,
                 builder: (context, state) => ClientsScreen(),
               ),
+              // Client-related routes as siblings
+              GoRoute(
+                name: AppRoutes.clientDetails.name,
+                path: '/clientDetails',
+                builder: (context, state) {
+                  String id = state.extra as String;
+                  return ClientDetailsScreen(clientId: id);
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.badDebtDetails.name,
+                path: '/badDebtDetails',
+                builder: (context, state) {
+                  String id = state.extra as String;
+                  return BadDebtDetails(badDebtId: id);
+                },
+              ),
             ],
           ),
+          
+          // PIPELINE BRANCH
           StatefulShellBranch(
             navigatorKey: _pipelineNavigatorKey,
             routes: [
@@ -171,6 +170,8 @@ class AppRoutes {
               ),
             ],
           ),
+          
+          // TODOLIST BRANCH
           StatefulShellBranch(
             navigatorKey: _todolistNavigatorKey,
             routes: [
@@ -178,6 +179,11 @@ class AppRoutes {
                 name: AppRoutes.todolist.name,
                 path: AppRoutes.todolist.path,
                 builder: (context, state) => TodolistScreen(),
+              ),
+              GoRoute(
+                name: AppRoutes.todolistArchive.name,
+                path: '/todolist_archive',
+                builder: (context, state) => TodolistArchiveScreen(),
               ),
             ],
           ),

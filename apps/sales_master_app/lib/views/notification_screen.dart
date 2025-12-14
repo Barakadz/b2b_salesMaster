@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sales_master_app/config/routes.dart';
+ import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/notification_controller.dart';
 import 'package:sales_master_app/models/notification.dart';
 import 'package:sales_master_app/widgets/error_widget.dart';
@@ -67,28 +66,35 @@ class NotificationScreen extends StatelessWidget {
               height: paddingL,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingXl),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  GestureDetector(onTap: () {
-                    notificationController.setTabIndex(0);
-                  }, child: Obx(() {
-                    return NotificationTab(
-                        title: "new_notifications".tr,
-                        clicked: notificationController.tabIndex.value == 0);
-                  })),
-                  GestureDetector(onTap: () {
-                    notificationController.setTabIndex(2);
-                  }, child: Obx(() {
-                    return NotificationTab(
-                        title: "read_notifications".tr,
-                        clicked: notificationController.tabIndex.value == 2);
-                  }))
-                ],
-              ),
-            ),
+  padding: const EdgeInsets.symmetric(horizontal: paddingXl),
+  child: SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: [
+        GestureDetector(
+          onTap: () => notificationController.setTabIndex(0),
+          child: Obx(() {
+            return NotificationTab(
+              title: "new_notifications".tr,
+              clicked: notificationController.tabIndex.value == 0,
+            );
+          }),
+        ),
+        SizedBox(width: 12),
+        GestureDetector(
+          onTap: () => notificationController.setTabIndex(2),
+          child: Obx(() {
+            return NotificationTab(
+              title: "read_notifications".tr,
+              clicked: notificationController.tabIndex.value == 2,
+            );
+          }),
+        ),
+      ],
+    ),
+  ),
+)
+,
             SizedBox(height: paddingS),
             Divider(
               thickness: 1,

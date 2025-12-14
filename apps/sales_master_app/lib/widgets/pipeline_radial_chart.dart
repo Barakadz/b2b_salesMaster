@@ -17,12 +17,14 @@ class PipelineRadialChart extends StatelessWidget {
     stats.add(PipelineStat(
         status: "empty", count: 0, percentage: 100 - pipelienState.percentage));
     return List.generate(stats.length, (index) {
-      StatusStyle style = statusStyles[stats[index].status.toLowerCase()]!;
-      return PieChartSectionData(
-          showTitle: false,
-          color: style.textColor,
-          value: stats[index].percentage,
-          radius: 20);
+     StatusStyle? style = statusStyles[stats[index].status.toLowerCase()];
+return PieChartSectionData(
+  showTitle: false,
+  color: style?.textColor ?? Colors.grey.shade100, // default color
+  value: stats[index].percentage,
+  radius: 20,
+);
+
     });
   }
 

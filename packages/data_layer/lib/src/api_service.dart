@@ -49,7 +49,7 @@ class Api {
   /// set the token value for this api instance
   /// set save = false if you dont want to save it in local storage
   Future<void> setToken({required String token, bool? save = true}) async {
-    _dio.options.headers['Authorization'] = '${Config.tokenPrefix} $token';
+_dio.options.headers['Authorization'] = '${Config.tokenPrefix} $token';
     _token = token;
 
     if (save == true) {
@@ -67,6 +67,18 @@ class Api {
       await AppStorage().setRefreshToken(refreshToken);
     }
   }
+String getFullUrl(String endpoint) {
+  if (_baseUrl == null || _baseUrl!.isEmpty) {
+    throw Exception("Base URL not set in Api");
+  }
+
+  // Prevent double slashes
+  if (_baseUrl!.endsWith("/")) {
+    return "${_baseUrl!}${endpoint.startsWith("/") ? endpoint.substring(1) : endpoint}";
+  } else {
+    return "$_baseUrl/${endpoint.startsWith("/") ? endpoint.substring(1) : endpoint}";
+  }
+}
 
   bool _isSuccess(int? code) => code != null && code >= 200 && code < 300;
 
@@ -94,6 +106,26 @@ class Api {
       return null;
     }
   }
+void printOptions(Options? options) {
+  if (options == null) {
+    print("options is null");
+    return;
+  }
+
+  print("========= OPTIONS DETAILS =========");
+  print("Method: ${options.method}");
+  print("SendTimeout: ${options.sendTimeout}");
+  print("ReceiveTimeout: ${options.receiveTimeout}");
+  print("ContentType: ${options.contentType}");
+  print("ResponseType: ${options.responseType}");
+  print("FollowRedirects: ${options.followRedirects}");
+  print("MaxRedirects: ${options.maxRedirects}");
+  print("PersistentConnection: ${options.persistentConnection}");
+  print("Headers: ${options.headers}");
+  print("Extra: ${options.extra}");
+  print("ListFormat: ${options.listFormat}");
+  print("===================================");
+}
 
   Future<Response?> post(
     String url, {
@@ -114,6 +146,24 @@ class Api {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("##############################################################");
+      print("url==============>{$_baseUrl/$url}");
+      print("data============>${data}");
+      print("queryParams=============>${queryParameters}");
+printOptions(options);
+   print("cancelToken===========>${cancelToken}");
+      print("onsendProgress===========>${onSendProgress}");
+      print("onReceiveProgress================>${onReceiveProgress}");
+      print("${response}");
       if (_isSuccess(response.statusCode)) {
         return response;
       }

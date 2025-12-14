@@ -7,7 +7,6 @@ import 'package:sales_master_app/controllers/catalogue_controller.dart';
 import 'package:sales_master_app/models/coutry_model.dart';
 import 'package:sales_master_app/widgets/custom_tab.dart';
 import 'package:sales_master_app/widgets/empty_widget.dart';
-import 'package:sales_master_app/widgets/file_card.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/roaming_info.dart';
 
@@ -66,59 +65,59 @@ class RoamingView extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
             IntrinsicWidth(
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton2<String>(
-                  isExpanded: true,
-                  hint: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: paddingXs),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: paddingXs),
-                      child: Text('country'.tr,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ),
-                  ),
-                  items: catalogueController.countries
-                      .map((Country item) => DropdownMenuItem<String>(
-                            value: item.country,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: paddingXs),
-                              child: Text(
-                                item.country,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  value: catalogueController.selectedCountry.value?.country,
-                  onChanged: (String? name) {
-                    if (name != null) {
-                      catalogueController.changeCountry(name);
-                    }
-                  },
-                  buttonStyleData: ButtonStyleData(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.outlineVariant,
-                        border: Border.all(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .tertiaryContainer)),
-                    padding: const EdgeInsets.only(left: 0, right: 8),
-                    height: 35,
-                    width: double.infinity,
-                  ),
-                  menuItemStyleData: const MenuItemStyleData(
-                    height: 35,
-                    padding: EdgeInsets.zero,
+  child: DropdownButtonHideUnderline(
+    child: Obx(() => DropdownButton2<String>(
+      isExpanded: true,
+      hint: Padding(
+        padding: EdgeInsets.symmetric(horizontal: paddingXs),
+        child: Text(
+          'country'.tr,
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+      ),
+
+      items: catalogueController.countries
+          .map((Country item) => DropdownMenuItem<String>(
+                value: item.country,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingXs),
+                  child: Text(
+                    item.country,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
-              ),
-            )
+              ))
+          .toList(),
+
+       value: catalogueController.selectedCountry.value?.country,
+
+      onChanged: (String? name) {
+        if (name != null) {
+          catalogueController.changeCountry(name);
+        }
+      },
+
+      buttonStyleData: ButtonStyleData(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.outlineVariant,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.tertiaryContainer,
+          ),
+        ),
+        padding: const EdgeInsets.only(left: 0, right: 8),
+        height: 35,
+        width: double.infinity,
+      ),
+      menuItemStyleData: const MenuItemStyleData(
+        height: 35,
+        padding: EdgeInsets.zero,
+      ),
+    )),
+  ),
+)
           ],
         ),
-        Row(
+         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,12 +141,12 @@ class RoamingView extends StatelessWidget {
             }),
           ],
         ),
-        Obx(() {
+          Obx(() {
           return catalogueController.loadingRoaming.value == true
               ? Center(child: LoadingIndicator())
               : catalogueController.roaming.value == null ||
                       catalogueController.selectedCountry.value == null
-                  ? Center(child: EmptyWidget())
+                  ? Center(child: EmptyWidget(title:"selectDestination".tr ,description: "selectDestinationDesc".tr,))
                   : SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -163,24 +162,26 @@ class RoamingView extends StatelessWidget {
                               inputCountryCode: catalogueController
                                   .selectedCountry.value!.countryCode,
                               outputCountryCode: "dz",
-                              description: "Appel vers l'Algérie",
+                              description: "callAlgeria".tr,
                               price: catalogueController
-                                  .roaming.value!.callToAlgeria),
+                                  .roaming.value!.callToAlgeria
+                                  ),
                           RoamingInfo(
                               inputCountryCode: catalogueController
                                   .selectedCountry.value!.countryCode,
                               outputCountryCode: catalogueController
                                   .selectedCountry.value!.countryCode,
                               worldWide: false,
-                              description: "Appel en local",
+                              description: "callLocal".tr,
                               price:
-                                  catalogueController.roaming.value!.localCall),
+                                  catalogueController.roaming.value!.localCall
+                                  ),
                           RoamingInfo(
                               inputCountryCode: catalogueController
                                   .selectedCountry.value!.countryCode,
                               outputCountryCode: catalogueController
                                   .selectedCountry.value!.countryCode,
-                              description: "Appel vers le reste du monde",
+                              description: "callMonde".tr,
                               worldWide: true,
                               price: catalogueController
                                   .roaming.value!.internationalCall),
@@ -191,7 +192,7 @@ class RoamingView extends StatelessWidget {
                                   .selectedCountry.value!.countryCode,
                               reverse: true,
                               worldWide: true,
-                              description: "Appel recu",
+                              description: "callRecu".tr,
                               price: catalogueController
                                   .roaming.value!.receiveCall),
                           SizedBox(
@@ -206,7 +207,7 @@ class RoamingView extends StatelessWidget {
                                   svgPath: "assets/sms.svg",
                                   price:
                                       "${catalogueController.roaming.value!.sms} DA",
-                                  label: "SMS émis",
+                                  label: "SMSEmis".tr,
                                   context: context),
                               offerInfo(
                                   svgPath: "assets/wifi.svg",

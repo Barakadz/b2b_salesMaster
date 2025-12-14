@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
+import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/realisations_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/widgets/radial_chart.dart';
@@ -14,6 +17,7 @@ class RealisationChartContainer extends StatelessWidget {
   final double totalrealised;
   final double totalTarget;
   final bool disabled;
+ final String? pageTitle;
   const RealisationChartContainer(
       {super.key,
       required this.date,
@@ -22,6 +26,7 @@ class RealisationChartContainer extends StatelessWidget {
       required this.totalTarget,
       this.increase = 0,
       this.disabled = false,
+      this.pageTitle,
       required this.totalRealisations});
 
   @override
@@ -84,42 +89,127 @@ class RealisationChartContainer extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
+             SizedBox(
               height: paddingXs,
             ),
-            Container(
-                height: 200,
-                child: RadialChart(
-                  gloabl: gloabl,
-                  textColor: disabled == true
-                      ? Theme.of(context)
-                          .colorScheme
-                          .onSurfaceVariant
-                          .withValues(alpha: 0.25)
-                      : null,
-                  realisations: totalRealisations.realisations,
-                  totalTarget: totalTarget,
-                  totalrealised: totalrealised,
-                )),
+            controller.loadingRealisations.value ==true ? CircularProgressIndicator() :
+         totalrealised ==0.0   ?  InkWell(
+  onTap: () {
+    // Go to another page with GoRouter
+                  context.push(AppRoutes.dashboardRealisations.path);
+  },
+ 
+           child: Column(
+                    children: [
+                        SvgPicture.asset(
+                //notificationAssets[notification.type],
+                'assets/nodata.svg',
+                height: 240,
+                width: 240,
+              ),
+                      Text("Aucune réalisation n’a été trouvée pour ce trimestre.",textAlign: TextAlign.center,),
+                    ],
+                  ),
+         ) :  InkWell(
+  onTap: () {
+    // Go to another page with GoRouter
+                  context.push(AppRoutes.dashboardRealisations.path);
+  },
+           child: Container(
+                  height: 200,
+                  child: RadialChart(
+                    gloabl: gloabl,
+                    textColor: disabled == true
+                        ? Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant
+                            .withValues(alpha: 0.25)
+                        : null,
+                    realisations: totalRealisations.realisations,
+                    totalTarget: totalTarget,
+                    totalrealised: totalrealised,//hadda1
+                  )),
+         ) ,
             SizedBox(
               height: paddingXs,
             ),
             disabled == true
-                ? SalaryNote(
-                    raise: totalRealisations.increase,
-                    borderColor:
-                        Theme.of(context).dividerColor.withValues(alpha: 0.5),
-                    bgColor:
-                        Theme.of(context).dividerColor.withValues(alpha: 0.07),
-                    textColor: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant
-                        .withValues(alpha: 0.25),
-                    prefixSvgPath: "assets/congrat_left.svg",
-                    suffixSvgPath: "assets/congrat_right.svg",
-                  )
+                ? pageTitle=='HomePage'  ?  Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Text(
+      "${totalRealisations.increaseResult}%",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+    ),
+    const SizedBox(width: 16),
+   Flexible(
+  child: Text(
+    "Bravo ! Vous avez atteint ${totalRealisations.increaseResult}% de votre objectif total",
+    style: TextStyle(
+      fontSize: 14,
+      color: Colors.blueGrey.shade300,
+    ),
+    softWrap: true,  
+    overflow: TextOverflow.visible,
+  ),
+),
+
+  ],
+)
+: InkWell(
+  onTap: () {
+    context.push(AppRoutes.dashboardRealisations.path);
+  },
+  child:
+  (totalRealisations.increaseResult ?? 0.0) > 70.0
+    ? 
+   SalaryNote(
+                      raise: totalRealisations.increase,
+                      borderColor:
+                          Theme.of(context).dividerColor.withValues(alpha: 0.5),
+                      bgColor:
+                          Theme.of(context).dividerColor.withValues(alpha: 0.07),
+                      textColor: Theme.of(context)
+                          .colorScheme
+                          .onSurfaceVariant
+                          .withValues(alpha: 0.25),
+                      prefixSvgPath: "assets/congrat_left.svg",
+                      suffixSvgPath: "assets/congrat_right.svg",
+                    ) : SizedBox()
+)
                 : totalRealisations.increase > 0
-                    ? SalaryNote(
+                    ?pageTitle=='HomePage'  ?  Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Text(
+      "${totalRealisations.increaseResult}%",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+    ),
+    const SizedBox(width: 16),
+   Flexible(
+  child: Text(
+    "Bravo ! Vous avez atteint ${totalRealisations.increaseResult}% de votre objectif total",
+    style: TextStyle(
+      fontSize: 14,
+      color: Colors.blueGrey.shade300,
+    ),
+    softWrap: true,  
+    overflow: TextOverflow.visible,
+  ),
+),
+
+  ],
+)
+:  (totalRealisations.increaseResult ?? 0.0) > 70.0
+    ? SalaryNote(
                         raise: totalRealisations.increase,
                         borderColor: disabled == true
                             ? Theme.of(context)
@@ -140,7 +230,7 @@ class RealisationChartContainer extends StatelessWidget {
                         prefixSvgPath: "assets/congrat_left.svg",
                         suffixSvgPath: "assets/congrat_right.svg",
                       )
-                    : SizedBox()
+                    : SizedBox() :SizedBox()
           ],
         ),
       ),

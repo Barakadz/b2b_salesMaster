@@ -3,7 +3,7 @@ import 'dart:convert';
 class Config {
   static String tokenKey = "access_token";
   static String refreshTokenKey = "refresh_token";
-  static String refreshTokenUrl = "/oauth2/token";
+  static String refreshTokenUrl = "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/oauth2/token";
   static String tokenPrefix = "Bearer";
   static String responseMessageKey = "message";
   static String msisdnKey = "msisdn";
@@ -13,12 +13,15 @@ class Config {
   static bool enableRefreshToken = true;
   static Function? onAuthFail;
 
-  static Map<String, dynamic> refreshTokenHeaders = {
-    "Content-Type": "application/x-www-form-urlencoded",
-    "Cookie":
-        "01f6061d6d58ba5d0a22723167783289fbc1e265049594228933a8da4a4b84556d103c9c12890e7c526b2e986715deb1287e4740f5", // just default value , it can be updated
-    "Authorization": ""
-  };
+static Map<String, String> refreshTokenHeaders = {
+  "accept-encoding": "gzip",
+  "authorization": "Basic Rkk3WUZ3WEtmbVJoakJISEJkQ2F5azRLV0gwYTpiT3lqeXFRWDFtY2haX29CcGRMV1BxdmxPX29h",
+  "content-type": "application/x-www-form-urlencoded",
+  "host": "apim.djezzy.dz",
+  "user-agent": "Dart/3.7 (dart:io)",
+ // "cookie": "TS01920435=01f6061d6ddd3377bbf5fdc29adecdf473f31c8c669097c693ece9cd91a067335645c50ffb092ddfbde5d1decaedb9d2aca0dbbf80",
+};
+
 
   static Map<String, dynamic> refreshTokenBody = {
     "grant_type": "refresh_token",

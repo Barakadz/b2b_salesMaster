@@ -16,4 +16,18 @@ class CountryService {
       return [];
     }
   }
+   Future<List<CountryInternational>> fetchCountriesInternational() async {
+    try {
+      final response = await Api.getInstance().get("tarif-international/countries");
+
+      if (response != null && response.data["success"] == true) {
+        final data = response.data["data"] as List;
+        return data.map((e) => CountryInternational.fromJson(e)).toList();
+      }
+      return [];
+    } catch (e, stack) {
+      print("Error fetching countries: $e \n $stack");
+      return [];
+    }
+  }
 }

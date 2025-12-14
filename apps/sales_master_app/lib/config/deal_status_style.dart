@@ -14,6 +14,12 @@ class StatusStyle {
 }
 
 const Map<String, StatusStyle> statusStyles = {
+   'All Deal': StatusStyle(
+      backgroundColor: Color(0x1AF6405B),
+      textColor: Color(0xffF6405B),
+      value: "",
+      svgPath: "assets/onhold.svg"),    
+ 
   'prise de contact': StatusStyle(
       backgroundColor: Color(0X1ADCDEE3),
       textColor: Color(0XFFDCDEE3),
@@ -39,8 +45,5 @@ const Map<String, StatusStyle> statusStyles = {
       textColor: Color(0xffF6405B),
       value: "On hold",
       svgPath: "assets/onhold.svg"),
-  'empty': StatusStyle(
-      value: "",
-      backgroundColor: Color(0xffEBEBEB),
-      textColor: Color(0xffEBEBEB))
+  
 };

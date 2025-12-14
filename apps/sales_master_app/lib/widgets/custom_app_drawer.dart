@@ -29,6 +29,8 @@ class CustomAppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      drawerController.updateSelectedItemByRoute(context);
+
     return Drawer(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
@@ -53,7 +55,7 @@ class CustomAppDrawer extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: paddingXs),
                                 child: Text(
-                                  'language',
+                                  'language'.tr,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
@@ -121,8 +123,7 @@ class CustomAppDrawer extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: paddingXl),
-
-              // pages
+               // pages
               ...drawerItems.entries.map((entry) {
                 return Obx(() => _buildDrawerItem(context,
                         key: entry.key,

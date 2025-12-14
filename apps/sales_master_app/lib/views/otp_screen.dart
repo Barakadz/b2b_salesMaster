@@ -1,16 +1,13 @@
-import 'package:data_layer/data_layer.dart';
-import 'package:dotted_line/dotted_line.dart';
+ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:otp_autofill/otp_autofill.dart';
 import 'package:sales_master_app/config/constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sales_master_app/config/routes.dart';
+ import 'package:sales_master_app/config/routes.dart';
 import 'package:sales_master_app/controllers/auth_controller.dart';
-import 'package:sales_master_app/services/push_notification_service.dart';
-import 'package:sales_master_app/widgets/otp_form.dart';
+ import 'package:sales_master_app/widgets/otp_form.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 

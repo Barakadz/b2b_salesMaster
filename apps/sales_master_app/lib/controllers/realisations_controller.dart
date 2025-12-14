@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/services/realisations_service.dart';
@@ -5,8 +6,22 @@ import 'package:sales_master_app/services/realisations_service.dart';
 class RealisationsController extends GetxController {
   RxBool loadData = false.obs;
   RxBool showRealisation = true.obs;
-  RxString selectedQuarter = "q2".obs;
-  List<String> filter = ["q1", "q2", "q3", "q4"];
+final RxString selectedQuarter = ''.obs;
+
+void setQuarterFromDate() {
+  final month = DateTime.now().month;
+
+  if (month >= 1 && month <= 3) {
+    selectedQuarter.value = 'Q1';
+  } else if (month >= 4 && month <= 6) {
+    selectedQuarter.value = 'Q2';
+  } else if (month >= 7 && month <= 9) {
+    selectedQuarter.value = 'Q3';
+  } else {
+    selectedQuarter.value = 'Q4';
+  }
+}
+  List<String> filter = ["Q1", "Q2", "Q3", "Q4"];
 
   //RxList<Realisation> realisations = <Realisation>[].obs;
   Rx<TotalRealisation?> totalRealisations = Rx<TotalRealisation?>(null);
@@ -27,11 +42,16 @@ class RealisationsController extends GetxController {
   //  }
   //}
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   loadRealisation();
-  // }
+@override
+void onInit() {
+  super.onInit();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    setQuarterFromDate();
+    loadRealisation();
+  });
+}
+
+
 
   // @override
   // void onReady() {

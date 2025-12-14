@@ -3,34 +3,36 @@ import 'package:sales_master_app/models/client.dart';
 
 class ClientService {
   /// Fetch all clients (paginated)
-  Future<PaginatedClientListItem?> getAllClients(
-      {String? searchQuery, String? status}) async {
-    try {
-      Map<String, dynamic> queryParameters = {};
+ Future<PaginatedClientListItem?> getAllClients({
+  String? searchQuery,
+  String? status,
+  int page = 1, // default first page
+}) async {
+  try {
+    Map<String, dynamic> queryParameters = {"page": page};
 
-      if (searchQuery != null && searchQuery.trim().isNotEmpty) {
-        queryParameters["search"] = searchQuery;
-      }
-
-      if (status != null && status.trim().isNotEmpty) {
-        queryParameters["status"] = status;
-      }
-
-      final response = await Api.getInstance()
-          .get("client", queryParameters: queryParameters);
-
-      if (response != null && response.data?["success"] == true) {
-        final data = response.data?["data"];
-        return PaginatedClientListItem.fromJson({"data": data});
-      }
-
-      print("Failed to get clients: response was null or unsuccessful");
-      return null;
-    } catch (e, stacktrace) {
-      print("Exception while fetching clients: $e\n$stacktrace");
-      return null;
+    if (searchQuery != null && searchQuery.trim().isNotEmpty) {
+      queryParameters["search"] = searchQuery;
     }
+    if (status != null && status.trim().isNotEmpty) {
+      queryParameters["status"] = status;
+    }
+
+    final response = await Api.getInstance()
+        .get("client", queryParameters: queryParameters);
+
+    if (response != null && response.data?["success"] == true) {
+      final data = response.data?["data"];
+      return PaginatedClientListItem.fromJson({"data": data});
+    }
+
+    return null;
+  } catch (e, stacktrace) {
+    print("Exception while fetching clients: $e\n$stacktrace");
+    return null;
   }
+}
+
 
   Future<ClientDetails?> getClientById(int id) async {
     try {
@@ -68,11 +70,11 @@ class ClientService {
     }
   }
 
-  Future<bool> addMom(int clientId, String mom) async {
+  Future<bool> addMom(int clientId, String mom,String visiteDate) async {
     try {
       final body = {
         "mom": mom,
-        "visit_date": DateTime.now().toString().substring(0, 19),
+        "visit_date": visiteDate,
       };
 
       final response =

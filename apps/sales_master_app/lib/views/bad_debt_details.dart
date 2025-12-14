@@ -12,8 +12,7 @@ import 'package:sales_master_app/widgets/my_chip.dart';
 import 'package:sales_master_app/widgets/note.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+ 
 class BadDebtDetails extends StatelessWidget {
   final String badDebtId;
   const BadDebtDetails({super.key, required this.badDebtId});
@@ -154,7 +153,7 @@ class BadDebtDetails extends StatelessWidget {
                                   InfoContainer(
                                     label: "open_bills".tr,
                                     content:
-                                        "${baddebtDetailsController.clientDetails.value?.bill?.countUnpaidBills ?? "undefined"}",
+                                        "${baddebtDetailsController.clientDetails.value?.bill?.countUnpaidBills ?? ""}",
                                   ),
                                   SizedBox(
                                     height: formSectionTopPadding,
@@ -210,7 +209,7 @@ class BadDebtDetails extends StatelessWidget {
                                                     .bill
                                                     ?.lastBillAmount
                                                     .toString() ??
-                                                "undefined",
+                                                "",
                                           ),
                                           DebtTile(
                                             label: "global_due".tr,
@@ -220,7 +219,7 @@ class BadDebtDetails extends StatelessWidget {
                                                     .bill
                                                     ?.unpaidAmount
                                                     .toString() ??
-                                                "undefined",
+                                                "",
                                           ),
                                           DebtTile(
                                             prefix: Icon(
@@ -235,7 +234,7 @@ class BadDebtDetails extends StatelessWidget {
                                                     .bill
                                                     ?.unpaidAmount
                                                     .toString() ??
-                                                "undefined",
+                                                "",
                                           )
                                         ],
                                       ),
@@ -249,18 +248,18 @@ class BadDebtDetails extends StatelessWidget {
                                   SizedBox(
                                     height: paddingS,
                                   ),
-                                  Container(
-                                      width: double.infinity,
-                                      child: PrimaryButton(
-                                        onTap: () {
-                                          baddebtDetailsController.callNumber(
-                                              baddebtDetailsController
-                                                  .baddebt.msisdnCount
-                                                  .toString());
-                                        },
-                                        text: "call".tr,
-                                        height: 45,
-                                      ))
+                                  // Container(
+                                  //     width: double.infinity,
+                                  //     child: PrimaryButton(
+                                  //       onTap: () {
+                                  //         baddebtDetailsController.callNumber(
+                                  //             baddebtDetailsController
+                                  //                 .baddebt.msisdnCount
+                                  //                 .toString());
+                                  //       },
+                                  //       text: "call".tr,
+                                  //       height: 45,
+                                  //     ))
                                 ],
                               )),
                         );

@@ -121,7 +121,7 @@ class AuthService {
       if (response != null &&
           response.data != null &&
           response.data['access_token'] != null) {
-        Config.refreshTokenUrl = "https://apim.djezzy.dz/uat/oauth2/token";
+        Config.refreshTokenUrl = "https://apim.djezzy.dz/uat/djezzy-api/b2b/master/oauth2/token";
         Config.refreshTokenBody["refresh_token"] =
             response.data["refresh_token"];
         Config.client_secret = _clientSecret;

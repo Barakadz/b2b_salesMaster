@@ -36,29 +36,29 @@ class ProcessAndFormsController extends GetxController {
 
     await Future.delayed(Duration(seconds: 3));
 
-    formsFiles.assignAll([
-      CatalogueFile(
-          id: 0,
-          name: "Formulaire N01",
-          size: 94,
-          uploadDate: "12/06/2025",
-          unity: "kb",
-          uploadedBy: "Imene Baya BETROUNI"),
-      CatalogueFile(
-          id: 1,
-          name: "Formulaire N02",
-          size: 94,
-          uploadDate: "12/06/2025",
-          unity: "kb",
-          uploadedBy: "Imene Baya BETROUNI"),
-      CatalogueFile(
-          id: 2,
-          name: "Formulaire N03",
-          size: 94,
-          uploadDate: "12/06/2025",
-          unity: "kb",
-          uploadedBy: "Imene Baya BETROUNI")
-    ]);
+    // formsFiles.assignAll([
+    //   CatalogueFile(
+    //       id: 0,
+    //       name: "Formulaire N01",
+    //       size: 94,
+    //       uploadDate: "12/06/2025",
+    //       unity: "kb",
+    //       uploadedBy: "Imene Baya BETROUNI"),
+    //   CatalogueFile(
+    //       id: 1,
+    //       name: "Formulaire N02",
+    //       size: 94,
+    //       uploadDate: "12/06/2025",
+    //       unity: "kb",
+    //       uploadedBy: "Imene Baya BETROUNI"),
+    //   CatalogueFile(
+    //       id: 2,
+    //       name: "Formulaire N03",
+    //       size: 94,
+    //       uploadDate: "12/06/2025",
+    //       unity: "kb",
+    //       uploadedBy: "Imene Baya BETROUNI")
+    // ]);
     loadingForms.value = false;
     errorLoadingForms.value = false;
   }
@@ -69,29 +69,29 @@ class ProcessAndFormsController extends GetxController {
 
     await Future.delayed(Duration(seconds: 3));
 
-    processFiles.assignAll([
-      CatalogueFile(
-          id: 0,
-          name: "Process N01",
-          size: 94,
-          uploadDate: "12/06/2025",
-          unity: "kb",
-          uploadedBy: "Imene Baya BETROUNI"),
-      CatalogueFile(
-          id: 1,
-          name: "Process N02",
-          size: 94,
-          uploadDate: "12/06/2025",
-          unity: "kb",
-          uploadedBy: "Imene Baya BETROUNI"),
-      CatalogueFile(
-          id: 2,
-          name: "Process N03",
-          size: 94,
-          uploadDate: "12/06/2025",
-          unity: "kb",
-          uploadedBy: "Imene Baya BETROUNI")
-    ]);
+    // processFiles.assignAll([
+    //   CatalogueFile(
+    //       id: 0,
+    //       name: "Process N01",
+    //       size: 94,
+    //       uploadDate: "12/06/2025",
+    //       unity: "kb",
+    //       uploadedBy: "Imene Baya BETROUNI"),
+    //   CatalogueFile(
+    //       id: 1,
+    //       name: "Process N02",
+    //       size: 94,
+    //       uploadDate: "12/06/2025",
+    //       unity: "kb",
+    //       uploadedBy: "Imene Baya BETROUNI"),
+    //   CatalogueFile(
+    //       id: 2,
+    //       name: "Process N03",
+    //       size: 94,
+    //       uploadDate: "12/06/2025",
+    //       unity: "kb",
+    //       uploadedBy: "Imene Baya BETROUNI")
+    // ]);
     loadingProcess.value = false;
     errorLoadingProcess.value = false;
   }

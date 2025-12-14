@@ -82,7 +82,7 @@ class ClientDetails {
   final dynamic tm;
   final Bill? bill;
   final String? mom;
-
+final String? lastVisiteDate;
   ClientDetails(
       {required this.id,
       required this.raisonSociale,
@@ -111,7 +111,8 @@ class ClientDetails {
       required this.monthlyRevenu,
       this.tm,
       this.bill,
-      this.mom});
+      this.mom,
+        this.lastVisiteDate});
 
   factory ClientDetails.fromJson(Map<String, dynamic> json) {
     return ClientDetails(
@@ -141,6 +142,7 @@ class ClientDetails {
       nombreOffre: json['nombre_offre'] ?? 0,
       monthlyRevenu: double.tryParse(json["monthly_revenue"].toString()) ?? 0.0,
       tm: json['tm'],
+      lastVisiteDate: json["last_visit"] != null ? json["last_visit"]["visit_date"] : null,
       mom: json["last_visit"] != null ? json["last_visit"]["text"] : null,
       bill: json["bill"] != null ? Bill.fromJson(json["bill"]) : null,
     );

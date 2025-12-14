@@ -32,6 +32,8 @@ class BaseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  navigationController.syncWithShell(navigationShell, context);
+
     return Scaffold(
       key: drawerController.scaffoldKey,
       drawer: CustomAppDrawer(
@@ -40,13 +42,14 @@ class BaseView extends StatelessWidget {
 
           switch (item) {
             case DrawerItemKey.home:
-              navigationController.selectItem(NavItem.home, navigationShell);
+ 
+              navigationController.selectItem(NavItem.home, context);
               break;
             case DrawerItemKey.dashboard:
-              GoRouter.of(context).go('/realisations');
+              GoRouter.of(context).push('/realisations');
               break;
             case DrawerItemKey.catalogue:
-              GoRouter.of(context).go('/catalogue');
+              GoRouter.of(context).push('/catalogue');
               break;
             // case DrawerItemKey.pipeline:
             //   GoRouter.of(context).go('/Pipeline');
@@ -84,6 +87,7 @@ class BaseView extends StatelessWidget {
                     selectedPipelineAsset, "Pipeline".tr, context),
                 _buildNavIcon(NavItem.todolist, todolistAsset,
                     selectedTodolistAsset, "Todo".tr, context),
+                    
                 // _buildNavIcon(NavItem.catalogue, catalogueAsset,
                 //     selectedCatalogueAsset, "Catalogue", context),
               ],
@@ -97,9 +101,9 @@ class BaseView extends StatelessWidget {
   Widget _buildNavIcon(NavItem item, String svgPath, String selectedSvgPath,
       String title, BuildContext context) {
     return Obx(() {
-      final isSelected = navigationController.selectedItem.value == item;
+final isSelected = navigationController.selectedItem.value == item;
       return GestureDetector(
-        onTap: () => navigationController.selectItem(item, navigationShell),
+onTap: () => navigationController.selectItem(item, context),
         child: Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: paddingXs, vertical: paddingS),

@@ -10,7 +10,7 @@ import 'package:sales_master_app/widgets/error_widget.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sales_master_app/widgets/snackbarWidget.dart';
 
 class ClientDetailsScreen extends StatelessWidget {
   final String clientId;
@@ -60,7 +60,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     height: formSectionTopPadding,
                                   ),
-                                  Text("prodil_client".tr,
+                                   Text(
+                                    "prodil_client".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -85,6 +86,7 @@ class ClientDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     height: textfieldsPadding,
                                   ),
+
                                   CustomTextFormField(
                                     readOnly: true,
                                     controller: clientDetailsController
@@ -127,7 +129,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                                           height: paddingS,
                                                         ),
                                                         Text(
-                                                          "modifier_telecom_manager".tr,
+                                                          "modifier_telecom_manager"
+                                                              .tr,
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
@@ -225,7 +228,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                                                             paddingXs,
                                                                       ),
                                                                       Text(
-                                                                        "mail".tr,
+                                                                        "mail"
+                                                                            .tr,
                                                                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                                                             color:
                                                                                 Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.15),
@@ -243,7 +247,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                                           height: paddingXxs,
                                                         ),
                                                         Text(
-                                                          "edit_manager_hint".tr,
+                                                          "edit_manager_hint"
+                                                              .tr,
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
@@ -277,10 +282,13 @@ class ClientDetailsScreen extends StatelessWidget {
                                                                         .updateEmail();
                                                                 if (res ==
                                                                     true) {
+                                                                          SnackBarHelper.showSuccess("Succès","successUpdateMail".tr);
+
                                                                   context.pop();
                                                                 }
                                                               },
-                                                              text: "envoyer".tr);
+                                                              text:
+                                                                  "envoyer".tr);
                                                         })
                                                       ],
                                                     ),
@@ -332,10 +340,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                     initialValue: clientDetailsController
                                         .clientDetails.value?.nombreOffre
                                         .toString(),
-                                    hintText:
-                                        "offres".tr,
-                                    labelText:
-                                        "offres".tr,
+                                    hintText: "offres".tr,
+                                    labelText: "offres".tr,
                                   ),
                                   SizedBox(
                                     height: textfieldsPadding,
@@ -356,14 +362,12 @@ class ClientDetailsScreen extends StatelessWidget {
                                           null
                                       ? CustomTextFormField(
                                           readOnly: true,
-                                          hintText:
-                                              "expiration_date".tr,
+                                          hintText: "expiration_date".tr,
                                           initialValue: clientDetailsController
                                               .clientDetails
                                               .value
                                               ?.expiryDateTop1000,
-                                          labelText:
-                                              "expiration_date".tr,
+                                          labelText: "expiration_date".tr,
                                           filled: false,
                                           suffixIcon: Icon(
                                             Icons.calendar_today_outlined,
@@ -457,15 +461,29 @@ class ClientDetailsScreen extends StatelessWidget {
                                                 .digitsOnly
                                           ],
                                           keyboardType: TextInputType.number,
-                                          hintText:
-                                              "last_bill".tr,
-                                          labelText:
-                                              "last_bill".tr,
+                                          hintText: "last_bill".tr,
+                                          labelText: "last_bill".tr,
                                           suffixText: "DA",
                                         ),
                                       )
                                     ],
                                   ),
+                                  SizedBox(
+                                    height: textfieldsPadding,
+                                  ),
+                               CustomTextFormField(
+  controller: clientDetailsController.lastVisitDateController,
+  readOnly: true,
+  hintText: "last_visit_date".tr,
+  labelText: "last_visit_date".tr,
+  suffixIcon: Icon(Icons.calendar_today_outlined),
+  onTap: () async {
+    await clientDetailsController.pickDateTime(isNextDate: false);
+  },
+),
+
+                               
+
                                   SizedBox(
                                     height: textfieldsPadding,
                                   ),
@@ -484,9 +502,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     height: textfieldsPadding,
                                   ),
-                                  Obx(() {
-                                    return clientDetailsController.canSaveMom
-                                        ? PrimaryButton(
+                                  
+                                    PrimaryButton(
                                             loading: clientDetailsController
                                                 .updatingMom.value,
                                             onTap: () async {
@@ -498,8 +515,8 @@ class ClientDetailsScreen extends StatelessWidget {
                                             text: "save".tr,
                                             height: 45,
                                           )
-                                        : SizedBox();
-                                  })
+                                    
+                                   
                                 ],
                               ),
                             ),

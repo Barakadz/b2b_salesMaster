@@ -201,5 +201,39 @@ class Country {
     967: "YE",
     260: "ZM",
     263: "ZW",
+
+    590: "GP",  
+  594: "GF",  
+  596: "MQ", 
+  508: "PM",  
+  5901: "BL",  
+  5902: "MF", 
+
+  1876: "JM",  
+  1939: "PR",  
+  1671: "GU",  
+  7300: "CH", 
+  
   };
+}
+
+
+
+
+
+class CountryInternational {
+  String country;
+ // ISO alpha-2 for flags
+
+  CountryInternational({
+    required this.country,
+     
+  });
+
+  factory CountryInternational.fromJson(Map<String, dynamic> json) {
+     return CountryInternational(
+      country: json["country"],
+    
+    );
+  }
 }

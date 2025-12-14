@@ -31,7 +31,7 @@ class TodolistArchiveScreen extends StatelessWidget {
             height: paddingS,
           ),
           PageDetail(
-            title: "To do list",
+            title: "toDoList".tr,
             goBack: true,
           ),
           SizedBox(height: paddingXs),
@@ -67,7 +67,7 @@ class TodolistArchiveScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingL),
             child: CustomTextFormField(
-              hintText: 'Search by task name',
+              hintText: 'searchTaskName'.tr,
               controller: todolistController.todolistArchiveSearchController,
               fillColor: Theme.of(context).colorScheme.primaryContainer,
               filled: true,

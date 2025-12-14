@@ -1,23 +1,24 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/routes.dart';
-import 'package:sales_master_app/controllers/auth_controller.dart';
 import 'package:sales_master_app/controllers/currentuser_controller.dart';
 import 'package:sales_master_app/controllers/drawer_controller.dart';
 import 'package:sales_master_app/controllers/outlook_controller.dart';
 import 'package:sales_master_app/controllers/pipeline_controller.dart';
 import 'package:sales_master_app/controllers/realisations_controller.dart';
+import 'package:sales_master_app/controllers/tab_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
+import 'package:sales_master_app/realisation_chart_container.dart';
 import 'package:sales_master_app/services/date_formatter_service.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/empty_widget.dart';
 import 'package:sales_master_app/widgets/error_widget.dart';
 import 'package:sales_master_app/widgets/loading_indicator.dart';
 import 'package:sales_master_app/widgets/outlook_relainder_card.dart';
-import 'package:sales_master_app/widgets/realisation_overview_container.dart';
 import 'package:sales_master_app/widgets/salary_note.dart';
 import 'package:sales_master_app/widgets/second_pipeline_container.dart';
 
@@ -77,6 +78,12 @@ class HomeScreen extends StatelessWidget {
         Get.put(RealisationsController());
     PipelineController pipelineController = Get.put(PipelineController());
     OutlookController outlookController = Get.put(OutlookController());
+    final TabControllerImp controller = Get.put(TabControllerImp());
+    final PageController pageControllerr = PageController();
+
+    final PageController pageController =
+        PageController(viewportFraction: 0.96);
+
     return Scaffold(
       drawer: CustomAppDrawer(),
       backgroundColor: Theme.of(context).colorScheme.outlineVariant,
@@ -213,71 +220,238 @@ class HomeScreen extends StatelessWidget {
                                               .value?.increase ??
                                           0) >
                                       0
-                                  ? SalaryNote(
-                                      prefixSvgPath: "assets/congrat_left.svg",
-                                      suffixSvgPath: "assets/congrat_right.svg",
-                                      raise: realisationsController
-                                          .totalRealisations.value!.increase)
+                                  ? Column(
+                                    children: [
+                                     (realisationsController.totalRealisations.value?.increaseResult ?? 0.0) > 70.0
+    ? SalaryNote(
+        prefixSvgPath: "assets/congrat_left.svg",
+        suffixSvgPath: "assets/congrat_right.svg",
+        raise: realisationsController.totalRealisations.value?.increase ?? 0,
+      )
+    : SizedBox()                                       
+                                    ],
+                                  )
                                   : SizedBox();
                             }),
-                            Obx(() {
-                              return RealisationOverviewContainer(
-                                  overview: false,
-                                  mini: true,
-                                  showSummary: true,
-                                  totalRealisation: realisationsController
-                                          .totalRealisations.value ??
-                                      TotalRealisation(
-                                          trimester: "Q3",
-                                          year: "2025",
-                                          assignedTo: 1,
-                                          increase: 0,
-                                          realisations: []),
-                                  totalrealised: realisationsController
-                                      .getTotalRealisations(),
-                                  totalTarget:
-                                      realisationsController.getTotalTarget(),
-                                  loading: realisationsController
-                                      .loadingRealisations.value,
-                                  disabled: realisationsController
-                                          .totalRealisations.value ==
-                                      null);
-                            }),
-                            Obx(() {
-                              return pipelineController.loadingPipeline.value ==
-                                      true
-                                  ? SizedBox(
-                                      height: 250,
-                                      width: double.infinity,
-                                      child: Center(child: LoadingIndicator()))
-                                  : pipelineController
-                                              .errorLoadingPipeline.value ==
+                          
+                            Container(
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.blueGrey.shade100),
+                                color: Colors.blueGrey.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.all(6),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // ---- TAB BAR ----
+                                  LayoutBuilder(
+                                    builder: (context, constraints) {
+                                      double tabWidth =
+                                          (constraints.maxWidth - 12) / 2;
+                                      return TabBar(
+                                        controller: controller.tabController,
+                                        isScrollable: false,
+                                        labelColor: Colors.black,
+                                        unselectedLabelColor:
+                                            Colors.blueGrey.shade200,
+                                        indicatorColor: Colors.transparent,
+                                        dividerColor: Colors.transparent,
+                                        indicator: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.blueGrey.shade100),
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        labelPadding: EdgeInsets.zero,
+                                        onTap: (index) {
+                                          pageController.animateToPage(
+                                            index,
+                                            duration: const Duration(
+                                                milliseconds: 300),
+                                            curve: Curves.easeInOut,
+                                          );
+                                        },
+                                        tabs: [
+                                          Tab(
+                                            child: SizedBox(
+                                              width: tabWidth,
+                                              child:   Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 4.0,
+                                                    vertical: 4.0),
+                                                child: Text(
+                                                  "realisation_total".tr,
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Tab(
+                                            child: SizedBox(
+                                              width: tabWidth,
+                                              child:   Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 4.0,
+                                                    vertical: 4.0),
+                                                child: Text(
+                                                  "dealTotal".tr,
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ExpandablePageView(
+                              controller: pageController,
+                              onPageChanged: (index) {
+                                controller.tabController.animateTo(index);
+                              },
+                              children: [
+                                Obx(() {
+                                  final List<Widget> chartItems = [];
+
+                                  chartItems.add(
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: paddingXxs),
+                                      child: RealisationChartContainer(
+                                        pageTitle: 'HomePage'.tr,
+                                        date:
+                                            "${realisationsController.selectedQuarter.value} ${DateTime.now().year}",
+                                        gloabl: true,
+                                        disabled: realisationsController
+                                                    .showRealisation.value ==
+                                                false ||
+                                            realisationsController
+                                                    .loadingRealisations
+                                                    .value ==
+                                                true,
+                                        totalrealised: realisationsController
+                                            .getTotalRealisations(),
+                                        totalTarget: realisationsController
+                                            .getTotalTarget(),
+                                        totalRealisations:
+                                            realisationsController
+                                                    .totalRealisations.value ??
+                                                TotalRealisation(
+                                                  trimester:
+                                                      realisationsController
+                                                          .selectedQuarter
+                                                          .value,
+                                                  year: DateTime.now()
+                                                      .year
+                                                      .toString(),
+                                                  assignedTo: 1,
+                                                  increase:
+                                                      realisationsController
+                                                              .totalRealisations
+                                                              .value
+                                                              ?.increase ??
+                                                          0,
+                                                  realisations: [],
+                                                ),
+                                      ),
+                                    ),
+                                  );
+
+                                  return realisationsController
+                                              .loadingRealisations.value ==
                                           true
-                                      ? CustomErrorWidget(
-                                          onTap: () {
-                                            pipelineController.fetchPipeLine();
-                                          },
+                                      ? Center(
+                                          child: CircularProgressIndicator())
+                                      : Column(children: chartItems);
+                                }),
+                                 Obx(() {
+                                  return pipelineController
+                                              .loadingPipeline.value ==
+                                          true
+                                      ? SizedBox(
+                                          height: 250,
+                                          width: double.infinity,
+                                          child:
+                                              Center(child: LoadingIndicator()),
                                         )
-                                      : SecondPipelineContainer(
-                                          globalValue: pipelineController
-                                              .myPipeLine.value?.performance,
-                                          selectedStatusIndex: pipelineController
-                                              .selectedPipelineStatusIndex
-                                              .value,
-                                          loading: false,
-                                          error:
-                                              pipelineController
-                                                  .errorLoadingPipeline.value,
-                                          errorWidget: Container(),
-                                          pipelinePerformance:
-                                              pipelineController
-                                                      .myPipeLine.value ??
+                                      : pipelineController
+                                                  .errorLoadingPipeline.value ==
+                                              true
+                                          ? CustomErrorWidget(
+                                              onTap: () {
+                                                pipelineController
+                                                    .fetchPipeLine();
+                                              },
+                                            )
+                                          : SecondPipelineContainer(
+                                              globalValue: pipelineController
+                                                  .myPipeLine
+                                                  .value
+                                                  ?.performance,
+                                              selectedStatusIndex:
                                                   pipelineController
-                                                      .emptyPipelinePerformance,
-                                          onStatusSelected: pipelineController
-                                              .switchStatusInedx);
-                            }),
-                            Obx(() {
+                                                      .selectedPipelineStatusIndex
+                                                      .value,
+                                              loading: false,
+                                              error: pipelineController
+                                                  .errorLoadingPipeline.value,
+                                              errorWidget: Container(),
+                                              pipelinePerformance:
+                                                  pipelineController
+                                                          .myPipeLine.value ??
+                                                      pipelineController
+                                                          .emptyPipelinePerformance,
+                                              onStatusSelected:
+                                                  pipelineController
+                                                      .switchStatusInedx,
+                                            );
+                                }),
+                              ],
+                            ),
+                             //  Obx(() {
+                            //   return RealisationOverviewContainer(
+                            //       overview: false,
+                            //       mini: true,
+                            //       showSummary: true,
+                            //       totalRealisation: realisationsController
+                            //               .totalRealisations.value ??
+                            //           TotalRealisation(
+                            //               trimester: "Q3",
+                            //               year: "2025",
+                            //               assignedTo: 1,
+                            //               increase: 0,
+                            //               realisations: []),
+                            //       totalrealised: realisationsController
+                            //           .getTotalRealisations(),
+                            //       totalTarget:
+                            //           realisationsController.getTotalTarget(),
+                            //       loading: realisationsController
+                            //           .loadingRealisations.value,
+                            //       disabled: realisationsController
+                            //               .totalRealisations.value ==
+                            //           null);
+                            // }),
+                             Obx(() {
                               return Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -316,9 +490,9 @@ class HomeScreen extends StatelessWidget {
                                       : outlookController.reminders.isEmpty
                                           ? Center(
                                               child: EmptyWidget(
-                                                title: "No reminders",
+                                                title: "noReminders".tr,
                                                 description:
-                                                    "You have no reminders fors this time period",
+                                                    "noRemindersDesc".tr,
                                               ),
                                             )
                                           : Column(

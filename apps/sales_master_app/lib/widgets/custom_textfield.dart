@@ -27,7 +27,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? countrerText;
   final EdgeInsetsGeometry? innerPadding;
   final String? suffixText;
-  final bool customTextField; // bilal textfield
+  final bool customTextField; 
+  // bilal textfield
 
   const CustomTextFormField(
       {super.key,

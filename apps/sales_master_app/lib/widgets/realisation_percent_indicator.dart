@@ -312,27 +312,42 @@ class RealisationPercentIndicator extends StatelessWidget {
   }
 
   Widget buildEvaluationStarsRow(BuildContext context, Realisation evaluation) {
-    final style = realisationCategoryStyles[evaluation.name]!;
-    final double stars = evaluation.currentValue == 0
-        ? 0
-        : (evaluation.currentValue * 5) / evaluation.target;
+  final style = realisationCategoryStyles[evaluation.name]!;
+  final double stars = evaluation.currentValue == 0
+      ? 0
+      : (evaluation.currentValue * 5) / evaluation.target;
 
-    Color starColor = textColor ?? Colors.orange;
+  Color starColor = textColor ?? Colors.orange;
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Row(
-        children: [
-          CircleAvatar(
-              radius: 5, backgroundColor: textColor ?? style.categoryColor),
-          const SizedBox(width: 8),
-          Text(
+  return Padding(
+    padding: const EdgeInsets.only(top: 8),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CircleAvatar(
+          radius: 5,
+          backgroundColor: textColor ?? style.categoryColor,
+        ),
+
+        const SizedBox(width: 3),
+
+         Expanded(
+          child: Text(
             evaluation.name,
-            style:
-                Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontSize: 12),
           ),
-          const SizedBox(width: 12),
-          Row(
+        ),
+
+        const SizedBox(width: 1),
+
+         SizedBox(
+          width: startsIconSize * 5 + 1,  
+          child: Row(
             children: List.generate(5, (index) {
               if (index + 1 <= stars.floor()) {
                 return Icon(Icons.star, size: startsIconSize, color: starColor);
@@ -345,16 +360,27 @@ class RealisationPercentIndicator extends StatelessWidget {
               }
             }),
           ),
-          const Spacer(),
-          Text(
+        ),
+
+        const SizedBox(width: 4),
+
+        /// RESPONSIVE — Score avec largeur minimale contrôlée
+        ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 40),
+          child: Text(
             "${evaluation.currentValue.toInt()} / ${evaluation.target.toInt()}",
-            style:
-                Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12),
+            textAlign: TextAlign.right,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontSize: 12),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {

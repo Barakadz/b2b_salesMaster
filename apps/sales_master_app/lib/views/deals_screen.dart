@@ -1,8 +1,12 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sales_master_app/config/constants.dart';
 import 'package:sales_master_app/config/deal_status_style.dart';
+import 'package:sales_master_app/config/routes.dart';
+import 'package:sales_master_app/controllers/deal_details_controller.dart';
 import 'package:sales_master_app/controllers/deals_controller.dart';
 import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/widgets/custom_textfield.dart';
@@ -14,7 +18,26 @@ import 'package:sales_master_app/widgets/page_detail.dart';
 
 class DealsScreen extends StatelessWidget {
   const DealsScreen({super.key});
-
+Widget formTitle(
+      {required String svgName,
+      required String title,
+      required BuildContext context}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SvgPicture.asset(svgName),
+        SizedBox(
+          width: paddingXs,
+        ),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 16),
+        )
+      ],
+    );
+  }
   Widget mydropdownButton(String status, BuildContext context) {
     StatusStyle style = statusStyles[status.toLowerCase()] ??
         StatusStyle(
@@ -52,7 +75,7 @@ class DealsScreen extends StatelessWidget {
         children: [
           PageDetail(
             //title: "mon_portfeuille".tr,
-            title: "Mon Pipeline",
+            title: "mon_pipeline".tr,
             bgColor: Theme.of(context).colorScheme.outlineVariant,
             goBack: true,
           ),
@@ -135,7 +158,7 @@ class DealsScreen extends StatelessWidget {
                             // .toList(),
                             dealsController.dealsStatusFilters
                                 .map((String key) {
-                          final displayName = key == 'empty' ? 'All' : key;
+                          final displayName = key == 'empty' ? '' : key;
                           return DropdownMenuItem<String>(
                             value: key, // keep the key as the value
                             child: Padding(
@@ -200,17 +223,30 @@ class DealsScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          SizedBox(height:10),
+          GestureDetector(
+                            onTap: () {
+                              // Get.to(AppRoutes.dealsScreen.path);
+ Get.put(DealDetailsController());
+                          context.push(AppRoutes.dealDetails.path);
+                            },
+                            child:  formTitle(
+                          svgName: "assets/add_deal.svg",
+                          title: "addDeal".tr,
+                          context: context),
+                          ),
+ 
+           SizedBox(
             height: paddingXs,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingL),
             child: CustomTextFormField(
-              controller: dealsController.dealSearchController,
+              controller: dealsController.searchController,
               login: false,
               filled: true,
               fillColor: Theme.of(context).colorScheme.primaryContainer,
-              hintText: "Search by Raison sociale/MSISDN",
+              hintText: "search_deals".tr,
               prifixIcon: Icon(
                 Icons.search,
                 color: Theme.of(context).colorScheme.outline,
@@ -221,58 +257,78 @@ class DealsScreen extends StatelessWidget {
             height: paddingS,
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingL),
-              child: Obx(() {
-                final paginatedDeals = dealsController.paginatedDeals.value;
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: paddingL),
+    child: Obx(() {
+      if (dealsController.loadingDeals.value && dealsController.deals.isEmpty) {
+        return Center(
+          child: LoadingIndicator(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        );
+      }
 
-                if (dealsController.loadingDeals.value == true) {
-                  return Center(
-                    child: LoadingIndicator(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  );
-                }
+      if (dealsController.deals.isEmpty) {
+        return Center(child: EmptyWidget());
+      }
 
-                if (paginatedDeals == null) {
-                  return Center(child: EmptyWidget());
-                }
-
-                if (paginatedDeals.deals.isEmpty) {
-                  return Center(child: EmptyWidget());
-                }
-
-                return RefreshIndicator(
-                  onRefresh: () => dealsController.loadDeals(),
-                  child: ListView.builder(
-                    itemCount: paginatedDeals.deals.length,
-                    itemBuilder: (context, index) {
-                      Deal deal = paginatedDeals.deals[index];
-                      StatusStyle style =
-                          statusStyles[deal.status.toLowerCase()] ??
-                              StatusStyle(
-                                  backgroundColor:
-                                      Colors.grey.withValues(alpha: 0.4),
-                                  textColor: Colors.grey);
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: paddingXs),
-                        child: DealCard(
-                          companyName: deal.raisonSociale,
-                          interlocuteur: deal.interlocuteur,
-                          number: deal.numero,
-                          trailingWidget: MyChip(
-                            text: deal.status,
-                            bgColor: style.backgroundColor,
-                            textColor: style.textColor,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+      return RefreshIndicator(
+        onRefresh: () => dealsController.loadDeals(reset: true),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (!dealsController.isLoadingMore.value &&
+                scrollInfo.metrics.pixels ==
+                    scrollInfo.metrics.maxScrollExtent) {
+              dealsController.loadMoreDeals();
+            }
+            return false;
+          },
+          child: ListView.builder(
+            itemCount: dealsController.deals.length +
+                (dealsController.isLoadingMore.value ? 1 : 0),
+            itemBuilder: (context, index) {
+              // Show loading indicator at bottom
+              if (index == dealsController.deals.length) {
+                return const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Center(child: CircularProgressIndicator()),
                 );
-              }),
-            ),
-          )
+              }
+
+              Deal deal = dealsController.deals[index];
+
+              StatusStyle style = statusStyles[deal.status.toString()] ??
+                  StatusStyle(
+                      backgroundColor: Colors.grey.withAlpha(80),
+                      textColor: Colors.grey);
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: paddingXs),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.put(DealDetailsController());
+                    context.push(AppRoutes.dealDetails.path, extra: deal);
+                  },
+                  child: DealCard(
+                    companyName: deal.raisonSociale,
+                    interlocuteur: deal.interlocuteur,
+                    number: deal.numero,
+                    trailingWidget: MyChip(
+                      text: deal.status.toString(),
+                      bgColor: style.backgroundColor,
+                      textColor: style.textColor,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+    }),
+  ),
+)
+
         ],
       )),
     );

@@ -17,8 +17,9 @@ class CatalogueController extends GetxController {
 
   RxList<CatalogueFile> files = <CatalogueFile>[].obs;
 
-  Rx<CatalogueFile?> djezzyoffersFiles = Rx<CatalogueFile?>(null);
-  Rx<CatalogueFile?> benchMarkFiles = Rx<CatalogueFile?>(null);
+  // Changed from Rx<CatalogueFile?> to RxList<CatalogueFile>
+  RxList<CatalogueFile> djezzyoffersFiles = <CatalogueFile>[].obs;
+  RxList<CatalogueFile> benchMarkFiles = <CatalogueFile>[].obs;
   Rx<CatalogueFile?> servicesFiles = Rx<CatalogueFile?>(null);
   Rx<CatalogueFile?> internationalFiles = Rx<CatalogueFile?>(null);
 
@@ -39,28 +40,44 @@ class CatalogueController extends GetxController {
   Rx<String> roamingType = "prepaid".obs;
 
   RxList<Country> countries = <Country>[].obs;
+  RxList<CountryInternational> countriesInternational =
+      <CountryInternational>[].obs;
+
   RxList<Offer> offers =
       <Offer>[Offer(id: 1, name: "solution"), Offer(id: 2, name: "cloud")].obs;
 
   Rx<Offer?> selectedOffer = Rx<Offer?>(null);
   Rx<Country?> selectedCountry = Rx<Country?>(null);
+  Rx<CountryInternational?> selectedCountryInternational =
+      Rx<CountryInternational?>(null);
 
   Rx<TarifRoaming?> roaming = Rx<TarifRoaming?>(null);
   RxBool loadingRoaming = false.obs;
   RxBool errorRoaming = false.obs;
 
+  RxList<TarifInternational> internationalList = <TarifInternational>[].obs;
+
+  RxString selectedTechnology = "fix".obs;
+
+  RxBool loadingInternational = false.obs;
+  RxBool errorInternational = false.obs;
   @override
   void onReady() {
     loadOffers();
     loadCountries();
+    loadCountriesInternational();
+
     super.onReady();
   }
 
+  List<String> get availableTechnologies {
+    return internationalList
+        .map((e) => e.technology)
+        .toSet() // remove duplicates
+        .toList();
+  }
+
   void loadCountries() async {
-    // countries.assignAll([
-    //   Country(zone: 0, country: "france", cc: 23, countryCode: "FR"),
-    //   Country(zone: 2, country: "spain", cc: 24, countryCode: "ESP"),
-    // ]);
     List<Country> res = await CountryService().fetchCountries();
     countries.assignAll(res);
   }
@@ -71,22 +88,43 @@ class CatalogueController extends GetxController {
     roaming.value =
         await DocumentService().fetchTarifRoaming(zoneId, roamingType.value);
 
-    // await Future.delayed(Duration(seconds: 2));
-    // roaming.value = TarifRoaming(
-    //     zone: 1,
-    //     type: "postpaid",
-    //     localCall: 10,
-    //     callToAlgeria: 50,
-    //     internationalCall: 100,
-    //     receiveCall: 60,
-    //     sms: 30,
-    //     dataB2B: 3500,
-    //     dataB2C: 4000);
-
     if (roaming.value == null) {
       errorLoadingFile.value = true;
     }
     loadingRoaming.value = false;
+  }
+
+  void loadCountriesInternational() async {
+    List<CountryInternational> res =
+        await CountryService().fetchCountriesInternational();
+    countriesInternational.assignAll(res);
+  }
+
+  void loadInternational(String pays) async {
+    errorInternational.value = false;
+    loadingInternational.value = true;
+
+    internationalList.value =
+        await DocumentService().fetchTarifInternational(pays);
+
+    if (internationalList.isNotEmpty) {
+      selectedTechnology.value = internationalList.first.technology;
+    } else {
+      errorInternational.value = true;
+    }
+
+    loadingInternational.value = false;
+  }
+
+  void changeCountryInternational(String name) {
+    final country =
+        countriesInternational.firstWhereOrNull((c) => c.country == name);
+
+    selectedCountryInternational.value = country;
+
+    if (country != null) {
+      loadInternational(name);
+    }
   }
 
   void switchRoamingType(String type) {
@@ -109,6 +147,7 @@ class CatalogueController extends GetxController {
 
   void switchSubTab(int index) {
     offersSubTabIndex.value = index;
+    clickedFileIndex.value = null; // Reset selection when switching tabs
     if (index == 0) {
       loadOffers();
     } else {
@@ -143,7 +182,8 @@ class CatalogueController extends GetxController {
           size: 94,
           uploadDate: "12/06/2025",
           unity: "KB",
-          uploadedBy: "Imene Baya BETROUNI")
+          uploadedBy: "Imene Baya BETROUNI",
+          filePath: "")
     ]);
     files.refresh();
     loadingFiles.value = false;
@@ -154,15 +194,9 @@ class CatalogueController extends GetxController {
     errorOffers.value = false;
     loadingOffers.value = true;
 
-    djezzyoffersFiles.value = await DocumentService().fetchOffersDocument();
-    //await Future.delayed(Duration(seconds: 3));
-    // djezzyoffersFiles.value = CatalogueFile(
-    //     id: 1,
-    //     name: "Offres Djezzy 2025",
-    //     size: 94,
-    //     uploadDate: "12/06/2025",
-    //     unity: "KB",
-    //     uploadedBy: "Imene Baya BETROUNI");
+    List<CatalogueFile> offersList =
+        await DocumentService().fetchOffersDocuments();
+    djezzyoffersFiles.assignAll(offersList);
 
     loadingOffers.value = false;
   }
@@ -171,16 +205,9 @@ class CatalogueController extends GetxController {
     errorBenchmark.value = false;
     loadingBenchmark.value = true;
 
-    benchMarkFiles.value = await DocumentService().fetchBenchMarkDocument();
-
-    // await Future.delayed(Duration(seconds: 3));
-    // benchMarkFiles.value = CatalogueFile(
-    //     id: 1,
-    //     name: "Offres Djezzy 2025",
-    //     size: 94,
-    //     uploadDate: "12/06/2025",
-    //     unity: "KB",
-    //     uploadedBy: "Imene Baya BETROUNI");
+    List<CatalogueFile> benchmarkList =
+        await DocumentService().fetchBenchMarkDocuments();
+    benchMarkFiles.assignAll(benchmarkList);
 
     loadingBenchmark.value = false;
   }
@@ -191,26 +218,9 @@ class CatalogueController extends GetxController {
 
     servicesFiles.value = await DocumentService().fetchServiceDocuments();
 
-    //await Future.delayed(Duration(seconds: 3));
-    // servicesFiles.value = CatalogueFile(
-    //     id: 1,
-    //     name: "Offres Djezzy 2025",
-    //     size: 94,
-    //     uploadDate: "12/06/2025",
-    //     unity: "KB",
-    //     uploadedBy: "Imene Baya BETROUNI");
-
     loadingServices.value = false;
   }
 }
-
-// class Country {
-//   int id;
-//   String code;
-//   String name;
-
-//   Country({required this.id, required this.code, required this.name});
-// }
 
 class Offer {
   int id;

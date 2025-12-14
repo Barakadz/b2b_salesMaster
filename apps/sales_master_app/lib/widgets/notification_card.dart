@@ -55,7 +55,7 @@ class NotificationCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        notification.createdAt.toString().substring(0, 9),
+                        notification.createdAt.toString().substring(0, 10),
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall

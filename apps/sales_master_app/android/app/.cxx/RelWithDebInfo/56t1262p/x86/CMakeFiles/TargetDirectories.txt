@@ -1,0 +1,2 @@
+C:/flutter_project/b2b_salesMaster/apps/sales_master_app/android/app/.cxx/RelWithDebInfo/56t1262p/x86/CMakeFiles/edit_cache.dir
+C:/flutter_project/b2b_salesMaster/apps/sales_master_app/android/app/.cxx/RelWithDebInfo/56t1262p/x86/CMakeFiles/rebuild_cache.dir

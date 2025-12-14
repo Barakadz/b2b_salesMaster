@@ -5,6 +5,7 @@ class CatalogueFile {
   final String unity;
   final String uploadDate;
   final String uploadedBy;
+  final String   filePath; 
 
   CatalogueFile({
     required this.id,
@@ -13,6 +14,8 @@ class CatalogueFile {
     required this.unity,
     required this.uploadDate,
     required this.uploadedBy,
+    required this.filePath,
+
   });
 
   /// Helper: Convert KB to readable format
@@ -47,6 +50,7 @@ class CatalogueFile {
       uploadedBy:
           "${json["uploaded_by"]?["first_name"] ?? ""} ${json["uploaded_by"]?["last_name"] ?? ""}"
               .trim(),
+      filePath: json["file_path"] ?? "",   
     );
   }
 }
