@@ -94,6 +94,9 @@ Map<String, String> frenchDict = {
   "Home": "Accueil",
   "Clients": "Clients",
   "Pipeline": "Pipeline",
+    "tarifInternational":"Nos Tarifs International",
+  "selectionPays":"Veuillez sélectionner un pays",
+
   "Todo": "Tâches",
   "Realisations Dashboard": "Réalisations",
   "Offers": "Offres & Services",

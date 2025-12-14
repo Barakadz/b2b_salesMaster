@@ -19,9 +19,9 @@ class ClientsScreen extends StatelessWidget {
   const ClientsScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final ClientsController clientsController = Get.put(ClientsController());
-    clientsController.getClients();
-    return Scaffold(
+  final ClientsController clientsController =
+      Get.put(ClientsController()); 
+     return Scaffold(
       drawer: CustomAppDrawer(),
       resizeToAvoidBottomInset: true,
       backgroundColor: Theme.of(context).colorScheme.surface,

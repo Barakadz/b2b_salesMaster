@@ -17,18 +17,17 @@ class InternationalTarifView extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Title + Dropdown ---
-            Wrap(
-              spacing: 8, // space between items
-              runSpacing: 8, // space between lines if wrapped
+             Wrap(
+              spacing: 8, 
+              runSpacing: 8,  
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                // Title
+               
                 SizedBox(
                   width: MediaQuery.of(context).size.width *
-                      0.6, // adjust max width
+                      0.6,  
                   child: Text(
-                    "Nos Tarifs International",
+                    "tarifInternational".tr,
                     style: Theme.of(context).textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -37,7 +36,7 @@ class InternationalTarifView extends StatelessWidget {
                 // Dropdown
                 SizedBox(
                   width: MediaQuery.of(context).size.width *
-                      0.35, // adjust max width
+                      0.35, 
                   child: IntrinsicWidth(
                     child: DropdownButtonHideUnderline(
                       child: Obx(() => DropdownButton2<String>(
@@ -116,8 +115,7 @@ class InternationalTarifView extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // --- Prices ---
-            Obx(
+             Obx(
               () {
                 if (c.loadingInternational.value) {
                   return const Center(
@@ -163,7 +161,7 @@ class InternationalTarifView extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            "Veuillez sélectionner un pays",
+                            "selectionPays".tr,
                             style: TextStyle(color: Colors.grey.shade600),
                           ),
                         ],
@@ -215,8 +213,7 @@ class InternationalTarifView extends StatelessWidget {
     );
   }
 
-  // --- TAB BUTTON ---
-  Widget _techTab(BuildContext context, CatalogueController c, String tech) {
+   Widget _techTab(BuildContext context, CatalogueController c, String tech) {
     final selected = c.selectedTechnology.value == tech;
 
     return GestureDetector(
@@ -244,13 +241,13 @@ class InternationalTarifView extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
         border: Border.all(
-            color: Colors.grey.shade300, width: 1), // Border color and width
-        borderRadius: BorderRadius.circular(8), // Rounded corners
+            color: Colors.grey.shade300, width: 1),  
+        borderRadius: BorderRadius.circular(8), 
       ),
       child: Card(
         elevation: 1,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8), // Match container radius
+          borderRadius: BorderRadius.circular(8),  
         ),
         child: ListTile(
           leading: const Icon(Icons.phone, color: Colors.red),
