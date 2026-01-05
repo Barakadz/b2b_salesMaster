@@ -335,14 +335,84 @@ class ClientDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     height: textfieldsPadding,
                                   ),
-                                  CustomTextFormField(
-                                    readOnly: true,
-                                    initialValue: clientDetailsController
-                                        .clientDetails.value?.nombreOffre
-                                        .toString(),
-                                    hintText: "offres".tr,
-                                    labelText: "offres".tr,
-                                  ),
+                               Text('Les Offres :'), 
+                                 ListView.builder(
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  itemCount: clientDetailsController.clientDetails.value?.allOffers.length ?? 0,
+  itemBuilder: (context, index) {
+    final offer =
+        clientDetailsController.clientDetails.value!.allOffers[index];
+
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+        border: Border.all(
+          color: Theme.of(context).dividerColor.withOpacity(0.2),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          /// ICON
+          Container(
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              Icons.local_offer_outlined,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          const SizedBox(width: 12),
+
+          /// TEXT
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  offer.packageCode,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  offer.packageId != null
+                      ? "ID : ${offer.packageId}"
+                      : "Sans identifiant",
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant,
+                      ),
+                ),
+              ],
+            ),
+          ),
+
+          
+        ],
+      ),
+    );
+  },
+),
+
+
                                   SizedBox(
                                     height: textfieldsPadding,
                                   ),

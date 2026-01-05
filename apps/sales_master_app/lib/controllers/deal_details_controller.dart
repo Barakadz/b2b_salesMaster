@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/controllers/deals_controller.dart';
+import 'package:sales_master_app/models/besoin_item.dart';
 import 'package:sales_master_app/models/deal.dart';
 import 'package:sales_master_app/models/deal_status.dart';
 import 'package:sales_master_app/services/deals_service.dart';
 import 'package:sales_master_app/services/phone_number_serive.dart';
 import 'package:sales_master_app/services/utilities.dart';
-
+ 
 class DealDetailsController extends GetxController {
   // Text controllers
   TextEditingController raisonSociale = TextEditingController();
@@ -25,15 +26,41 @@ class DealDetailsController extends GetxController {
   TextEditingController nextVisittDate = TextEditingController();
   TextEditingController mom = TextEditingController();
 
-  // 🔢 Champs numériques
-  int? statusId; // devient optionnel
+   int? statusId; // devient optionnel
   int raEstimeValue = 0;
 
-  // 🔄 Observables
-  Rx<bool> saving = false.obs;
+   Rx<bool> saving = false.obs;
   Rx<String> selectedDeal = "Prise de contact".obs;
-  Rx<String> selectedBesoin = "voix".obs;
+RxList<BesoinItem> selectedBesoins = <BesoinItem>[].obs;
 
+bool isBesoinSelected(String type) {
+  return selectedBesoins.any((e) => e.type == type);
+}
+void toggleBesoin(String type) {
+  if (isBesoinSelected(type)) {
+    selectedBesoins.removeWhere((e) => e.type == type);
+  } else {
+    selectedBesoins.add(BesoinItem(type: type));
+  }
+}
+RxList<DeviceItem> selectedDevices = <DeviceItem>[].obs;
+List<String> devices = ['pttoc & accessoires', 'routeur', 'modem', 'handset'];
+
+// Fonction pour toggle
+void toggleDevice(String type) {
+  final existing =
+      selectedDevices.indexWhere((element) => element.type == type);
+  if (existing >= 0) {
+    selectedDevices.removeAt(existing);
+  } else {
+    selectedDevices.add(DeviceItem(type: type));
+  }
+}
+
+bool isDeviceSelected(String type) {
+  return selectedDevices.any((e) => e.type == type);
+}
+ 
   // 📋 Listes de statuts
   List<DealStatus> dealsStatus = [
     DealStatus(id: 1, name: "Prise de contact"),
@@ -53,11 +80,14 @@ class DealDetailsController extends GetxController {
 
   DealDetailsController({this.deal});
 
-  @override
-  void onInit() {
-    super.onInit();
-    initializeForm(newDeal: deal);
-  }
+@override
+void onInit() {
+  super.onInit();
+
+  // Safe initialization after the first frame
+     initializeForm(newDeal: deal);
+ }
+
 
   // 🔍 Obtenir ID du statut depuis son nom
   int? getStatusIdByName(String name) {
@@ -89,52 +119,70 @@ class DealDetailsController extends GetxController {
     return null;
   }
 
-  // 🧠 Initialisation du formulaire
-  void initializeForm({Deal? newDeal}) {
-    print('deal status : ${newDeal?.status}');
-    if (newDeal != null) {
-      raisonSociale.text = newDeal.raisonSociale;
-      interlocuteur.text = newDeal.interlocuteur;
-      numero.text = newDeal.numero;
-      raEstime.text = (newDeal.raEstime ?? 0).toString();
+ void initializeForm({Deal? newDeal}) {
+  if (newDeal != null) {
+    // Text fields
+    raisonSociale.text = newDeal.raisonSociale;
+    interlocuteur.text = newDeal.interlocuteur;
+    numero.text = newDeal.numero;
+    raEstime.text = (newDeal.raEstime ?? 0).toString();
+    mom.text = newDeal.mom;
+    adresse.text = newDeal.adresse;
+    currentOperators.text = newDeal.currentOperators;
+    currentForfait.text = newDeal.currentForfaits;
+    mesureAccompagnement.text = newDeal.mesureAccompagnement ?? '';
+    nextVisitMotif.text = newDeal.nextVisitMotif;
+    besoinDetails.text = newDeal.besoinDetails ?? '';
 
-      visitDate.text = (newDeal.visitDate.length >= 10)
-          ? newDeal.visitDate.substring(0, 10)
-          : newDeal.visitDate;
+    // Dates
+    visitDate.text = (newDeal.visitDate.length >= 10)
+        ? newDeal.visitDate.substring(0, 10)
+        : newDeal.visitDate;
+    nextVisittDate.text = (newDeal.nextVisitDate.length >= 10)
+        ? newDeal.nextVisitDate.substring(0, 10)
+        : newDeal.nextVisitDate;
 
-      nextVisittDate.text = (newDeal.nextVisitDate.length >= 10)
-          ? newDeal.nextVisitDate.substring(0, 10)
-          : newDeal.nextVisitDate;
+    // Status
+    selectedDeal.value = newDeal.status;
+    statusId = getStatusIdByName(newDeal.status);
 
-      // ⚙️ Status (le nom est directement dans l’objet)
+    // Besoins → create reactive items with controller
+ WidgetsBinding.instance.addPostFrameCallback((_) {
       selectedDeal.value = newDeal.status;
       statusId = getStatusIdByName(newDeal.status);
 
-      mom.text = newDeal.mom;
-      adresse.text = newDeal.adresse;
-      currentOperators.text = newDeal.currentOperators;
-      currentForfait.text = newDeal.currentForfaits;
-      mesureAccompagnement.text = newDeal.mesureAccompagnement ?? '';
-      nextVisitMotif.text = newDeal.nextVisitMotif;
-      besoinDetails.text = newDeal.besoinDetails ?? '';
-    } else {
-      // 🧹 Reset
-      adresse.clear();
-      raisonSociale.clear();
-      interlocuteur.clear();
-      numero.clear();
-      visitDate.clear();
-      nextVisittDate.clear();
+      selectedBesoins.value = newDeal.besoins
+          .map((b) => BesoinItem(type: b.type, details: b.details))
+          .toList();
+
+      selectedDevices.value = newDeal.devices
+          .map((d) => DeviceItem(type: d.type, details: d.details))
+          .toList();
+    });
+  } else {
+    // Reset form
+    raisonSociale.clear();
+    interlocuteur.clear();
+    numero.clear();
+    raEstime.clear();
+    mom.clear();
+    adresse.clear();
+    currentOperators.clear();
+    currentForfait.clear();
+    mesureAccompagnement.clear();
+    nextVisitMotif.clear();
+    besoinDetails.clear();
+    visitDate.clear();
+    nextVisittDate.clear();
+
+   WidgetsBinding.instance.addPostFrameCallback((_) {
       selectedDeal.value = dealsStatus.first.name;
-      mom.clear();
-      raEstime.clear();
-      currentOperators.clear();
-      currentForfait.clear();
-      mesureAccompagnement.clear();
-      nextVisitMotif.clear();
-      besoinDetails.clear();
-    }
+      statusId = getStatusIdByName(dealsStatus.first.name);
+      selectedBesoins.clear();
+      selectedDevices.clear();
+    });
   }
+}
 
   // 🧾 Convertir les chaînes séparées par |
   List<String> get currentOperatorsList => currentOperators.text
@@ -159,26 +207,45 @@ class DealDetailsController extends GetxController {
       "next_visit_date": "${formatDate(nextVisittDate.text.trim())} 00:00:00",
       "status_id": getStatusIdByName(selectedDeal.value),
       "mom": mom.text.trim(),
-      "besoin_type": selectedBesoin.value,
+  // ✅ Besoins with details
+    "besoin": selectedBesoins.map((b) {
+      return {
+        "type": b.type,
+        if (b.details.value.trim().isNotEmpty)
+          "details": b.details.value.trim(),
+      };
+    }).toList(),
+
+    // ✅ Devices with details
+    "device": selectedDevices.map((d) {
+      return {
+        "type": d.type,
+        if (d.details.value.trim().isNotEmpty)
+          "details": d.details.value.trim(),
+      };
+    }).toList(),
+
       "ra_estime": int.tryParse(raEstime.text.trim()) ?? 0,
       "current_operators": currentOperatorsList,
       "current_forfaits": currentForfaitsList,
-      "mesure_accompagnement": mesureAccompagnement.text.trim(),
+      "mesure_accompagnement":  mesureAccompagnement.text.trim().isNotEmpty ? mesureAccompagnement.text.trim() : "",
       "next_visit_motif": nextVisitMotif.text.trim(),
       "besoin_details": besoinDetails.text.trim(),
       "adresse": adresse.text.trim(),
     };
   }
 
-  // 🪄 Création d’un nouveau deal
-  Future<bool> createNewDeal() async {
+   Future<bool> createNewDeal() async {
     saving.value = true;
     print("status id : ${getStatusIdByName(selectedDeal.value)}");
     print("########### DATA ###########");
     print(_formData);
 
     bool res = await DealsService().createDeal(_formData);
+    print('res=========>$res');
     saving.value = false;
+    selectedBesoins.clear();
+    selectedDevices.clear();
     Get.find<DealsController>().loadDeals();
     return res;
   }
@@ -186,7 +253,27 @@ class DealDetailsController extends GetxController {
   // ✏️ Édition d’un deal existant
   Future<bool> editDeal(int dealId) async {
     saving.value = true;
+            print("########### DATA ###########");
+        print("########### DATA ###########");
+        print("########### DATA ###########");
+        print("########### DATA ###########");
+        print("########### DATA ###########");
+        print("########### DATA ###########");
+        print("########### DATA ###########");
+        print("########### DATA ###########");
+        print("########### DATA ###########");
+    print(_formData);
     bool res = await DealsService().updateDeal(dealId, _formData);
+    print("--------------------------------------------------------------------------");
+        print("--------------------------------------------------------------------------");
+    print("--------------------------------------------------------------------------");
+    print("--------------------------------------------------------------------------");
+    print("--------------------------------------------------------------------------");
+    print("--------------------------------------------------------------------------");
+    print("--------------------------------------------------------------------------");
+    print("--------------------------------------------------------------------------");
+    print("--------------------------------------------------------------------------");
+    print(res);
     saving.value = false;
   Get.find<DealsController>().loadDeals();
     return res;

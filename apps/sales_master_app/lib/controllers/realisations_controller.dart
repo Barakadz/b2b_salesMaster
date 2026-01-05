@@ -29,7 +29,7 @@ void setQuarterFromDate() {
   RxBool loadingRealisations = false.obs;
   RxBool errorLoadingRealisation = false.obs;
 
-  String year = DateTime.now().year.toString();
+  String year = "2025";
 
   //void toggleShowRealisation() {
   //  showRealisation.toggle();
@@ -79,12 +79,11 @@ void onInit() {
   // }
 
   double getTotalRealisations() {
-    double totalrealised = 0;
+    double ? totalrealised = 0;
 
-    totalrealised = (totalRealisations.value?.realisations ?? []).fold(
-        totalrealised, (previous, element) => previous + element.currentValue);
+    totalrealised =  totalRealisations.value?.increaseResult  ;
 
-    return totalrealised;
+    return totalrealised ??0;
   }
 
   Future<void> loadFakeRealisation() async {

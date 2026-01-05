@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:otp_autofill/otp_autofill.dart';
 import 'package:sales_master_app/config/app_config.dart';
 import 'package:sales_master_app/services/auth_service.dart';
+import 'package:sales_master_app/services/push_notification_service.dart';
 import 'package:sales_master_app/services/utilities.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
@@ -112,10 +113,10 @@ class AuthController extends GetxController {
       Api.getInstance().setBaseUrl(
         userScopedBaseUrl(msisdn.value!),
       );
-
       isLoged.value = true;
       final testBaseUrl = "${baseUrl}/${formatMsisdn(msisdn.value!)}";
       Api.getInstance().setBaseUrl(testBaseUrl);
+      await PushNotificationService.init();  
       Config.onAuthFail = () {
         print("token expired");
         logout();
@@ -131,6 +132,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await _authService.logout();
     isLoged.value = false;
+   await PushNotificationService.removeFirebaseToken();
     AppStorage().clearAll();
   }
 }

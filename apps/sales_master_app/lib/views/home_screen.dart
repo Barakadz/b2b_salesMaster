@@ -14,6 +14,7 @@ import 'package:sales_master_app/controllers/tab_controller.dart';
 import 'package:sales_master_app/models/realisation.dart';
 import 'package:sales_master_app/realisation_chart_container.dart';
 import 'package:sales_master_app/services/date_formatter_service.dart';
+import 'package:sales_master_app/services/push_notification_service.dart';
 import 'package:sales_master_app/widgets/custom_app_drawer.dart';
 import 'package:sales_master_app/widgets/empty_widget.dart';
 import 'package:sales_master_app/widgets/error_widget.dart';
@@ -24,7 +25,6 @@ import 'package:sales_master_app/widgets/second_pipeline_container.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
   Widget outlookFilterTab(bool selected, BuildContext context, String tabName) {
     return selected == true
         ? Container(
@@ -80,9 +80,8 @@ class HomeScreen extends StatelessWidget {
     OutlookController outlookController = Get.put(OutlookController());
     final TabControllerImp controller = Get.put(TabControllerImp());
     final PageController pageControllerr = PageController();
-
-    final PageController pageController =
-        PageController(viewportFraction: 0.96);
+  final PageController pageController =
+    PageController(viewportFraction: 0.96);
 
     return Scaffold(
       drawer: CustomAppDrawer(),
@@ -324,7 +323,7 @@ class HomeScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            ExpandablePageView(
+                             ExpandablePageView(
                               controller: pageController,
                               onPageChanged: (index) {
                                 controller.tabController.animateTo(index);
@@ -353,6 +352,7 @@ class HomeScreen extends StatelessWidget {
                                             .getTotalRealisations(),
                                         totalTarget: realisationsController
                                             .getTotalTarget(),
+                                            pct_realisation:realisationsController.totalRealisations.value?.increaseResult ,
                                         totalRealisations:
                                             realisationsController
                                                     .totalRealisations.value ??
@@ -366,11 +366,7 @@ class HomeScreen extends StatelessWidget {
                                                       .toString(),
                                                   assignedTo: 1,
                                                   increase:
-                                                      realisationsController
-                                                              .totalRealisations
-                                                              .value
-                                                              ?.increase ??
-                                                          0,
+                                                      2222222 ,
                                                   realisations: [],
                                                 ),
                                       ),
@@ -384,7 +380,7 @@ class HomeScreen extends StatelessWidget {
                                           child: CircularProgressIndicator())
                                       : Column(children: chartItems);
                                 }),
-                                 Obx(() {
+                                  Obx(() {
                                   return pipelineController
                                               .loadingPipeline.value ==
                                           true

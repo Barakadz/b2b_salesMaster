@@ -1,5 +1,6 @@
 import 'package:data_layer/data_layer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/routes.dart';
@@ -20,7 +21,10 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await setupNotificationChannel();
   await initializeLocalNotifications();
-  await PushNotificationService.init();
+    // await PushNotificationService.init();
+
+
+
 
   //in app storage
   await AppStorage().init();
@@ -28,7 +32,13 @@ void main() async {
   // global controllers
   AuthController authController = Get.put(AuthController(), permanent: true);
   Get.put<CustomDrawerController>(CustomDrawerController());
- 
+ SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.immersiveSticky, // hides system bars and keeps full-screen
+  );
+  //  SystemChrome.setEnabledSystemUIMode(
+  //   SystemUiMode.manual,
+  //   overlays: [SystemUiOverlay.top],
+  // );
   //api services config
   Config.configure(
       enableRefreshToken: true,

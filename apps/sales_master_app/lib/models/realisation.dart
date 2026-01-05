@@ -2,18 +2,23 @@ class Realisation {
   double target;
   double currentValue;
   String name;
-  double? percentage;
+  double percentage;
+  double percentagePond;
 
   Realisation({
     required this.target,
     required this.currentValue,
     required this.name,
     this.percentage = 0,
+        this.percentagePond = 0,
+
   });
 
   factory Realisation.fromJson(Map<String, dynamic> json) {
     return Realisation(
         percentage: json["percentage"],
+                percentagePond: json["percentagePond"],
+
         target: json["target"],
         currentValue: json["value"],
         name: json["name"]);
@@ -25,6 +30,7 @@ class TotalRealisation {
   String trimester;
   String year;
   double increase;
+  
   double ? increaseResult;
   List<Realisation> realisations;
 
@@ -69,6 +75,7 @@ class TotalRealisation {
           currentValue:
               double.tryParse((json["real_ga"] ?? "0").toString()) ?? 0,
           percentage: double.tryParse((json["pct_ga"] ?? "0").toString()) ?? 0,
+          percentagePond:  double.tryParse((json["pct_pond_ga"] ?? "0").toString()) ?? 0,
         ),
         Realisation(
           name: "Net Adds",
@@ -78,6 +85,8 @@ class TotalRealisation {
               double.tryParse((json["real_net_adds"] ?? "0").toString()) ?? 0,
           percentage:
               double.tryParse((json["pct_net_adds"] ?? "0").toString()) ?? 0,
+                        percentagePond:  double.tryParse((json["pct_pond_net_adds"] ?? "0").toString()) ?? 0,
+
         ),
         Realisation(
           name: "Solutions",
@@ -88,6 +97,8 @@ class TotalRealisation {
               double.tryParse((json["real_solutions"] ?? "0").toString()) ?? 0,
           percentage:
               double.tryParse((json["pct_solutions"] ?? "0").toString()) ?? 0,
+         percentagePond:  double.tryParse((json["pct_pond_solutions"] ?? "0").toString()) ?? 0,
+
         ),
         Realisation(
           name: "New Compte",
@@ -98,6 +109,8 @@ class TotalRealisation {
               double.tryParse((json["real_new_compte"] ?? "0").toString()) ?? 0,
           percentage:
               double.tryParse((json["pct_new_compte"] ?? "0").toString()) ?? 0,
+                       percentagePond:  double.tryParse((json["pct_pond_new_compte"] ?? "0").toString()) ?? 0,
+
         ),
          Realisation(
           name: "Evaluation",
@@ -108,6 +121,8 @@ class TotalRealisation {
               double.tryParse((json["real_eval_qual"] ?? "0").toString()) ?? 0,
           percentage:
               double.tryParse((json["pct_eval_qual"] ?? "0").toString()) ?? 0,
+          percentagePond:  double.tryParse((json["pct_pond_eval_qual"] ?? "0").toString()) ?? 0,
+
         ),
       ],
     );

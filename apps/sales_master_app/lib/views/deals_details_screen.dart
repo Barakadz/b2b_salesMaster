@@ -17,7 +17,7 @@ import 'package:sales_master_app/widgets/note.dart';
 import 'package:sales_master_app/widgets/page_detail.dart';
 import 'package:sales_master_app/widgets/primary_button.dart';
 import 'package:sales_master_app/widgets/snackbarWidget.dart';
-
+ 
 class DealsDetailsScreen extends StatelessWidget {
   final Deal? deal;
 
@@ -98,12 +98,12 @@ class DealsDetailsScreen extends StatelessWidget {
                       },
                       innerPadding:
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                      suffixIcon:deal == null
-                        ? null
-                        : Icon(
-                        Icons.border_color,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      suffixIcon: deal == null
+                          ? null
+                          : Icon(
+                              Icons.border_color,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       prifixIcon: Container(
                         decoration: BoxDecoration(
                             border: Border(
@@ -129,16 +129,7 @@ class DealsDetailsScreen extends StatelessWidget {
                               // ),
                               Text(
                                 "Raison Sociale*".tr,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant
-                                            .withValues(alpha: 0.15),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
+                                style:  TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                               )
                             ],
                           ),
@@ -151,18 +142,20 @@ class DealsDetailsScreen extends StatelessWidget {
                     CustomTextFormField(
                       customTextField: true,
                       controller: dealDetailsController.interlocuteur,
-                      validator: (String? value) {
-                        // Use the controller's validation
-                       // return dealDetailsController.validateNames(value);
+                       validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "il faut remplir contact person";
+                        }
+                        return null; // valid input
                       },
                       innerPadding:
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                      suffixIcon:deal == null
-                        ? null
-                        : Icon(
-                        Icons.border_color,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      suffixIcon: deal == null
+                          ? null
+                          : Icon(
+                              Icons.border_color,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       prifixIcon: Container(
                         decoration: BoxDecoration(
                           border: Border(
@@ -187,17 +180,7 @@ class DealsDetailsScreen extends StatelessWidget {
                               SizedBox(width: paddingXxs),
                               Text(
                                 "Interlocuteur".tr,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant
-                                          .withOpacity(0.15),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                    ),
+                                style:  TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                               ),
                             ],
                           ),
@@ -208,57 +191,52 @@ class DealsDetailsScreen extends StatelessWidget {
                       height: paddingS,
                     ),
                     CustomTextFormField(
-  customTextField: true,
-  controller: dealDetailsController.numero,
- keyboardType: TextInputType.number,
-  textFormaters: [FilteringTextInputFormatter.digitsOnly],
-  validator: (value) {
-    if (value == null || value.isEmpty) {
-      return "numberRequired".tr;  
-    }
-    return null; // valid input
-  },
-  innerPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-  suffixIcon:deal == null
-                        ? null
-                        : Icon(
-                        Icons.border_color,
-                        color: Theme.of(context).colorScheme.primary,
+                      customTextField: true,
+                      controller: dealDetailsController.numero,
+                      keyboardType: TextInputType.number,
+                      textFormaters: [FilteringTextInputFormatter.digitsOnly],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "numberRequired".tr;
+                        }
+                        return null; // valid input
+                      },
+                      innerPadding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                      suffixIcon: deal == null
+                          ? null
+                          : Icon(
+                              Icons.border_color,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      prifixIcon: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                                color: Theme.of(context).colorScheme.outline),
+                          ),
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: paddingS),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.phone,
+                                color: Theme.of(context).dividerColor,
+                                size: 20,
+                              ),
+                              SizedBox(width: paddingXxs),
+                              Text(
+                                "Numero*".tr,
+                                style:TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-  prifixIcon: Container(
-    decoration: BoxDecoration(
-      border: Border(
-        right: BorderSide(color: Theme.of(context).colorScheme.outline),
-      ),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingS),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.phone,
-            color: Theme.of(context).dividerColor,
-            size: 20,
-          ),
-          SizedBox(width: paddingXxs),
-          Text(
-            "Numero*".tr,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurfaceVariant
-                      .withValues(alpha: 0.15),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
-          )
-        ],
-      ),
-    ),
-  ),
-),
-
+                    ),
                     SizedBox(
                       height: paddingS,
                     ),
@@ -266,16 +244,19 @@ class DealsDetailsScreen extends StatelessWidget {
                       customTextField: true,
                       controller: dealDetailsController.adresse,
                       validator: (String? name) {
-                      //  return dealDetailsController.validateNames(name);
+                        if (name == null || name.isEmpty) {
+                          return "adresseRequired".tr;
+                        }
+                        return null; // valid input
                       },
                       innerPadding:
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                      suffixIcon:deal == null
-                        ? null
-                        : Icon(
-                        Icons.border_color,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      suffixIcon: deal == null
+                          ? null
+                          : Icon(
+                              Icons.border_color,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       prifixIcon: Container(
                         decoration: BoxDecoration(
                             border: Border(
@@ -301,16 +282,7 @@ class DealsDetailsScreen extends StatelessWidget {
                               ),
                               Text(
                                 "Adresse".tr,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant
-                                            .withValues(alpha: 0.15),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                               )
                             ],
                           ),
@@ -321,219 +293,332 @@ class DealsDetailsScreen extends StatelessWidget {
                       height: paddingS,
                     ),
                     CustomTextFormField(
-  customTextField: true,
-  controller: dealDetailsController.currentOperators,
-  onchanged: (value) {
-    if (value!.endsWith(' ')) {
-      // Replace the last space with a vertical bar
-      dealDetailsController.currentOperators.text =
-          value.substring(0, value.length - 1) + ' | ';
-      dealDetailsController.currentOperators.selection =
-          TextSelection.fromPosition(
-        TextPosition(offset: dealDetailsController.currentOperators.text.length),
-      );
-    }
-  },
-  validator: (value) {
-    if (value == null || value.trim().isEmpty) {
-      return "operatorRequired".tr; // error message if empty
-    }
-    return null; // valid input
-  },
-  innerPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-  suffixIcon: deal == null
-      ? null
-      : Icon(
-          Icons.border_color,
-          color: Theme.of(context).colorScheme.primary,
+                      customTextField: true,
+                      controller: dealDetailsController.currentOperators,
+                      onchanged: (value) {
+                        if (value!.endsWith(' ')) {
+                          // Replace the last space with a vertical bar
+                          dealDetailsController.currentOperators.text =
+                              value.substring(0, value.length - 1) + ' | ';
+                          dealDetailsController.currentOperators.selection =
+                              TextSelection.fromPosition(
+                            TextPosition(
+                                offset: dealDetailsController
+                                    .currentOperators.text.length),
+                          );
+                        }
+                      },
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "operatorRequired"
+                              .tr; // error message if empty
+                        }
+                        return null; // valid input
+                      },
+                      innerPadding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                      suffixIcon: deal == null
+                          ? null
+                          : Icon(
+                              Icons.border_color,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      prifixIcon: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                                color: Theme.of(context).colorScheme.outline),
+                          ),
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: paddingS),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_chart_sharp,
+                                color: Theme.of(context).dividerColor,
+                                size: 20,
+                              ),
+                              SizedBox(width: paddingXxs),
+                              Text(
+                                "operateur_actuel*".tr,
+                                style:TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: paddingS,
+                    ),
+                   Column(
+  children: [
+    Container(
+      width: double.infinity,
+      child: DropdownContainer(
+        label: "besoin_detect".tr,
+        dropdown: DropdownButtonHideUnderline(
+          child: DropdownButton2<String>(
+            isExpanded: true,
+            hint: Obx(() {
+              return Text(
+                dealDetailsController.selectedBesoins.isEmpty
+                    ? 'besoin_detect'.tr
+                    : dealDetailsController.selectedBesoins
+                        .map((e) => e.type)
+                        .join(', '),
+                style: TextStyle(fontSize: 12),
+              );
+            }),
+            items: dealDetailsController.besoin.map((item) {
+              return DropdownMenuItem<String>(
+                value: item.name,
+                enabled: false,
+                child: Obx(() {
+                  final isChecked =
+                      dealDetailsController.isBesoinSelected(item.name);
+                  return InkWell(
+                    onTap: () {
+                      dealDetailsController.toggleBesoin(item.name);
+                    },
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          onChanged: (_) {
+                            dealDetailsController.toggleBesoin(item.name);
+                          },
+                        ),
+                        Text(
+                          item.name,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              );
+            }).toList(),
+            onChanged: (_) {},
+          ),
         ),
-  prifixIcon: Container(
-    decoration: BoxDecoration(
-      border: Border(
-        right: BorderSide(color: Theme.of(context).colorScheme.outline),
+        prefixIcon: SvgPicture.asset("assets/dotted_circle.svg"),
       ),
     ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingS),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.add_chart_sharp,
-            color: Theme.of(context).dividerColor,
-            size: 20,
-          ),
-          SizedBox(width: paddingXxs),
-          Text(
-            "operateur_actuel*".tr,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurfaceVariant
-                      .withAlpha(38), // lighter alpha
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
-          ),
-        ],
-      ),
-    ),
-  ),
-),
 
+    // Validation message
+    Obx(() {
+      return dealDetailsController.selectedBesoins.isEmpty
+          ? Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Text(
+                'selectBesoin'.tr, // translate if needed
+                style: TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            )
+          : SizedBox.shrink();
+    }),
+  ],
+)
+,
+                    Obx(() {
+                      return Column(
+                        children:
+                            dealDetailsController.selectedBesoins.map((besoin) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: TextFormField(
+                              controller: besoin.controller,
+                              decoration: InputDecoration(
+                                labelText: "Détails (${besoin.type})",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                besoin.details.value = value;
+                              },
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }),
                     SizedBox(
                       height: paddingS,
                     ),
                     Container(
                       width: double.infinity,
                       child: DropdownContainer(
-                        label: "besoin_detect".tr,
-                        dropdown: Obx(() {
-                          return DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              hint: Text(
-                                'status'.tr,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                              items: dealDetailsController.besoin
-                                  .map((BesoinStatus item) =>
-                                      DropdownMenuItem<String>(
-                                        value: item.name,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: paddingXs),
-                                          child: Container(
-                                            width: double.infinity,
-                                            child: Text(
-                                              item.name,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                          ),
+                        label: "Device".tr,
+                        dropdown: DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+                            hint: Obx(() {
+                              return Text(
+                                  dealDetailsController.selectedDevices.isEmpty
+                                      ? 'Sélectionnez'.tr
+                                      : dealDetailsController.selectedDevices
+                                          .map((e) => e.type)
+                                          .join(', '),
+                                  style: TextStyle(fontSize: 14));
+                            }),
+                            items: dealDetailsController.devices.map((item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                enabled: false,
+                                child: Obx(() {
+                                  final isChecked = dealDetailsController
+                                      .isDeviceSelected(item);
+                                  return InkWell(
+                                    onTap: () {
+                                      dealDetailsController.toggleDevice(item);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                          value: isChecked,
+                                          onChanged: (_) {
+                                            dealDetailsController
+                                                .toggleDevice(item);
+                                          },
                                         ),
-                                      ))
-                                  .toList(),
-                              value: dealDetailsController.selectedBesoin.value,
-                              onChanged: (String? name) {
-                                if (name != null) {
-                                  dealDetailsController.selectedBesoin.value =
-                                      name;
-                                }
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                elevation: 0,
-                                decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
-                                    border:
-                                        Border.all(color: Colors.transparent)),
-                                //padding: const EdgeInsets.only(left: 0, right: 8),
-                                height: 40,
-                                width: double.infinity,
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.zero,
-                              ),
-                            ),
-                          );
-                        }),
+                                        Text(item,
+                                            style: TextStyle(fontSize: 14)),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                              );
+                            }).toList(),
+                            onChanged: (_) {},
+                          ),
+                        ),
                         prefixIcon:
                             SvgPicture.asset("assets/dotted_circle.svg"),
                       ),
                     ),
+                    Obx(() {
+                      return Column(
+                        children:
+                            dealDetailsController.selectedDevices.map((device) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: TextFormField(
+                              controller: device.controller,
+                              decoration: InputDecoration(
+                                labelText: "Détails (${device.type})",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                device.details.value = value;
+                              },
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    }),
                     SizedBox(
                       height: paddingS,
                     ),
                     Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    Text("Mesure d’accompagnement".tr,
-        style: Theme.of(context).textTheme.titleSmall),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Mesure d’accompagnement".tr,
+                            style: Theme.of(context).textTheme.titleSmall),
+                        SizedBox(height: paddingXs),
+                        Obx(() {
+                          return DropdownContainer(
+                            label: "Choix",
+                            dropdown: DropdownButtonHideUnderline(
+                              child: DropdownButton2<String>(
+                                isExpanded: true,
+                                hint: Text(
+                                  "Choisir".tr,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                items: ["Oui", "Non"]
+                                    .map((String item) =>
+                                        DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: paddingXs),
+                                            child: Text(item,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall),
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: dealDetailsController
+                                        .mesureAccompagnementOuiNon
+                                        .value
+                                        .isEmpty
+                                    ? null
+                                    : dealDetailsController
+                                        .mesureAccompagnementOuiNon.value,
+                                onChanged: (value) {
+                                  dealDetailsController
+                                      .mesureAccompagnementOuiNon
+                                      .value = value!;
 
-    SizedBox(height: paddingXs),
-
-    Obx(() {
-      return DropdownContainer(
-        label: "Choix",
-        dropdown: DropdownButtonHideUnderline(
-          child: DropdownButton2<String>(
-            isExpanded: true,
-            hint: Text(
-              "Choisir".tr,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            items: ["Oui", "Non"]
-                .map((String item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: paddingXs),
-                        child: Text(item,
-                            style: Theme.of(context).textTheme.bodySmall),
-                      ),
-                    ))
-                .toList(),
-            value: dealDetailsController.mesureAccompagnementOuiNon.value.isEmpty
-                ? null
-                : dealDetailsController.mesureAccompagnementOuiNon.value,
-          onChanged: (value) {
-            dealDetailsController.mesureAccompagnementOuiNon.value = value!;
-
-            if (value == "Non") {
-              // Clear field when NON
-              dealDetailsController.mesureAccompagnement.text = "";
-            }
-          },
-          ),
-        ),
-        prefixIcon: Icon(Icons.check_circle_outline),
-      );
-    }),
-
-     Obx(() {
-      if (dealDetailsController.mesureAccompagnementOuiNon.value == "Oui") {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: paddingS),
-            CustomTextFormField(
-              customTextField: true,
-              controller: dealDetailsController.mesureAccompagnement,
-              labelText: "Type de mesure accordée",
-              prifixIcon: Icon(Icons.list_alt),
-            ),
-          ],
-        );
-      }
-      return SizedBox.shrink(); // Rien si Non
-    }),
-  ],
-),
-
+                                  if (value == "Non") {
+                                    // Clear field when NON
+                                    dealDetailsController
+                                        .mesureAccompagnement.text = "";
+                                  }
+                                },
+                              ),
+                            ),
+                            prefixIcon: Icon(Icons.check_circle_outline),
+                          );
+                        }),
+                        Obx(() {
+                          if (dealDetailsController
+                                  .mesureAccompagnementOuiNon.value ==
+                              "Oui") {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: paddingS),
+                                CustomTextFormField(
+                                  customTextField: true,
+                                  controller: dealDetailsController
+                                      .mesureAccompagnement,
+                                  labelText: "Type de mesure accordée",
+                                  prifixIcon: Icon(Icons.list_alt),
+                                ),
+                              ],
+                            );
+                          }
+                          return SizedBox.shrink(); // Rien si Non
+                        }),
+                      ],
+                    ),
                     SizedBox(
                       height: paddingS,
                     ),
                     CustomTextFormField(
                       customTextField: true,
                       controller: dealDetailsController.raEstime,
-                      validator: (value) {
-    if (value == null || value.trim().isEmpty) {
-      return "raRequired".tr; // error message if empty
-    }
-    return null; // valid input
-  },
+                                                        keyboardType: TextInputType.number,
+
+                      
                       innerPadding:
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                       suffixIcon:deal == null
-                        ? null
-                        : Icon(
-                        Icons.border_color,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      suffixIcon: deal == null
+                          ? null
+                          : Icon(
+                              Icons.border_color,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       prifixIcon: Container(
                         decoration: BoxDecoration(
                             border: Border(
@@ -559,16 +644,7 @@ class DealsDetailsScreen extends StatelessWidget {
                               ),
                               Text(
                                 "ra_estime*".tr,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant
-                                            .withValues(alpha: 0.15),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
+                                style:TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                               )
                             ],
                           ),
@@ -616,16 +692,7 @@ class DealsDetailsScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     "Date de visite".tr,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant
-                                                .withValues(alpha: 0.5)),
+                                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                                   )
                                 ],
                               ),
@@ -633,47 +700,49 @@ class DealsDetailsScreen extends StatelessWidget {
                                 height: paddingXxs,
                               ),
                               CustomTextFormField(
-                                radius: 7,
-                                filled: false,
-                                login: false,
-                                hintText: "yyyy-mm-dd",
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000), // min date
-                                    lastDate: DateTime(2100), // max date
-                                  );
+                                  radius: 7,
+                                  filled: false,
+                                  login: false,
+                                  hintText: "yyyy-mm-dd",
+                                  onTap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000), // min date
+                                      lastDate: DateTime(2100), // max date
+                                    );
 
-                                  if (pickedDate != null) {
-                                    // Format the date as YYYY-MM-DD
-                                    String formattedDate =
-                                        "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
-                                    dealDetailsController.visitDate.text =
-                                        formattedDate;
-                                  }
-                                },
-                                // validator: (  value) {
-                                //      return dealDetailsController.validateNumber(value, date: true);
-                                // },
-                                keyboardType: TextInputType.number,
-                                textFormaters: [
-                                  LengthLimitingTextInputFormatter(10),
-                                  DateInputFormatter(),
-                                ],
-                                controller: dealDetailsController.visitDate,
-                              )
+                                    if (pickedDate != null) {
+                                      // Format the date as YYYY-MM-DD
+                                      String formattedDate =
+                                          "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+                                      dealDetailsController.visitDate.text =
+                                          formattedDate;
+                                    }
+                                  },
+                                  // validator: (  value) {
+                                  //      return dealDetailsController.validateNumber(value, date: true);
+                                  // },
+                                  keyboardType: TextInputType.number,
+                                  textFormaters: [
+                                    LengthLimitingTextInputFormatter(10),
+                                    DateInputFormatter(),
+                                  ],
+                                  controller: dealDetailsController.visitDate,
+                                  validator: (String? date) {
+                                    if (date == null || date.isEmpty) {
+                                      return "visitDateRequired".tr;
+                                    }
+                                    return null;
+                                  })
                             ],
                           ),
                         ),
-                      
-                       
                       ],
                     ),
                     SizedBox(
                       height: paddingS,
                     ),
-                  
                     CustomTextFormField(
                       customTextField: true,
                       controller: dealDetailsController.currentForfait,
@@ -690,19 +759,20 @@ class DealsDetailsScreen extends StatelessWidget {
                           );
                         }
                       },
-  validator: (value) {
-    if (value == null || value.trim().isEmpty) {
-      return "forfaitRequired".tr; 
-    }
-    return null; // valid input
-  },                      innerPadding:
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "forfaitRequired".tr;
+                        }
+                        return null; // valid input
+                      },
+                      innerPadding:
                           EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                       suffixIcon:deal == null
-                        ? null
-                        : Icon(
-                        Icons.border_color,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      suffixIcon: deal == null
+                          ? null
+                          : Icon(
+                              Icons.border_color,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       prifixIcon: Container(
                         decoration: BoxDecoration(
                           border: Border(
@@ -726,17 +796,7 @@ class DealsDetailsScreen extends StatelessWidget {
                               SizedBox(width: paddingXxs),
                               Text(
                                 "current_forfait*".tr,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant
-                                          .withValues(alpha: 0.15),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                    ),
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                               ),
                             ],
                           ),
@@ -746,93 +806,94 @@ class DealsDetailsScreen extends StatelessWidget {
                     SizedBox(
                       height: paddingS,
                     ),
-                 CustomTextFormField(
-  radius: 7,
-  controller: dealDetailsController.mom,
-  hintText: "mom".tr,
-  maxLines: 5,
-  validator: (value) {
-    if (value == null || value.trim().isEmpty) {
-      return "momRequired".tr;  
-    }
-    return null;  
-  },
-),
-
-                      SizedBox(
-                      height: paddingXl,
-                    ),
-                    Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Icon(
-                                    Icons.calendar_today,
-                                    size: 18,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant
-                                        .withValues(alpha: 0.2),
-                                  ),
-                                  SizedBox(
-                                    width: paddingXxs,
-                                  ),
-                                  Text(
-                                    "Date prochaine visite".tr,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant
-                                                .withValues(alpha: 0.5)),
-                                  )
-                                ],
-                              ),
                     CustomTextFormField(
-                                hintText: 'yyyy-mm-dd',
-                                keyboardType: TextInputType.number,
-                                // validator: (  value) {
-                                //      return dealDetailsController.validateNumber(value, date: true);
-
-                                // },
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000), // min date
-                                    lastDate: DateTime(2100), // max date
-                                  );
-
-                                  if (pickedDate != null) {
-                                    // Format the date as YYYY-MM-DD
-                                    String formattedDate =
-                                        "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
-                                    dealDetailsController.nextVisittDate.text =
-                                        formattedDate;
-                                  }
-                                },
-                                textFormaters: [
-                                  LengthLimitingTextInputFormatter(10),
-                                  DateInputFormatter(),
-                                ],
-                                radius: 7,
-                                filled: false,
-                                login: false,
-                                controller:
-                                    dealDetailsController.nextVisittDate,
-                              ),
+                      radius: 7,
+                      controller: dealDetailsController.mom,
+                      hintText: "mom".tr,
+                      maxLines: 5,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return "momRequired".tr;
+                        }
+                        return null;
+                      },
+                    ),
                     SizedBox(
                       height: paddingXl,
                     ),
-                      CustomTextFormField(
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 18,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurfaceVariant
+                              .withValues(alpha: 0.2),
+                        ),
+                        SizedBox(
+                          width: paddingXxs,
+                        ),
+                        Text(
+                          "Date prochaine visite".tr,
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
+                        )
+                      ],
+                    ),
+                    CustomTextFormField(
+                      validator: (String? date) {
+                        if (date == null || date.isEmpty) {
+                          return "nextvisitDateRequired".tr;
+                        }
+                        return null;
+                      },
+                      hintText: 'yyyy-mm-dd',
+                      keyboardType: TextInputType.number,
+                      // validator: (  value) {
+                      //      return dealDetailsController.validateNumber(value, date: true);
+
+                      // },
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000), // min date
+                          lastDate: DateTime(2100), // max date
+                        );
+
+                        if (pickedDate != null) {
+                          // Format the date as YYYY-MM-DD
+                          String formattedDate =
+                              "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+                          dealDetailsController.nextVisittDate.text =
+                              formattedDate;
+                        }
+                      },
+                      textFormaters: [
+                        LengthLimitingTextInputFormatter(10),
+                        DateInputFormatter(),
+                      ],
+                      radius: 7,
+                      filled: false,
+                      login: false,
+                      controller: dealDetailsController.nextVisittDate,
+                    ),
+                    SizedBox(
+                      height: paddingXl,
+                    ),
+                    CustomTextFormField(
                       radius: 7,
                       controller: dealDetailsController.nextVisitMotif,
                       hintText: "nextVisitMotif".tr,
+                       validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "il faut remplir next visit Motif";
+                        }
+                        return null; // valid input
+                      },
                       maxLines: 2,
                     ),
                     SizedBox(
@@ -848,7 +909,7 @@ class DealsDetailsScreen extends StatelessWidget {
                               isExpanded: true,
                               hint: Text(
                                 'status'.tr,
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                               ),
                               items: dealDetailsController.dealsStatus
                                   .map((DealStatus item) =>
@@ -869,10 +930,13 @@ class DealsDetailsScreen extends StatelessWidget {
                                         ),
                                       ))
                                   .toList(),
-value: dealDetailsController.dealsStatus
-        .any((item) => item.name == dealDetailsController.selectedDeal.value)
-    ? dealDetailsController.selectedDeal.value
-    : null,
+                              value: dealDetailsController.dealsStatus.any(
+                                      (item) =>
+                                          item.name ==
+                                          dealDetailsController
+                                              .selectedDeal.value)
+                                  ? dealDetailsController.selectedDeal.value
+                                  : null,
                               onChanged: (String? name) {
                                 if (name != null) {
                                   print("selected deal : ${name}");

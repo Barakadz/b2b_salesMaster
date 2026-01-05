@@ -66,18 +66,21 @@ class RoamingView extends StatelessWidget {
             ),
             IntrinsicWidth(
   child: DropdownButtonHideUnderline(
-    child: Obx(() => DropdownButton2<String>(
-      isExpanded: true,
-      hint: Padding(
-        padding: EdgeInsets.symmetric(horizontal: paddingXs),
-        child: Text(
-          'country'.tr,
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-      ),
+    child: Obx(
+      () => DropdownButton2<String>(
+        isExpanded: true,
 
-      items: catalogueController.countries
-          .map((Country item) => DropdownMenuItem<String>(
+        hint: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: paddingXs),
+          child: Text(
+            'country'.tr,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ),
+
+        items: catalogueController.countries
+            .map(
+              (Country item) => DropdownMenuItem<String>(
                 value: item.country,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingXs),
@@ -86,35 +89,80 @@ class RoamingView extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
-              ))
-          .toList(),
+              ),
+            )
+            .toList(),
 
-       value: catalogueController.selectedCountry.value?.country,
+        value: catalogueController.selectedCountry.value?.country,
 
-      onChanged: (String? name) {
-        if (name != null) {
-          catalogueController.changeCountry(name);
-        }
-      },
+        onChanged: (String? name) {
+          if (name != null) {
+            catalogueController.changeCountry(name);
+          }
+        },
 
-      buttonStyleData: ButtonStyleData(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.outlineVariant,
-          border: Border.all(
-            color: Theme.of(context).colorScheme.tertiaryContainer,
+        /* ================= SEARCH ================= */
+        dropdownSearchData: DropdownSearchData(
+          searchController:
+              catalogueController.countrySearchController,
+          searchInnerWidgetHeight: 50,
+          searchInnerWidget: Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextFormField(
+              controller:
+                  catalogueController.countrySearchController,
+              decoration: InputDecoration(
+                hintText: 'search_country'.tr,
+                isDense: true,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+      borderSide: const BorderSide(color: Colors.red),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+      borderSide: const BorderSide(color: Colors.red),
+    ),
+              ),
+            ),
+          ),
+          searchMatchFn: (item, searchValue) {
+            return item.value
+                .toString()
+                .toLowerCase()
+                .contains(searchValue.toLowerCase());
+          },
+        ),
+
+         onMenuStateChange: (isOpen) {
+          if (!isOpen) {
+            catalogueController.countrySearchController.clear();
+          }
+        },
+
+         buttonStyleData: ButtonStyleData(
+          height: 35,
+          width: double.infinity,
+          padding: const EdgeInsets.only(left: 0, right: 8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.outlineVariant,
+            border: Border.all(
+              color: Theme.of(context).colorScheme.tertiaryContainer,
+            ),
+            borderRadius: BorderRadius.circular(6),
           ),
         ),
-        padding: const EdgeInsets.only(left: 0, right: 8),
-        height: 35,
-        width: double.infinity,
+
+        menuItemStyleData: const MenuItemStyleData(
+          height: 35,
+          padding: EdgeInsets.zero,
+        ),
       ),
-      menuItemStyleData: const MenuItemStyleData(
-        height: 35,
-        padding: EdgeInsets.zero,
-      ),
-    )),
+    ),
   ),
-)
+),
+
           ],
         ),
          Row(

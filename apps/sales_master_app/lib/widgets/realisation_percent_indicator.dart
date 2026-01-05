@@ -123,9 +123,23 @@ class RealisationPercentIndicator extends StatelessWidget {
     }).toList();
 
     // Normalize so the sum = 1.0
-    double total = rawPercents.fold(0.0, (a, b) => a + b);
-    List<double> normalizedPercents =
-        rawPercents.map((p) => total == 0 ? 0.0 : p / total).toList();
+   // Normalize percentages
+double total = rawPercents.fold(0.0, (a, b) => a + b);
+List<double> normalizedPercents = [];
+double accumulated = 0.0;
+
+for (int i = 0; i < rawPercents.length; i++) {
+  double p = total == 0 ? 0.0 : rawPercents[i] / total;
+
+  // Clamp last segment to avoid exceeding 1.0
+  if (i == rawPercents.length - 1 && accumulated + p > 1.0) {
+    p = 1.0 - accumulated;
+  }
+
+  accumulated += p;
+  normalizedPercents.add(p);
+}
+
 
     // Build segments
     for (int i = 0; i < topBarRealisations.length; i++) {
@@ -225,6 +239,7 @@ class RealisationPercentIndicator extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Column 1: Icon + Label
         Column(
@@ -256,41 +271,40 @@ class RealisationPercentIndicator extends StatelessWidget {
         const SizedBox(width: paddingXxs),
 
         // Column 2: Progress Bar
-        Expanded(
-          child: Column(
-            children: realisations.map((r) {
-              final style = realisationCategoryStyles[r.name]!;
-              final double percent = r.currentValue / r.target;
+        // Expanded(
+        //   child: Column(
+        //     children: realisations.map((r) {
+        //       final style = realisationCategoryStyles[r.name]!;
+        //       final double percent = r.currentValue / r.target;
 
-              return SizedBox(
-                height: rowHeight,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: MultiSegmentLinearIndicator(
-                    animation: true,
-                    lineHeight: 10,
-                    padding: EdgeInsets.zero,
-                    width: double.infinity,
-                    segments: [
-                      SegmentLinearIndicator(
-                        percent: percent.clamp(0.0, 1.0),
-                        color: style.categoryColor,
-                      ),
-                      SegmentLinearIndicator(
-                        percent: (1.0 - percent).clamp(0.0, 1.0),
-                        color: emptyStyle.categoryColor,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
+        //       return SizedBox(
+        //         height: rowHeight,
+        //         child: Align(
+        //           alignment: Alignment.centerLeft,
+        //           child: MultiSegmentLinearIndicator(
+        //             animation: true,
+        //             lineHeight: 10,
+        //             padding: EdgeInsets.zero,
+        //             width: double.infinity,
+        //             segments: [
+        //               SegmentLinearIndicator(
+        //                 percent: percent.clamp(0.0, 1.0),
+        //                 color: style.categoryColor,
+        //               ),
+        //               SegmentLinearIndicator(
+        //                 percent: (1.0 - percent).clamp(0.0, 1.0),
+        //                 color: emptyStyle.categoryColor,
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       );
+        //     }).toList(),
+        //   ),
+        // ),
 
         const SizedBox(width: 12),
-
-        Column(
+         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: realisations.map((r) {
             return SizedBox(
@@ -298,7 +312,7 @@ class RealisationPercentIndicator extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  "${r.percentage} / 100",
+                  "${r.currentValue} DA",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 12,
                       ),
@@ -406,7 +420,7 @@ class RealisationPercentIndicator extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                "${totalrealised.toStringAsFixed(1)} DA",
+                "${totalrealised.toStringAsFixed(1)} %",
                 style: Theme.of(context).textTheme.titleSmall,
               )
             ]),

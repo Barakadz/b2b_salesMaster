@@ -62,6 +62,7 @@ class _RealisationScreenState extends State<RealisationScreen> {
                                     .showRealisation.value ||
                                 realisationsController
                                     .loadingRealisations.value,
+                                    pct_realisation: realisationsController.getTotalRealisations(),
                             totalrealised:
                                 realisationsController.getTotalRealisations(),
                             totalTarget:
@@ -79,7 +80,7 @@ class _RealisationScreenState extends State<RealisationScreen> {
                                                 .value
                                                 ?.increase ??
                                             0,
-                                        realisations: []),
+                                        realisations: []), 
                           ),
                         ));
 
@@ -89,21 +90,32 @@ class _RealisationScreenState extends State<RealisationScreen> {
                           chartItems.add(Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: paddingXxs),
-                            child: RealisationChartContainer(
-                              date:
-                                  "${realisationsController.selectedQuarter.value} ${DateTime.now().year}",
-                              gloabl: false,
-                              totalrealised: realisation.currentValue,
-                              totalTarget: realisation.target,
-                              totalRealisations: TotalRealisation(
-                                  trimester:
-                                      realisationsController.selectedQuarter.value,
-                                  year: realisationsController.year,
-                                  assignedTo: 1,
-                                  increase: realisationsController
-                                          .totalRealisations.value?.increase ??
-                                      0,
-                                  realisations: [realisation]),
+                            child: Column(
+                              children: [
+Text(
+  '${realisation.name}',
+  style: const TextStyle(
+    fontWeight: FontWeight.bold,  
+  ),
+),
+                                RealisationChartContainer(
+                                  date:
+                                      "${realisationsController.selectedQuarter.value} ${DateTime.now().year}",
+                                  gloabl: false,
+                                  totalrealised: realisation.currentValue,
+                                  totalTarget:  realisation.target,
+                                  pct_realisation:realisation.percentage,
+                                  totalRealisations: TotalRealisation(
+                                      trimester:
+                                          realisationsController.selectedQuarter.value,
+                                      year: realisationsController.year,
+                                      assignedTo: 1,
+                                      increase: realisationsController
+                                              .totalRealisations.value?.increase ??
+                                          0,
+                                      realisations: [realisation]),
+                                ),
+                              ],
                             ),
                           ));
                         }
@@ -114,8 +126,8 @@ class _RealisationScreenState extends State<RealisationScreen> {
                           clipBehavior: Clip.none,
                         );
                       }),
-                      const SizedBox(height: paddingS),
-                       Obx(() {
+                        const SizedBox(height: paddingS),
+                        Obx(() {
                         return RealisationOverviewContainer(
                           totalRealisation:
                               realisationsController.totalRealisations.value ??

@@ -52,6 +52,22 @@ class PaginatedClientListItem {
     );
   }
 }
+class Offer {
+  final String packageCode;
+  final String? packageId;
+
+  Offer({
+    required this.packageCode,
+    this.packageId,
+  });
+
+  factory Offer.fromJson(Map<String, dynamic> json) {
+    return Offer(
+      packageCode: json['package_code'] ?? '',
+      packageId: json['package_id']?.toString(),
+    );
+  }
+}
 
 class ClientDetails {
   final int id;
@@ -83,6 +99,7 @@ class ClientDetails {
   final Bill? bill;
   final String? mom;
 final String? lastVisiteDate;
+final List<Offer> allOffers;
   ClientDetails(
       {required this.id,
       required this.raisonSociale,
@@ -112,7 +129,10 @@ final String? lastVisiteDate;
       this.tm,
       this.bill,
       this.mom,
-        this.lastVisiteDate});
+        this.lastVisiteDate,
+          required this.allOffers,
+
+        });
 
   factory ClientDetails.fromJson(Map<String, dynamic> json) {
     return ClientDetails(
@@ -145,6 +165,9 @@ final String? lastVisiteDate;
       lastVisiteDate: json["last_visit"] != null ? json["last_visit"]["visit_date"] : null,
       mom: json["last_visit"] != null ? json["last_visit"]["text"] : null,
       bill: json["bill"] != null ? Bill.fromJson(json["bill"]) : null,
+       allOffers: (json['all_offers'] as List<dynamic>? ?? [])
+        .map((e) => Offer.fromJson(e))
+        .toList(),
     );
   }
 }

@@ -18,12 +18,14 @@ class RealisationChartContainer extends StatelessWidget {
   final double totalTarget;
   final bool disabled;
  final String? pageTitle;
+ final double ?pct_realisation;
   const RealisationChartContainer(
       {super.key,
       required this.date,
       required this.gloabl,
       required this.totalrealised,
       required this.totalTarget,
+        this.pct_realisation,
       this.increase = 0,
       this.disabled = false,
       this.pageTitle,
@@ -126,6 +128,7 @@ class RealisationChartContainer extends StatelessWidget {
                             .withValues(alpha: 0.25)
                         : null,
                     realisations: totalRealisations.realisations,
+                    pct_realisation: pct_realisation,
                     totalTarget: totalTarget,
                     totalrealised: totalrealised,//hadda1
                   )),
@@ -134,7 +137,8 @@ class RealisationChartContainer extends StatelessWidget {
               height: paddingXs,
             ),
             disabled == true
-                ? pageTitle=='HomePage'  ?  Row(
+                ?  totalRealisations.increase > 70
+                    ? pageTitle=='HomePage'  ?  Row(
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
     Text(
@@ -181,7 +185,7 @@ class RealisationChartContainer extends StatelessWidget {
                       suffixSvgPath: "assets/congrat_right.svg",
                     ) : SizedBox()
 )
-                : totalRealisations.increase > 0
+                : totalRealisations.increase > 70
                     ?pageTitle=='HomePage'  ?  Row(
   mainAxisAlignment: MainAxisAlignment.center,
   children: [
@@ -230,7 +234,7 @@ class RealisationChartContainer extends StatelessWidget {
                         prefixSvgPath: "assets/congrat_left.svg",
                         suffixSvgPath: "assets/congrat_right.svg",
                       )
-                    : SizedBox() :SizedBox()
+                    : SizedBox() :SizedBox():SizedBox()
           ],
         ),
       ),

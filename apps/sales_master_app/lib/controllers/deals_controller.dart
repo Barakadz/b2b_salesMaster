@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_master_app/config/deal_status_style.dart';
 import 'package:sales_master_app/models/deal.dart';
-import 'package:sales_master_app/models/deal_status.dart';
-import 'package:sales_master_app/services/deals_service.dart';
+ import 'package:sales_master_app/services/deals_service.dart';
 
 class DealsController extends GetxController {
  

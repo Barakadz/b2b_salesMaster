@@ -17,88 +17,131 @@ class InternationalTarifView extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Wrap(
-              spacing: 8, 
-              runSpacing: 8,  
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-               
                 SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      0.6,  
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: Text(
                     "tarifInternational".tr,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
 
-                // Dropdown
-                SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      0.35, 
+                 SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: IntrinsicWidth(
                     child: DropdownButtonHideUnderline(
-                      child: Obx(() => DropdownButton2<String>(
-                            isExpanded: true,
-                            hint: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                'country'.tr,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
+                      child: Obx(
+                        () => DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              'country'.tr,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
-                            items: c.countriesInternational
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item.country,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          item.country,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                            value:
-                                c.selectedCountryInternational.value?.country,
-                            onChanged: (String? name) {
-                              if (name != null) {
-                                c.changeCountryInternational(name);
-                              }
-                            },
-                            buttonStyleData: ButtonStyleData(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .outlineVariant,
-                                border: Border.all(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .tertiaryContainer,
+                          ),
+                          items: c.countriesInternational
+                              .map(
+                                (item) => DropdownMenuItem<String>(
+                                  value: item.country,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Text(
+                                      item.country,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          value: c.selectedCountryInternational.value?.country,
+                          onChanged: (String? name) {
+                            if (name != null) {
+                              c.changeCountryInternational(name);
+                            }
+                          },
+
+                           dropdownSearchData: DropdownSearchData(
+                            searchController: c.countrySearchController,
+                            searchInnerWidgetHeight: 50,
+                            searchInnerWidget: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: TextFormField(
+                                controller: c.countrySearchController,
+                                decoration: InputDecoration(
+                                  hintText: 'search_country'.tr,
+                                  isDense: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 8),
+
+                                   border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: const BorderSide(
+                                        color: Colors.red, width: 1.5),
+                                  ),
                                 ),
                               ),
-                              padding: const EdgeInsets.only(left: 0, right: 8),
-                              height: 35,
-                              width: double.infinity,
                             ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              height: 35,
-                              padding: EdgeInsets.zero,
+                            searchMatchFn: (item, searchValue) {
+                              return item.value
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(searchValue.toLowerCase());
+                            },
+                          ),
+                          onMenuStateChange: (isOpen) {
+                            if (!isOpen) {
+                              c.countrySearchController.clear();
+                            }
+                          },
+
+                           buttonStyleData: ButtonStyleData(
+                            height: 35,
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(left: 0, right: 8),
+                            decoration: BoxDecoration(
+                              color:
+                                  Theme.of(context).colorScheme.outlineVariant,
+                              border: Border.all(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .tertiaryContainer,
+                              ),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                          )),
+                          ),
+                          dropdownStyleData: const DropdownStyleData(
+                            maxHeight: 300,
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 35,
+                            padding: EdgeInsets.zero,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 16),
-
             Obx(() {
               final techs = c.availableTechnologies;
 
@@ -112,10 +155,8 @@ class InternationalTarifView extends StatelessWidget {
                 ),
               );
             }),
-
             const SizedBox(height: 16),
-
-             Obx(
+            Obx(
               () {
                 if (c.loadingInternational.value) {
                   return const Center(
@@ -213,7 +254,7 @@ class InternationalTarifView extends StatelessWidget {
     );
   }
 
-   Widget _techTab(BuildContext context, CatalogueController c, String tech) {
+  Widget _techTab(BuildContext context, CatalogueController c, String tech) {
     final selected = c.selectedTechnology.value == tech;
 
     return GestureDetector(
@@ -240,14 +281,13 @@ class InternationalTarifView extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
       decoration: BoxDecoration(
-        border: Border.all(
-            color: Colors.grey.shade300, width: 1),  
-        borderRadius: BorderRadius.circular(8), 
+        border: Border.all(color: Colors.grey.shade300, width: 1),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Card(
         elevation: 1,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),  
+          borderRadius: BorderRadius.circular(8),
         ),
         child: ListTile(
           leading: const Icon(Icons.phone, color: Colors.red),

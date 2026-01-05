@@ -47,7 +47,7 @@ void onError(DioException err, ErrorInterceptorHandler handler) async {
   print("########################################################################");
   print("########################################################################");
 
-  if (err.response?.statusCode == 401) {
+  if (err.response?.statusCode == 401 ) {
     String? refreshToken = await AppStorage().getRefreshToken();
     
     if (refreshToken == null) {
@@ -135,6 +135,12 @@ void onError(DioException err, ErrorInterceptorHandler handler) async {
   }
 
   String errorMessage = _extractErrorMessage(err);
+  print("-----------------------------------------------------------------------------");
+  print("-----------------------------------------------------------------------------");
+  print("-----------------------------------------------------------------------------");
+  print("-----------------------------------------------------------------------------");
+ 
+  print(errorMessage);
   SnackbarService.showError(errorMessage: errorMessage);
   handler.next(err);
 }

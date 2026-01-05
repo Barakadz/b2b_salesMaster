@@ -8,7 +8,7 @@ class OutlookController extends GetxController {
   RxBool loadingOutlook = false.obs;
   RxBool outlookError = false.obs;
 
-  RxInt tabIndex = 0.obs;
+  RxInt tabIndex = 2.obs;
 
   List<String> tabs = ["Today", "This Week", "This Month"];
 

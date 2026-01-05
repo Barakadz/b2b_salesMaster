@@ -11,6 +11,7 @@ class ClientDetailsController extends GetxController {
   TextEditingController momTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
 TextEditingController lastVisitDateController = TextEditingController();
+  RxBool showOffers = false.obs;
 
 
 Rx<DateTime?> lastVisitDate = Rx<DateTime?>(null);

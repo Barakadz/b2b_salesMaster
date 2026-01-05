@@ -12,6 +12,7 @@ class CatalogueController extends GetxController {
   Rx<int> offersSubTabIndex = 0.obs;
   Rx<int> roamingTabIndex = 0.obs;
   TextEditingController searchBarTextController = TextEditingController();
+TextEditingController countrySearchController = TextEditingController();
 
   RxList<CatalogueOffer> catalogue = services.obs;
 

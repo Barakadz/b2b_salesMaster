@@ -96,6 +96,7 @@ Map<String, String> frenchDict = {
   "Pipeline": "Pipeline",
     "tarifInternational":"Nos Tarifs International",
   "selectionPays":"Veuillez sélectionner un pays",
+"search_country": "Rechercher un pays",
 
   "Todo": "Tâches",
   "Realisations Dashboard": "Réalisations",
@@ -106,6 +107,11 @@ Map<String, String> frenchDict = {
 "requiredFill":"Veuillez remplir tous les champs obligatoires",
 "operatorRequired":"Veuillez saisir l’opérateur actuel",
  "numberRequired":"Veuillez entrer un nombre",
+  "adresseRequired":"Veuillez entrer un Adresse",
+     "visitDateRequired":"Veuillez entrer un date visit",
+     "nextvisitDateRequired":"Veuillez entrer un date visit prochain",
+     "selectBesoin":"Veuillez sélectionner au moins un besoin",
+
  "reRequired":"Veuillez saisir le RA estimé",
  "forfaitRequired":"Veuillez saisir le forfait actuel",
  "momRequired":"Veuillez saisir le MOM",

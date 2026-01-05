@@ -2,54 +2,65 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:sales_master_app/config/realisation_category_style.dart';
 import 'package:sales_master_app/models/realisation.dart';
-
 class RadialChart extends StatelessWidget {
   final List<Realisation> realisations;
   final double totalrealised;
   final double totalTarget;
   final Color? textColor;
   final bool? gloabl;
-  const RadialChart(
-      {super.key,
-      this.textColor,
-      this.gloabl = false,
-      required this.realisations,
-      required this.totalTarget,
-      required this.totalrealised});
+  final double? pct_realisation;
+
+  const RadialChart({
+    super.key,
+    this.textColor,
+    this.gloabl = false,
+    required this.realisations,
+    required this.totalTarget,
+    required this.totalrealised,
+    this.pct_realisation,
+  });
+
+  double get pct {
+    if (totalTarget == 0) return 0;
+    return (totalrealised / totalTarget * 100).clamp(0, 100);
+  }
 
   List<PieChartSectionData> showSections() {
-    // i am doing this because this package does not allow to set bg color for empty state, and the display is off when there is less then two sections
-    if (realisations.length == 1) {
-      if (totalrealised == 0.0) {
-        realisations
-            .add(Realisation(target: 100, currentValue: 100, name: "Empty"));
-      } else {
-        realisations.add(Realisation(
-            target: totalrealised > totalTarget
-                ? totalTarget
-                : totalTarget - totalrealised,
-            currentValue: totalrealised > totalTarget
-                ? totalTarget
-                : totalTarget - totalrealised,
-            name: "Empty"));
-      }
-    } else if (realisations.isEmpty) {
-      realisations
-          .add(Realisation(target: 100, currentValue: 100, name: "Empty"));
-      realisations
-          .add(Realisation(target: 100, currentValue: 1, name: "Empty"));
+    // ✅ COPIE LOCALE (IMPORTANT)
+    final List<Realisation> data = List.from(realisations);
+
+    // garantir au moins 2 sections
+    if (data.length == 1) {
+      final double remaining =
+          totalrealised >= totalTarget ? 0 : totalTarget - totalrealised;
+
+      data.add(
+        Realisation(
+          target: totalTarget,
+          currentValue: remaining,
+          name: "Empty",
+        ),
+      );
     }
-    return List.generate(realisations.length, (index) {
-      print(realisations[index].currentValue);
-      RealisationCategoryStyle style =
-          realisationCategoryStyles[realisations[index].name]!;
+
+    if (data.isEmpty) {
+      data.addAll([
+        Realisation(target: 100, currentValue: 100, name: "Empty"),
+        Realisation(target: 100, currentValue: 1, name: "Empty"),
+      ]);
+    }
+
+    return List.generate(data.length, (index) {
+      final style = realisationCategoryStyles[data[index].name]!;
+
       return PieChartSectionData(
-          showTitle: false,
-          color: style.categoryColor,
-          value: realisations.length <= 2
-              ? realisations[index].currentValue
-              : realisations[index].percentage,
-          radius: 20);
+        showTitle: false,
+        color: style.categoryColor,
+        value: data.length <= 2
+            ? data[index].currentValue
+            : data[index].percentage,
+        radius: 20,
+      );
     });
   }
 
@@ -61,23 +72,24 @@ class RadialChart extends StatelessWidget {
       child: Stack(
         children: [
           PieChart(
-              duration: Duration(milliseconds: 450),
-              PieChartData(
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 70,
-                  sections: showSections())),
+            PieChartData(
+              sectionsSpace: 0,
+              centerSpaceRadius: 70,
+              sections: showSections(),
+            ),
+          ),
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(totalrealised.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: textColor)),
                 Text(
+  "${pct_realisation}%",
+  style: Theme.of(context)
+      .textTheme
+      .titleLarge
+      ?.copyWith(color: textColor),
+),
+                 Text(
                   realisations.length > 2 || gloabl == true
                       ? "Réalisations"
                       : realisations.first.name,
@@ -88,9 +100,16 @@ class RadialChart extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
+  }
+
+  String dataLabel() {
+    if (gloabl == true || realisations.length > 2) {
+      return "Réalisations";
+    }
+    return realisations.isNotEmpty ? realisations.first.name : "";
   }
 }
