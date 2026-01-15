@@ -74,7 +74,12 @@ class CustomTextFormField extends StatelessWidget {
       onChanged: onchanged,
       maxLength: maxLength,
       textAlign: textAlign ?? TextAlign.left,
+      
       decoration: InputDecoration(
+         enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.black38),
+    ),
+   
         suffixText: suffixText,
         isDense: customTextField ? true : false,
         contentPadding: innerPadding ??
@@ -96,11 +101,7 @@ class CustomTextFormField extends StatelessWidget {
                     .colorScheme
                     .onSurfaceVariant
                     .withOpacity(0.30)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius ?? borderRadius),
-          borderSide: BorderSide(
-              color: outlineColor ?? Theme.of(context).colorScheme.outline),
-        ),
+       
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius ?? borderRadius),
           borderSide: BorderSide(

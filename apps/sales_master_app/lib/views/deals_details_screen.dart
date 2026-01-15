@@ -394,10 +394,13 @@ class DealsDetailsScreen extends StatelessWidget {
                             dealDetailsController.toggleBesoin(item.name);
                           },
                         ),
-                        Text(
-                          item.name,
-                          style: TextStyle(fontSize: 14),
-                        ),
+                       Text(
+  item.name.isNotEmpty
+      ? item.name[0].toUpperCase() + item.name.substring(1)
+      : item.name,
+  style: const TextStyle(fontSize: 14),
+)
+
                       ],
                     ),
                   );
@@ -487,8 +490,13 @@ class DealsDetailsScreen extends StatelessWidget {
                                                 .toggleDevice(item);
                                           },
                                         ),
-                                        Text(item,
-                                            style: TextStyle(fontSize: 14)),
+                                        Text(
+  item.isNotEmpty
+      ? item[0].toUpperCase() + item.substring(1)
+      : item,
+  style: const TextStyle(fontSize: 14),
+)
+
                                       ],
                                     ),
                                   );
@@ -643,7 +651,7 @@ class DealsDetailsScreen extends StatelessWidget {
                                 width: paddingXxs,
                               ),
                               Text(
-                                "ra_estime*".tr,
+                                "ra_estime".tr,
                                 style:TextStyle(fontWeight: FontWeight.bold,fontSize: 14),
                               )
                             ],
